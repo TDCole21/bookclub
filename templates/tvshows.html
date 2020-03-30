@@ -1,0 +1,36 @@
+{%extends 'layout.html'%}
+
+{%block body%}
+<div class="container"></div>
+<h1 align="center">{{name}} Page</h1>
+
+<br><br>
+
+<form method="POST" action="{{ url_for('__tvshows_create__') }}">
+    <center>
+    <H1>Suggest a TV Show:</H1>
+    TVShow's name: <input type = "text" name= "tvshows_name" /><br><br>
+    Streaming platform: <select name= "streaming_platforms_name">
+        <option >- Choose a Streaming Platform -</option>
+    {%for i in streaming_platforms_selection%}
+        <option >{{ i[1] }}</option>
+    {%endfor%}
+    </select><br><br>
+    User's name: <select name= "users_name">
+        <option >- Choose a User -</option>
+    {%for i in users_selection%}
+        <option >{{ i[1] }}</option>
+    {%endfor%}
+    </select><br><br>
+    User password: <input type = "text" name= "users_password"/><br><br>
+    <input type = "submit">
+    </center>
+</form>
+<br><br>
+<H2>TV Show suggestions:</H2>
+{% for i in tvshows_selection %}
+<li><a>{{i[0]}} on {{i[2]}}, suggested by {{i[1]}}</a></li>  <!-- i.ID if used a dictionary instead of a list -->
+{% endfor %}
+
+</div>
+{%endblock%}

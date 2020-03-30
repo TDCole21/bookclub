@@ -1,0 +1,44 @@
+{%extends 'layout.html'%}
+
+{%block body%}
+<div class="container"></div>
+<h1 align="center">{{name}} Page</h1>
+
+<br><br>
+
+<form method="POST" action="{{ url_for('__books_create__') }}">
+    <center>
+    <H1>Suggest a Book:</H1>
+    Book's name: <input type = "text" name= "books_name"/><br><br>
+    User's name: <select name= "users_name">
+        <option >- Choose a User -</option>
+    {%for i in users_selection%}
+        <option >{{ i[1] }}</option>
+    {%endfor%}
+    </select><br><br>
+    User password: <input type = "text" name= "users_password"/><br><br>
+    <input type = "submit"> <br><br>
+    {{error}}
+    </center>
+</form>
+
+<br><br>
+
+
+
+<H2>Book suggestions:</H2>
+{% for i in books_upcoming_selection %}
+<li><a>{{i[0]}}, suggested by {{i[1]}}</a></li>  <!-- i.ID if used a dictionary instead of a list -->
+{% endfor %}
+
+<br><br>
+
+<H2>Previous book suggestions:</H2>
+{% for i in books_finished_selection %}
+<li><a>{{i[0]}}, suggested by {{i[1]}}</a></li>  <!-- i.ID if used a dictionary instead of a list -->
+{% endfor %}
+
+<br><br>
+
+</div>
+{%endblock%}

@@ -1,0 +1,27 @@
+{%extends 'layout.html'%}
+
+{%block body%}
+<div class="container"></div>
+<h1 align="center">{{name}} Page</h1>
+
+<br><br>
+
+<form method="POST" action="{{ url_for('__users_edit__') }}">
+    <center>
+    <H1>Create a User:</H1>
+    User's name: <input type = "text" name= "users_name"/><br><br>
+    User's email: <input type = "email" name= "users_email"/><br><br>
+    Password: <input type = "text" name= "users_password"/><br><br>
+    <input type = "submit" name="action" value="Create">&nbsp;&nbsp;&nbsp;&nbsp;<input type = "submit" name="action" value="Delete">
+    </center>
+</form>
+
+<br><br>
+
+<H2>Users:</H2>
+{% for i in users_selection %}
+<li><a>{{i[1]}}</a></li>  <!-- i.ID if used a dictionary instead of a list -->
+{% endfor %}
+
+</div>
+{%endblock%}
