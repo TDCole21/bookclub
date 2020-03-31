@@ -2,11 +2,12 @@
 
 {%block body%}
 <div class="container"></div>
-<h1 align="center">{{name}} Page</h1>
+<h1 align="center">The Watercooler</h1>
+<h2>{{name}} Page</h2>
 
 <br><br>
 
-<form method="POST" action="{{ url_for('__films_create__') }}">
+<form method="POST" action="{{ url_for('__films_edit__') }}">
     <center>
     <H1>Suggest a Film:</H1>
     Film's name: <input type = "text" name= "films_name" /><br><br>
@@ -23,14 +24,30 @@
     {%endfor%}
     </select><br><br>
     User password: <input type = "text" name= "users_password"/><br><br>
-    <input type = "submit">
+    <input type = "submit" name="action" value="Create">&nbsp;&nbsp;&nbsp;&nbsp;<input type = "submit" name="action" value="Delete">
     </center>
 </form>
 <br><br>
 <H2>Film suggestions:</H2>
-{% for i in films_selection %}
+{% for i in films_upcoming_selection %}
 <li><a>{{i[0]}} on {{i[2]}}, suggested by {{i[1]}}</a></li>  <!-- i.ID if used a dictionary instead of a list -->
 {% endfor %}
+
+<br><br>
+
+<H2>Current film selection:</H2>
+{% for i in films_chosen_selection %}
+<li><a>{{i[0]}} on {{i[2]}}, suggested by {{i[1]}}</a></li>  <!-- i.ID if used a dictionary instead of a list -->
+{% endfor %}
+
+<br><br>
+
+<H2>Previous film suggestions:</H2>
+{% for i in films_finished_selection %}
+<li><a>{{i[0]}} on {{i[2]}}, suggested by {{i[1]}}</a></li>  <!-- i.ID if used a dictionary instead of a list -->
+{% endfor %}
+
+<br><br>
 
 </div>
 {%endblock%}

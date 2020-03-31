@@ -24,30 +24,45 @@ def films_home():
     cur.execute("SELECT * FROM Streaming_Platforms")
     mysql.connection.commit()
     streaming_platforms_names = cur.fetchall() #built in function to return a tuple, list or dictionary
-    cur.execute("SELECT Films.Films_Name, Users.Users_Name, Streaming_Platforms.Streaming_Platforms_Name FROM ((Films INNER JOIN Users ON Films.Users_ID=Users.Users_ID) INNER JOIN Streaming_Platforms ON Films.Streaming_Platforms_ID=Streaming_Platforms.Streaming_Platforms_ID)")
+    cur.execute("SELECT Films.Films_Name, Users.Users_Name, Streaming_Platforms.Streaming_Platforms_Name FROM ((Films INNER JOIN Users ON Films.Users_ID=Users.Users_ID) INNER JOIN Streaming_Platforms ON Films.Streaming_Platforms_ID=Streaming_Platforms.Streaming_Platforms_ID) WHERE Films.Films_Finished=0")
     mysql.connection.commit()
-    films_names = cur.fetchall() #built in function to return a tuple, list or dictionary
+    films_names_upcoming = cur.fetchall() #built in function to return a tuple, list or dictionary
+    cur.execute("SELECT Films.Films_Name, Users.Users_Name, Streaming_Platforms.Streaming_Platforms_Name FROM ((Films INNER JOIN Users ON Films.Users_ID=Users.Users_ID) INNER JOIN Streaming_Platforms ON Films.Streaming_Platforms_ID=Streaming_Platforms.Streaming_Platforms_ID) WHERE Films.Films_Finished=1")
+    mysql.connection.commit()
+    films_names_chosen = cur.fetchall() #built in function to return a tuple, list or dictionary
+    cur.execute("SELECT Films.Films_Name, Users.Users_Name, Streaming_Platforms.Streaming_Platforms_Name FROM ((Films INNER JOIN Users ON Films.Users_ID=Users.Users_ID) INNER JOIN Streaming_Platforms ON Films.Streaming_Platforms_ID=Streaming_Platforms.Streaming_Platforms_ID) WHERE Films.Films_Finished=2")
+    mysql.connection.commit()
+    films_names_finished = cur.fetchall() #built in function to return a tuple, list or dictionary
     cur.close()
     
     users_selection = []
-    films_selection = []
     streaming_platforms_selection=[]
+    films_upcoming_selection = []
+    films_finished_selection = []
+    films_chosen_selection = [] 
 
     for row in users_names:
         users_selection.append(row) #adding each row from the database into a newly created list, info 
 
-    for row in films_names:
-        films_selection.append(row) #adding each row from the database into a newly created list, info 
-
     for row in streaming_platforms_names:
         streaming_platforms_selection.append(row) #adding each row from the database into a newly created list, info 
+
+    for row in films_names_upcoming:
+        films_upcoming_selection.append(row) #adding each row from the database into a newly created list, info 
     
-    return (films_selection, users_selection, streaming_platforms_selection)
+    for row in films_names_chosen:
+        films_chosen_selection.append(row) #adding each row from the database into a newly created list, info 
+    
+    for row in films_names_finished:
+        films_finished_selection.append(row) #adding each row from the database into a newly created list, info 
+    
+
+    return (films_upcoming_selection, users_selection, streaming_platforms_selection, films_finished_selection, films_chosen_selection)
 
 
 
 
-def films_create():
+def films_edit():
     if request.method == "POST":
         details=request.form
         films_name=details['films_name']
@@ -69,7 +84,10 @@ def films_create():
 
         if films_name != "" and streaming_platforms_name != "- Choose a Streaming Platform -" and users_password == users_password_selection[0][0]:
             cur = mysql.connection.cursor()
-            films_name = re.sub("^\s*", "", films_name)          
-            cur.execute("INSERT IGNORE INTO Films (Films_Name, Streaming_Platforms_ID, Users_ID) VALUES ((%s), (SELECT Streaming_Platforms_ID from Streaming_Platforms WHERE Streaming_Platforms_Name= (%s)), (SELECT Users_ID from Users WHERE Users_Name= (%s)))", [films_name, streaming_platforms_name, users_name])
+            films_name = re.sub("^\s*", "", films_name)
+            if details['action'] == 'Create':           
+                cur.execute("INSERT IGNORE INTO Films (Films_Name, Streaming_Platforms_ID, Users_ID) VALUES ((%s), (SELECT Streaming_Platforms_ID from Streaming_Platforms WHERE Streaming_Platforms_Name= (%s)), (SELECT Users_ID from Users WHERE Users_Name= (%s)))", [films_name, streaming_platforms_name, users_name])
+            if details['action'] == 'Delete':
+                cur.execute("DELETE FROM Films WHERE Films_Name=(%s)", [films_name])
             mysql.connection.commit()
             cur.close()

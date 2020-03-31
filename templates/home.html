@@ -1,29 +1,101 @@
+<style>
+  table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+  }
+  th, td {
+    padding: 15px;
+  }
+  </style>
+
 {%extends 'layout.html'%}
 
 {%block body%}
 <div class="container"></div>
-<h1 align="center">{{name}} Page</h1>
+<h1 align="center">The Watercooler</h1>
+<h2>{{name}} Page</h2>
 
 <br><br>
 
-<table style="width:100%">
+<h3>Books</h3>
+<table style="width:75%">
     <tr>
-      <th>Firstname</th>
-      <th>Lastname</th>
-      <th>Age</th>
+      <th>Book Name</th>
+      <th>Suggested by</th>
+      <th>Due by</th>
     </tr>
     <tr>
-      <td>Jill</td>
-      <td>Smith</td>
-      <td>50</td>
-    </tr>
-    <tr>
-      <td>Eve</td>
-      <td>Jackson</td>
-      <td>94</td>
+      <td>{{books_choice[0][0]}}</td>
+      <td>{{books_choice[0][1]}}</td>
+      <td>30th April</td>
     </tr>
   </table>
+  <form method="POST" action="{{ url_for('__home_books_edit__') }}">
+    <input type = "submit" name="action" value="Shuffle">
+    <input type = "submit" name="action" value="Finished">
+  </form>
+<br><br>
 
+<h3>Games</h3>
+<table style="width:75%">
+    <tr>
+      <th>Game Name</th>
+      <th>Console</th>
+      <th>Suggested by</th>
+      <th>Due by</th>
+    </tr>
+    <tr>
+      <td>{{games_choice[0][0]}}</td>
+      <td>{{games_choice[0][2]}}</td>
+      <td>{{games_choice[0][1]}}</td>
+      <td>30th April</td>
+    </tr>
+  </table>
+  <form method="POST" action="{{ url_for('__home_games_edit__') }}">
+    <input type = "submit" name="action" value="Shuffle">
+    <input type = "submit" name="action" value="Finished">
+  </form>
+  <br><br>
 
+<h3>Films</h3>
+<table style="width:75%">
+    <tr>
+      <th>Film Name</th>
+      <th>Streaming Platform</th>
+      <th>Suggested by</th>
+      <th>Due by</th>
+    </tr>
+    <tr>
+      <td>{{films_choice[0][0]}}</td>
+      <td>{{films_choice[0][2]}}</td>
+      <td>{{films_choice[0][1]}}</td>
+      <td>30th April</td>
+    </tr>
+  </table>
+  <form method="POST" action="{{ url_for('__home_films_edit__') }}">
+    <input type = "submit" name="action" value="Shuffle">
+    <input type = "submit" name="action" value="Finished">
+  </form>
+  <br><br>
+
+<h3>TV Shows</h3>
+<table style="width:75%">
+    <tr>
+      <th>TVShow Name</th>
+      <th>Streaming Platform</th>
+      <th>Suggested by</th>
+      <th>Due by</th>
+    </tr>
+    <tr>
+      <td>{{tvshows_choice[0][0]}}</td>
+      <td>{{tvshows_choice[0][2]}}</td>
+      <td>{{tvshows_choice[0][1]}}</td>
+      <td>30th April</td>
+    </tr>
+  </table>
+  <form method="POST" action="{{ url_for('__home_tvshows_edit__') }}">
+    <input type = "submit" name="action" value="Shuffle">
+    <input type = "submit" name="action" value="Finished">
+  </form>
 </div>
 {%endblock%}
