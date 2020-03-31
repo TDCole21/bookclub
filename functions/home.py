@@ -32,15 +32,15 @@ def home_home():
     mysql.connection.commit()
     books_names_chosen = cur.fetchall() #built in function to return a tuple, list or dictionary
 
-    cur.execute("SELECT Games.Games_Name, Users.Users_Name, Consoles.Consoles_Name FROM ((Games INNER JOIN Users ON Games.Users_ID=Users.Users_ID) INNER JOIN Consoles ON Games.Consoles_ID=Consoles.Consoles_ID)")
+    cur.execute("SELECT Games.Games_Name, Users.Users_Name, Consoles.Consoles_Name FROM ((Games INNER JOIN Users ON Games.Users_ID=Users.Users_ID) INNER JOIN Consoles ON Games.Consoles_ID=Consoles.Consoles_ID) WHERE Games.Games_Finished=1")
     mysql.connection.commit()
     games_names_chosen = cur.fetchall() #built in function to return a tuple, list or dictionary
 
-    cur.execute("SELECT Films.Films_Name, Users.Users_Name, Streaming_Platforms.Streaming_Platforms_Name FROM ((Films INNER JOIN Users ON Films.Users_ID=Users.Users_ID) INNER JOIN Streaming_Platforms ON Films.Streaming_Platforms_ID=Streaming_Platforms.Streaming_Platforms_ID)")
+    cur.execute("SELECT Films.Films_Name, Users.Users_Name, Streaming_Platforms.Streaming_Platforms_Name FROM ((Films INNER JOIN Users ON Films.Users_ID=Users.Users_ID) INNER JOIN Streaming_Platforms ON Films.Streaming_Platforms_ID=Streaming_Platforms.Streaming_Platforms_ID) WHERE Films.Films_Finished=1")
     mysql.connection.commit()
     films_names_chosen = cur.fetchall() #built in function to return a tuple, list or dictionary
 
-    cur.execute("SELECT TVShows.TVShows_Name, Users.Users_Name, Streaming_Platforms.Streaming_Platforms_Name FROM ((TVShows INNER JOIN Users ON TVShows.Users_ID=Users.Users_ID) INNER JOIN Streaming_Platforms ON TVShows.Streaming_Platforms_ID=Streaming_Platforms.Streaming_Platforms_ID)")
+    cur.execute("SELECT TVShows.TVShows_Name, Users.Users_Name, Streaming_Platforms.Streaming_Platforms_Name FROM ((TVShows INNER JOIN Users ON TVShows.Users_ID=Users.Users_ID) INNER JOIN Streaming_Platforms ON TVShows.Streaming_Platforms_ID=Streaming_Platforms.Streaming_Platforms_ID) WHERE TVShows.TVShows_Finished=1")
     mysql.connection.commit()
     tvshows_names_chosen = cur.fetchall() #built in function to return a tuple, list or dictionary
 
