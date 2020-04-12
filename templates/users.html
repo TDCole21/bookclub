@@ -10,9 +10,12 @@
 <form method="POST" action="{{ url_for('__users_edit__') }}">
     <center>
     <H1>Create a User:</H1>
-    User's name: <input type = "text" name= "users_name"/><br><br>
-    User's email: <input type = "email" name= "users_email"/><br><br>
-    Password: <input type = "text" name= "users_password"/><br><br>
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="users_name"><br>
+    <label for="useremail">Email:</label>
+    <input type = "email" name= "users_email"/><br>
+    <label for="pwd">Password:</label>
+    <input type="text" id="pwd" name="users_password"><br><br>
     <input type = "submit" name="action" value="Create">&nbsp;&nbsp;&nbsp;&nbsp;<input type = "submit" name="action" value="Delete">
     </center>
 </form>

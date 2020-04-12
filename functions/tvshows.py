@@ -50,12 +50,16 @@ def tvshows_home():
     for row in tvshows_names_upcoming:
         tvshows_upcoming_selection.append(row) #adding each row from the database into a newly created list, info 
     
+    
     for row in tvshows_names_chosen:
         tvshows_chosen_selection.append(row) #adding each row from the database into a newly created list, info 
     
     for row in tvshows_names_finished:
         tvshows_finished_selection.append(row) #adding each row from the database into a newly created list, info 
     
+    for i in range(len(tvshows_names_upcoming)):
+        tvshow_name=tvshows_names_upcoming[i][0]
+
 
     return (tvshows_upcoming_selection, users_selection, streaming_platforms_selection, tvshows_finished_selection, tvshows_chosen_selection)
 
@@ -66,7 +70,7 @@ def tvshows_edit():
     if request.method == "POST":
         details=request.form
         tvshows_name=details['tvshows_name']
-        streaming_platforms_name=details['streaming_platforms_name']
+        streaming_platforms_name=details.getlist('streaming_platforms_name')
         users_name=details['users_name']
         users_password=details['users_password']
 
@@ -82,11 +86,16 @@ def tvshows_edit():
 
 
 
-        if tvshows_name != "" and streaming_platforms_name != "- Choose a Streaming Platform -" and users_password == users_password_selection[0][0]:
+        if tvshows_name != "" and users_password == users_password_selection[0][0]:
             cur = mysql.connection.cursor()
             tvshows_name = re.sub("^\s*", "", tvshows_name) 
-            if details['action'] == 'Create':          
-                cur.execute("INSERT IGNORE INTO TVShows (TVShows_Name, Streaming_Platforms_ID, Users_ID) VALUES ((%s), (SELECT Streaming_Platforms_ID from Streaming_Platforms WHERE Streaming_Platforms_Name= (%s)), (SELECT Users_ID from Users WHERE Users_Name= (%s)))", [tvshows_name, streaming_platforms_name, users_name])
+            if details['action'] == 'Create' and streaming_platforms_name != "- Choose a Streaming Platform -":
+                if len(streaming_platforms_name)>1:
+                    for i in streaming_platforms_name:          
+                        cur.execute("INSERT INTO TVShows (TVShows_Name, Streaming_Platforms_ID, Users_ID) VALUES ((%s), (SELECT Streaming_Platforms_ID from Streaming_Platforms WHERE Streaming_Platforms_Name= (%s)), (SELECT Users_ID from Users WHERE Users_Name= (%s)))", [tvshows_name, i, users_name])
+                else:
+                    cur.execute("INSERT IGNORE INTO TVShows (TVShows_Name, Streaming_Platforms_ID, Users_ID) VALUES ((%s), (SELECT Streaming_Platforms_ID from Streaming_Platforms WHERE Streaming_Platforms_Name= (%s)), (SELECT Users_ID from Users WHERE Users_Name= (%s)))", [tvshows_name, streaming_platforms_name, users_name])
+
             if details['action'] == 'Delete':
                 cur.execute("DELETE FROM TVShows WHERE TVShows_Name=(%s)", [tvshows_name])     
             mysql.connection.commit()

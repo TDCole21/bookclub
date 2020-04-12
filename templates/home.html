@@ -31,8 +31,8 @@
     </tr>
   </table>
   <form method="POST" action="{{ url_for('__home_books_edit__') }}">
-    <input type = "submit" name="action" value="Shuffle">
-    <input type = "submit" name="action" value="Finished">
+    <!-- <input type = "submit" name="action" value="Shuffle">
+    <input type = "submit" name="action" value="Finished"> -->
   </form>
 <br><br>
 
@@ -51,10 +51,10 @@
       <td>30th April</td>
     </tr>
   </table>
-  <form method="POST" action="{{ url_for('__home_games_edit__') }}">
+  <!-- <form method="POST" action="{{ url_for('__home_games_edit__') }}">
     <input type = "submit" name="action" value="Shuffle">
     <input type = "submit" name="action" value="Finished">
-  </form>
+  </form> -->
   <br><br>
 
 <h3>Films</h3>
@@ -69,16 +69,16 @@
       <td>{{films_choice[0][0]}}</td>
       <td>{{films_choice[0][2]}}</td>
       <td>{{films_choice[0][1]}}</td>
-      <td>30th April</td>
+      <td>9th April</td>
     </tr>
   </table>
-  <form method="POST" action="{{ url_for('__home_films_edit__') }}">
+  <!-- <form method="POST" action="{{ url_for('__home_films_edit__') }}">
     <input type = "submit" name="action" value="Shuffle">
     <input type = "submit" name="action" value="Finished">
-  </form>
+  </form> -->
   <br><br>
 
-<h3>TV Shows</h3>
+<h3>TV Shows (one episode)</h3>
 <table style="width:75%">
     <tr>
       <th>TVShow Name</th>
@@ -90,12 +90,12 @@
       <td>{{tvshows_choice[0][0]}}</td>
       <td>{{tvshows_choice[0][2]}}</td>
       <td>{{tvshows_choice[0][1]}}</td>
-      <td>30th April</td>
+      <td>9th April</td>
     </tr>
   </table>
-  <form method="POST" action="{{ url_for('__home_tvshows_edit__') }}">
+  <!-- <form method="POST" action="{{ url_for('__home_tvshows_edit__') }}">
     <input type = "submit" name="action" value="Shuffle">
     <input type = "submit" name="action" value="Finished">
-  </form>
+  </form> -->
 </div>
 {%endblock%}

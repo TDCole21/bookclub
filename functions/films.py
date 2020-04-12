@@ -82,10 +82,10 @@ def films_edit():
 
 
 
-        if films_name != "" and streaming_platforms_name != "- Choose a Streaming Platform -" and users_password == users_password_selection[0][0]:
+        if films_name != "" and users_password == users_password_selection[0][0]:
             cur = mysql.connection.cursor()
             films_name = re.sub("^\s*", "", films_name)
-            if details['action'] == 'Create':           
+            if details['action'] == 'Create' and streaming_platforms_name != "- Choose a Streaming Platform -":           
                 cur.execute("INSERT IGNORE INTO Films (Films_Name, Streaming_Platforms_ID, Users_ID) VALUES ((%s), (SELECT Streaming_Platforms_ID from Streaming_Platforms WHERE Streaming_Platforms_Name= (%s)), (SELECT Users_ID from Users WHERE Users_Name= (%s)))", [films_name, streaming_platforms_name, users_name])
             if details['action'] == 'Delete':
                 cur.execute("DELETE FROM Films WHERE Films_Name=(%s)", [films_name])

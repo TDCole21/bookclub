@@ -23,28 +23,29 @@
         <option >{{ i[1] }}</option>
     {%endfor%}
     </select><br><br>
-    User password: <input type = "text" name= "users_password"/><br><br>
+    <label for="pwd">Password:</label>
+    <input type="password" id="pwd" name="users_password"><br><br>
     <input type = "submit" name="action" value="Create">&nbsp;&nbsp;&nbsp;&nbsp;<input type = "submit" name="action" value="Delete">
     </center>
 </form>
 <br><br>
 <H2>TV Show suggestions:</H2>
 {% for i in tvshows_upcoming_selection %}
-<li><a>{{i[0]}} on {{i[2]}}, suggested by {{i[1]}}</a></li>  <!-- i.ID if used a dictionary instead of a list -->
+<li><a><b>{{i[0]}}</b> on {{i[2]}}, suggested by {{i[1]}}</a></li>  <!-- i.ID if used a dictionary instead of a list -->
 {% endfor %}
 
 <br><br>
 
 <H2>Current TV Show selection:</H2>
 {% for i in tvshows_chosen_selection %}
-<li><a>{{i[0]}} on {{i[2]}}, suggested by {{i[1]}}</a></li>  <!-- i.ID if used a dictionary instead of a list -->
+<li><a><b>{{i[0]}}</b> on {{i[2]}}, suggested by {{i[1]}}</a></li>  <!-- i.ID if used a dictionary instead of a list -->
 {% endfor %}
 
 <br><br>
 
 <H2>Previous TV Show suggestions:</H2>
 {% for i in tvshows_finished_selection %}
-<li><a>{{i[0]}} on {{i[2]}}, suggested by {{i[1]}}</a></li>  <!-- i.ID if used a dictionary instead of a list -->
+<li><a><b>{{i[0]}}</b> on {{i[2]}}, suggested by {{i[1]}}</a></li>  <!-- i.ID if used a dictionary instead of a list -->
 {% endfor %}
 
 <br><br>

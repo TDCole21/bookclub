@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session
 from flask_mysqldb import MySQL
 from data import info
 import os
@@ -12,6 +12,7 @@ from games import games_edit, games_home
 from tvshows import tvshows_edit, tvshows_home
 from users import users_edit, users_home
 from home import home_home, home_books_edit, home_films_edit, home_games_edit, home_tvshows_edit
+from pandemic import pandemic_game_setup, pandemic_home, pandemic_draw_card, pandemic_use_card
 sys.path.insert(1, '../..')
 
 app = Flask(__name__) #__name__ is for best practice
@@ -163,6 +164,37 @@ def __users_home__():
 def __users_edit__():
     users_edit()
     return redirect(url_for('__users_home__'))
+
+######################################################################################################################################################################
+###########################################################################     PANDEMIC     ###########################################################################
+######################################################################################################################################################################
+
+@app.route('/pandemic', methods=['GET', 'POST']) # Read Function
+def __pandemic_home__():
+    PandemicHome=pandemic_home()
+    James=PandemicHome[0]
+    Cole=PandemicHome[1]
+    Nick=PandemicHome[2]
+    Cal=PandemicHome[3]
+    Deck=PandemicHome[4]
+
+    return render_template("pandemic.html", name="Pandemic", Nick=Nick, Cole=Cole, Cal=Cal, James=James, Deck=Deck)
+
+
+@app.route('/pandemic/newgame', methods=['GET', 'POST']) # Read Function
+def __pandemic_newgame__():
+    pandemic_game_setup()
+    return redirect(url_for('__pandemic_home__'))
+
+@app.route('/pandemic/drawcard', methods=['GET', 'POST']) # Read Function
+def __pandemic_draw_card__():
+    pandemic_draw_card()
+    return redirect(url_for('__pandemic_home__'))
+
+@app.route('/pandemic/usecard', methods=['GET', 'POST']) # Read Function
+def __pandemic_use_card__():
+    pandemic_use_card()
+    return redirect(url_for('__pandemic_home__'))
 
 
 #######################################################################################################################################################################

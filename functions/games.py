@@ -81,10 +81,10 @@ def games_edit():
             users_password_selection.append(row) #adding each row from the database into a newly created list, info 
 
 
-        if games_name != "" and consoles_name != "- Choose a Console -" and users_password == users_password_selection[0][0]:
+        if games_name != "" and users_password == users_password_selection[0][0]:
             cur = mysql.connection.cursor()
             games_name = re.sub("^\s*", "", games_name)     
-            if details['action'] == 'Create':     
+            if details['action'] == 'Create' and consoles_name != "- Choose a Console -":     
                 cur.execute("INSERT IGNORE INTO Games (Games_Name, Consoles_ID, Users_ID) VALUES ((%s), (SELECT Consoles_ID from Consoles WHERE Consoles_Name= (%s)), (SELECT Users_ID from Users WHERE Users_Name= (%s)))", [games_name, consoles_name, users_name])
             if details['action'] == 'Delete':
                 cur.execute("DELETE FROM Games WHERE Games_Name=(%s)", [games_name])            

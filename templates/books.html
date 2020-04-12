@@ -17,7 +17,8 @@
         <option >{{ i[1] }}</option>
     {%endfor%}
     </select><br><br>
-    User password: <input type = "text" name= "users_password"/><br><br>
+    <label for="pwd">Password:</label>
+    <input type="password" id="pwd" name="users_password"><br><br>
     <input type = "submit" name="action" value="Create">&nbsp;&nbsp;&nbsp;&nbsp;<input type = "submit" name="action" value="Delete">
     </center>
 </form>
@@ -28,21 +29,21 @@
 
 <H2>Book suggestions:</H2>
 {% for i in books_upcoming_selection %}
-<li><a>{{i[0]}}, suggested by {{i[1]}}</a></li>  <!-- i.ID if used a dictionary instead of a list -->
+<li><a><b>{{i[0]}}</b>, suggested by {{i[1]}}</a></li>  <!-- i.ID if used a dictionary instead of a list -->
 {% endfor %}
 
 <br><br>
 
 <H2>Current book selection:</H2>
 {% for i in books_chosen_selection %}
-<li><a>{{i[0]}}, suggested by {{i[1]}}</a></li>  <!-- i.ID if used a dictionary instead of a list -->
+<li><a><b>{{i[0]}}</b>, suggested by {{i[1]}}</a></li>  <!-- i.ID if used a dictionary instead of a list -->
 {% endfor %}
 
 <br><br>
 
 <H2>Previous book suggestions:</H2>
 {% for i in books_finished_selection %}
-<li><a>{{i[0]}}, suggested by {{i[1]}}</a></li>  <!-- i.ID if used a dictionary instead of a list -->
+<li><a><b>{{i[0]}}</b>, suggested by {{i[1]}}</a></li>  <!-- i.ID if used a dictionary instead of a list -->
 {% endfor %}
 
 <br><br>
