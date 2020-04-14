@@ -17,20 +17,5 @@ pipeline{
                
             }
         }
-        // stage('URL Testing') {
-        //     steps {
-        //         sh 'echo "test page availability and status"'
-        //         sh './script/url_testing.sh'
-
-        //     }
-        // }
-
-        // stage('DB Testing') {
-        //     steps {
-        //         sh 'echo "test database structure and connection"'
-        //         sh './script/db_testing.sh'
-
-        //     }
-        // }
     }
 }
