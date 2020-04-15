@@ -16,7 +16,6 @@ pipeline{
                 sh 'export MYSQL_PASSWORD'
                 sh 'export MYSQL_DB'
 
-                sh 'source /home/Admin/watercooler/venv/bin/activate'
                 sh './script/installation.sh'
                 // sh './script/make_service.sh'
             }
