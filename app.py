@@ -1,6 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 from flask_mysqldb import MySQL
-from data import info
 import os
 import re
 import sys
@@ -17,10 +16,10 @@ sys.path.insert(1, '../..')
 
 app = Flask(__name__) #__name__ is for best practice
 
-app.config["MYSQL_HOST"] = info.MySQLhost
-app.config["MYSQL_USER"] = info.MySQLuser
-app.config["MYSQL_PASSWORD"] = info.MySQLpassword
-app.config["MYSQL_DB"] = info.MySQLdb
+app.config["MYSQL_HOST"] = os.environ['MYSQL_HOST']
+app.config["MYSQL_USER"] = os.environ['MYSQL_USER']
+app.config["MYSQL_PASSWORD"] = os.environ['MYSQL_PASSWORD']
+app.config["MYSQL_DB"] = os.environ['MYSQL_DB']
 
 
 mysql = MySQL(app)
