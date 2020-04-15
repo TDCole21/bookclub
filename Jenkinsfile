@@ -6,8 +6,8 @@ pipeline{
                 sh 'echo "pre-install and install"'
                 sh 'chmod 775 ./script/*'
                 sh './script/before_installation.sh'
-                sh './script/installation.sh'
-                // sh './script/make_service.sh'
+                // sh './script/installation.sh'
+                sh './script/make_service.sh'
             }
         }
         stage('Wait for installation'){
