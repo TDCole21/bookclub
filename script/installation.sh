@@ -8,6 +8,7 @@ pip3 install urllib3
 pip3 install coverage
 source /var/lib/jenkins/.bashrc
 python3 /var/lib/jenkins/workspace/watercooler-pipeline/app.py
+# python3 nohup /var/lib/jenkins/workspace/watercooler-pipeline/app.py &
 
 
 
