@@ -1,22 +1,19 @@
-{%extends 'layout.html'%}
+{%extends 'layouts/layout_watercooler.html'%}
 
 {%block body%}
 <div class="container"></div>
-<h1 align="center">The Watercooler</h1>
+<h1 align="center">The Watercooler/Pandemic</h1>
 <h2>{{name}} Page</h2>
 
 <br><br>
 
 <form method="POST" action="{{ url_for('__users_edit__') }}">
     <center>
-    <H1>Create a User:</H1>
     <label for="username">Username:</label>
     <input type="text" id="username" name="users_name"><br>
-    <label for="useremail">Email:</label>
-    <input type = "email" name= "users_email"/><br>
     <label for="pwd">Password:</label>
     <input type="text" id="pwd" name="users_password"><br><br>
-    <input type = "submit" name="action" value="Create">&nbsp;&nbsp;&nbsp;&nbsp;<input type = "submit" name="action" value="Delete">
+    <input type = "submit" name="action" value="Add">&nbsp;&nbsp;or&nbsp;&nbsp;<input type = "submit" name="action" value="Remove">
     </center>
 </form>
 
@@ -24,7 +21,7 @@
 
 <H2>Users:</H2>
 {% for i in users_selection %}
-<li><a>{{i[1]}}</a></li>  <!-- i.ID if used a dictionary instead of a list -->
+<li><a>{{i[0]}}</a></li>  <!-- i.ID if used a dictionary instead of a list -->
 {% endfor %}
 
 </div>

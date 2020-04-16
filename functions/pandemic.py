@@ -4,6 +4,11 @@ from flask_mysqldb import MySQL
 import os
 import re
 
+######################################################################################################################################################################
+######################################################################################################################################################################
+######################################################################################################################################################################
+
+
 def pandemic_home():
   cities_temp=[]
   Cities=[]
@@ -69,6 +74,10 @@ def pandemic_home():
   deck_file.close()
 
   return [James, Cole, Nick, Cal, Deck]
+
+######################################################################################################################################################################
+######################################################################################################################################################################
+######################################################################################################################################################################
 
 
 def pandemic_game_setup():
@@ -145,6 +154,10 @@ def pandemic_game_setup():
   Cal.close()
   Deck.close()
 
+######################################################################################################################################################################
+######################################################################################################################################################################
+######################################################################################################################################################################
+
 
 def pandemic_draw_card():
   if request.method == "POST":
@@ -184,6 +197,11 @@ def pandemic_draw_card():
     Cole.close()
     Nick.close()
     Cal.close()
+
+######################################################################################################################################################################
+######################################################################################################################################################################
+######################################################################################################################################################################
+
 
 def pandemic_use_card():
   if request.method == "POST":
@@ -268,6 +286,102 @@ def pandemic_use_card():
     elif re.search("^Cal", details['action']):
       string=str(details['action'])
       num=int(string[-1])
+      del Cal[num]
+
+      length=len(Cal)-1
+
+      cal_file = open("./data/pandemic/Cal.txt", "w")
+      for i in range(len(Cal)-1):
+        cal_file.write(Cal[i][0]+":"+Cal[i][1]+";")
+      cal_file.write(Cal[length][0]+":"+Cal[length][1])
+      cal_file.close()
+
+######################################################################################################################################################################
+######################################################################################################################################################################
+######################################################################################################################################################################
+
+def pandemic_give_card():
+  if request.method == "POST":
+    details=request.form
+
+    if re.search("^James", details['action']):
+      #to find which card has been selected
+      string=str(details['action'])
+      num=int(string[-1])
+      james_temp=[]
+      James=[]
+      james_file = open("./data/pandemic/James.txt", "r")
+      for x in james_file:
+        james_temp.extend(x.split(";"))
+        for i in james_temp:
+          James.append(i.split(":"))
+      james_file.close()
+      #save selected card for transfer
+      card_transfer=James[num]
+      #delete selected card from hand
+      del James[num]
+
+      # update hand
+      james_file = open("./data/pandemic/James.txt", "w")
+      for i in range(length):
+        james_file.write(James[i][0]+":"+James[i][1]+";")
+      james_file.write(James[length][0]+":"+James[length][1])
+      james_file.close()
+
+    elif re.search("^Cole", details['action']):
+      string=str(details['action'])
+      num=int(string[-1])
+      cole_temp=[]
+      Cole=[]
+      cole_file = open("./data/pandemic/Cole.txt", "r")
+      for x in cole_file:
+        cole_temp.extend(x.split(";"))
+        for i in cole_temp:
+          Cole.append(i.split(":"))
+      cole_file.close()
+      del Cole[num]
+
+      length=len(Cole)-1
+
+      cole_file = open("./data/pandemic/Cole.txt", "w")
+      for i in range(len(Cole)-1):
+        cole_file.write(Cole[i][0]+":"+Cole[i][1]+";")
+      cole_file.write(Cole[length][0]+":"+Cole[length][1])
+      cole_file.close()
+     
+
+    elif re.search("^Nick", details['action']):
+      string=str(details['action'])
+      num=int(string[-1])
+      nick_temp=[]
+      Nick=[]
+      nick_file = open("./data/pandemic/Nick.txt", "r")
+      for x in nick_file:
+        nick_temp.extend(x.split(";"))
+        for i in nick_temp:
+          Nick.append(i.split(":"))
+      nick_file.close()
+      del Nick[num]
+
+      length=len(Nick)-1
+
+      nick_file = open("./data/pandemic/Nick.txt", "w")
+      for i in range(len(Nick)-1):
+        nick_file.write(Nick[i][0]+":"+Nick[i][1]+";")
+      nick_file.write(Nick[length][0]+":"+Nick[length][1])
+      nick_file.close()
+
+    elif re.search("^Cal", details['action']):
+      string=str(details['action'])
+      num=int(string[-1])
+      cal_temp=[]
+      Cal=[]
+      cal_file = open("./data/pandemic/Cal.txt", "r")
+      for x in cal_file:
+        cal_temp.extend(x.split(";"))
+        for i in cal_temp:
+          Cal.append(i.split(":"))
+      cal_file.close()
       del Cal[num]
 
       length=len(Cal)-1

@@ -1,66 +1,57 @@
 from flask import Flask, render_template, request, redirect, url_for
-from flask_mysqldb import MySQL
 import os
 import re
 
-
 app = Flask(__name__) #__name__ is for best practice
 
-# app.config["MYSQL_HOST"] = os.environ['MYSQL_HOST']
-# app.config["MYSQL_USER"] = os.environ['MYSQL_USER']
-# app.config["MYSQL_PASSWORD"] = os.environ['MYSQL_PASSWORD']
-# app.config["MYSQL_DB"] = os.environ['MYSQL_DB']
-
-
-
-mysql = MySQL(app)
 
 def tvshows_home():
-    cur = mysql.connection.cursor()
-    cur.execute("SELECT * FROM Users")
-    mysql.connection.commit()
-    users_names = cur.fetchall() #built in function to return a tuple, list or dictionary
-    cur.execute("SELECT * FROM Streaming_Platforms")
-    mysql.connection.commit()
-    streaming_platforms_names = cur.fetchall() #built in function to return a tuple, list or dictionary
-    cur.execute("SELECT TVShows.TVShows_Name, Users.Users_Name, Streaming_Platforms.Streaming_Platforms_Name FROM ((TVShows INNER JOIN Users ON TVShows.Users_ID=Users.Users_ID) INNER JOIN Streaming_Platforms ON TVShows.Streaming_Platforms_ID=Streaming_Platforms.Streaming_Platforms_ID) WHERE TVShows.TVShows_Finished=0")
-    mysql.connection.commit()
-    tvshows_names_upcoming = cur.fetchall() #built in function to return a tuple, list or dictionary
-    cur.execute("SELECT TVShows.TVShows_Name, Users.Users_Name, Streaming_Platforms.Streaming_Platforms_Name FROM ((TVShows INNER JOIN Users ON TVShows.Users_ID=Users.Users_ID) INNER JOIN Streaming_Platforms ON TVShows.Streaming_Platforms_ID=Streaming_Platforms.Streaming_Platforms_ID) WHERE TVShows.TVShows_Finished=1")
-    mysql.connection.commit()
-    tvshows_names_chosen = cur.fetchall() #built in function to return a tuple, list or dictionary
-    cur.execute("SELECT TVShows.TVShows_Name, Users.Users_Name, Streaming_Platforms.Streaming_Platforms_Name FROM ((TVShows INNER JOIN Users ON TVShows.Users_ID=Users.Users_ID) INNER JOIN Streaming_Platforms ON TVShows.Streaming_Platforms_ID=Streaming_Platforms.Streaming_Platforms_ID) WHERE TVShows.TVShows_Finished=2")
-    mysql.connection.commit()
-    tvshows_names_finished = cur.fetchall() #built in function to return a tuple, list or dictionary
-    cur.close()
-    
-    users_selection = []
-    streaming_platforms_selection=[]
-    tvshows_upcoming_selection = []
-    tvshows_finished_selection = []
-    tvshows_chosen_selection = [] 
+    users_temp=[]
+    Users=[]
+    users_file = open("./data/Users.txt", "r")
+    for x in users_file:
+        users_temp.extend(x.split(";"))
+    for i in users_temp:
+        Users.append(i.split(":"))
+    users_file.close()
 
-    for row in users_names:
-        users_selection.append(row) #adding each row from the database into a newly created list, info 
+    del Users[-1]
 
-    for row in streaming_platforms_names:
-        streaming_platforms_selection.append(row) #adding each row from the database into a newly created list, info 
+    tvshows_temp=[]
+    TVShows=[]
+    tvshows_file = open("./data/watercooler/TVShows.txt", "r")
+    for x in tvshows_file:
+        tvshows_temp.extend(x.split(";"))
+    for i in tvshows_temp:
+        TVShows.append(i.split(":"))
+    tvshows_file.close()
 
-    for row in tvshows_names_upcoming:
-        tvshows_upcoming_selection.append(row) #adding each row from the database into a newly created list, info 
-    
-    
-    for row in tvshows_names_chosen:
-        tvshows_chosen_selection.append(row) #adding each row from the database into a newly created list, info 
-    
-    for row in tvshows_names_finished:
-        tvshows_finished_selection.append(row) #adding each row from the database into a newly created list, info 
-    
-    for i in range(len(tvshows_names_upcoming)):
-        tvshow_name=tvshows_names_upcoming[i][0]
+    del TVShows[-1]
+
+    streaming_platforms_temp=[]
+    Streaming_Platforms=[]
+    streaming_platforms_file = open("./data/watercooler/Streaming_Platforms.txt", "r")
+    for x in streaming_platforms_file:
+        Streaming_Platforms.extend(x.split(";"))
+    streaming_platforms_file.close()
+
+    del Streaming_Platforms[-1]
+
+    tvshows_upcoming_selection=[]
+    tvshows_finished_selection=[]
+    tvshows_chosen_selection=[]
+    for i in TVShows:
+        if int(i[3])==0:
+            tvshows_upcoming_selection.append(i)
+        elif int(i[3])==1:
+            tvshows_chosen_selection.append(i)
+        else:
+            tvshows_finished_selection.append(i)
+
+    return (tvshows_upcoming_selection, Users, Streaming_Platforms, tvshows_finished_selection, tvshows_chosen_selection)
 
 
-    return (tvshows_upcoming_selection, users_selection, streaming_platforms_selection, tvshows_finished_selection, tvshows_chosen_selection)
+
 
 
 
@@ -69,33 +60,47 @@ def tvshows_edit():
     if request.method == "POST":
         details=request.form
         tvshows_name=details['tvshows_name']
-        streaming_platforms_name=details.getlist('streaming_platforms_name')
+        streaming_platforms_name=details['streaming_platforms_name']
         users_name=details['users_name']
         users_password=details['users_password']
 
-        cur = mysql.connection.cursor()
-        cur.execute("SELECT Users_Password FROM Users WHERE Users_Name=(%s)", [users_name])
-        mysql.connection.commit()
-        users_password_true = cur.fetchall()
+        users_temp=[]
+        Users=[]
+        users_file = open("./data/Users.txt", "r")
+        for x in users_file:
+            users_temp.extend(x.split(";"))
+        for i in users_temp:
+            Users.append(i.split(":"))
+        users_file.close()
 
-        users_password_selection=[]
+        del Users[-1]
 
-        for row in users_password_true:
-            users_password_selection.append(row) #adding each row from the database into a newly created list, info 
+        for i in range(len(Users)):
+            if Users[i][0]==users_name and Users[i][1]==users_password:
 
+                if details['action'] == 'Add':
+                    tvshows_name = re.sub("^\s*", "", tvshows_name)
+                    tvshows_name = re.sub(":", "-", tvshows_name)
+                    tvshows_name = re.sub(";", "-", tvshows_name)
+                    TVShows=open("./data/watercooler/TVShows.txt", "a")
+                    TVShows.write(tvshows_name+":"+streaming_platforms_name+":"+users_name+":0;")
+                
+                elif details['action'] == 'Remove':
+                    tvshows_temp=[]
+                    TVShows=[]
+                    tvshows_file = open("./data/watercooler/TVShows.txt", "r")
+                    for x in tvshows_file:
+                        tvshows_temp.extend(x.split(";"))
+                    for i in tvshows_temp:
+                        TVShows.append(i.split(":"))
+                    tvshows_file.close()
 
+                    del TVShows[-1]
 
-        if tvshows_name != "" and users_password == users_password_selection[0][0]:
-            cur = mysql.connection.cursor()
-            tvshows_name = re.sub("^\s*", "", tvshows_name) 
-            if details['action'] == 'Create' and streaming_platforms_name != "- Choose a Streaming Platform -":
-                if len(streaming_platforms_name)>1:
-                    for i in streaming_platforms_name:          
-                        cur.execute("INSERT INTO TVShows (TVShows_Name, Streaming_Platforms_ID, Users_ID) VALUES ((%s), (SELECT Streaming_Platforms_ID from Streaming_Platforms WHERE Streaming_Platforms_Name= (%s)), (SELECT Users_ID from Users WHERE Users_Name= (%s)))", [tvshows_name, i, users_name])
-                else:
-                    cur.execute("INSERT IGNORE INTO TVShows (TVShows_Name, Streaming_Platforms_ID, Users_ID) VALUES ((%s), (SELECT Streaming_Platforms_ID from Streaming_Platforms WHERE Streaming_Platforms_Name= (%s)), (SELECT Users_ID from Users WHERE Users_Name= (%s)))", [tvshows_name, streaming_platforms_name, users_name])
-
-            if details['action'] == 'Delete':
-                cur.execute("DELETE FROM TVShows WHERE TVShows_Name=(%s)", [tvshows_name])     
-            mysql.connection.commit()
-            cur.close()
+                    tvshows_file = open("./data/watercooler/TVShows.txt", "w")
+                    for i in range(len(TVShows)):
+                        if TVShows[i][0]==tvshows_name:
+                            pass
+                        else:
+                            tvshows_file.write(TVShows[i][0]+":"+TVShows[i][1]+":"+TVShows[i][2]+":"+TVShows[i][3]+";") 
+ 

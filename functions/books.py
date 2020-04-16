@@ -1,59 +1,46 @@
 from flask import Flask, render_template, request, redirect, url_for
-from flask_mysqldb import MySQL
 import os
 import re
 
-
 app = Flask(__name__) #__name__ is for best practice
 
-# app.config["MYSQL_HOST"] = os.environ['MYSQL_HOST']
-# app.config["MYSQL_USER"] = os.environ['MYSQL_USER']
-# app.config["MYSQL_PASSWORD"] = os.environ['MYSQL_PASSWORD']
-# app.config["MYSQL_DB"] = os.environ['MYSQL_DB']
-
-
-
-mysql = MySQL(app)
 
 def books_home():
-    cur = mysql.connection.cursor()
-    cur.execute("SELECT * FROM Users")
-    mysql.connection.commit()
-    users_names = cur.fetchall() #built in function to return a tuple, list or dictionary
-    cur.execute("SELECT Books.Books_Name, Users.Users_Name FROM Books INNER JOIN Users ON Books.Users_ID=Users.Users_ID WHERE Books.Books_Finished=0")
-    mysql.connection.commit()
-    books_names_upcoming = cur.fetchall() #built in function to return a tuple, list or dictionary
-    cur.execute("SELECT Books.Books_Name, Users.Users_Name FROM Books INNER JOIN Users ON Books.Users_ID=Users.Users_ID WHERE Books.Books_Finished=1")
-    mysql.connection.commit()
-    books_names_chosen = cur.fetchall() #built in function to return a tuple, list or dictionary
-    cur.execute("SELECT Books.Books_Name, Users.Users_Name FROM Books INNER JOIN Users ON Books.Users_ID=Users.Users_ID WHERE Books.Books_Finished=2")
-    mysql.connection.commit()
-    books_names_finished = cur.fetchall() #built in function to return a tuple, list or dictionary
-    cur.close()
-    
 
+    users_temp=[]
+    Users=[]
+    users_file = open("./data/Users.txt", "r")
+    for x in users_file:
+        users_temp.extend(x.split(";"))
+    for i in users_temp:
+        Users.append(i.split(":"))
+    users_file.close()
 
+    del Users[-1]
 
+    books_temp=[]
+    Books=[]
+    books_file = open("./data/watercooler/Books.txt", "r")
+    for x in books_file:
+        books_temp.extend(x.split(";"))
+    for i in books_temp:
+        Books.append(i.split(":"))
+    books_file.close()
 
+    del Books[-1]
 
-    users_selection = []
-    books_upcoming_selection = []
-    books_finished_selection = []
-    books_chosen_selection = [] 
+    books_upcoming_selection=[]
+    books_finished_selection=[]
+    books_chosen_selection=[]
+    for i in Books:
+        if int(i[2])==0:
+            books_upcoming_selection.append(i)
+        elif int(i[2])==1:
+            books_chosen_selection.append(i)
+        else:
+            books_finished_selection.append(i)
 
-    for row in users_names:
-        users_selection.append(row) #adding each row from the database into a newly created list, info 
-
-    for row in books_names_upcoming:
-        books_upcoming_selection.append(row) #adding each row from the database into a newly created list, info 
-    
-    for row in books_names_chosen:
-        books_chosen_selection.append(row) #adding each row from the database into a newly created list, info 
-    
-    for row in books_names_finished:
-        books_finished_selection.append(row) #adding each row from the database into a newly created list, info 
-    
-    return (books_upcoming_selection, users_selection, books_finished_selection, books_chosen_selection)
+    return (books_upcoming_selection, Users, books_finished_selection, books_chosen_selection)
 
 
 
@@ -68,21 +55,43 @@ def books_edit():
         users_name=details['users_name']
         users_password=details['users_password']
 
-        cur = mysql.connection.cursor()
-        cur.execute("SELECT Users_Password FROM Users WHERE Users_Name=(%s)", [users_name])
-        mysql.connection.commit()
-        users_password_true = cur.fetchall()
+        users_temp=[]
+        Users=[]
+        users_file = open("./data/Users.txt", "r")
+        for x in users_file:
+            users_temp.extend(x.split(";"))
+        for i in users_temp:
+            Users.append(i.split(":"))
+        users_file.close()
 
-        users_password_selection=[]
+        del Users[-1]
 
-        for row in users_password_true:
-            users_password_selection.append(row) #adding each row from the database into a newly created list, info 
-        
-        if books_name != "" and users_password == users_password_selection[0][0]:
-            books_name = re.sub("^\s*", "", books_name)
-            if details['action'] == 'Create':               
-                cur.execute("INSERT IGNORE INTO Books (Books_Name, Users_ID) VALUES ((%s), (SELECT Users_ID from Users WHERE Users_Name= (%s)))", [books_name, users_name])
-            elif details['action'] == 'Delete':
-                cur.execute("DELETE FROM Books WHERE Books_Name=(%s)", [books_name])
-            mysql.connection.commit()
-            cur.close()        
+        for i in range(len(Users)):
+            if Users[i][0]==users_name and Users[i][1]==users_password:
+
+                if details['action'] == 'Add':
+                    books_name = re.sub("^\s*", "", books_name)
+                    books_name = re.sub(":", "-", books_name)
+                    books_name = re.sub(";", "-", books_name)
+                    Books=open("./data/watercooler/Books.txt", "a")
+                    Books.write(books_name+":"+users_name+":0;")
+                
+                elif details['action'] == 'Remove':
+                    books_temp=[]
+                    Books=[]
+                    books_file = open("./data/watercooler/Books.txt", "r")
+                    for x in books_file:
+                        books_temp.extend(x.split(";"))
+                    for i in books_temp:
+                        Books.append(i.split(":"))
+                    books_file.close()
+
+                    del Books[-1]
+
+                    books_file = open("./data/watercooler/Books.txt", "w")
+                    for i in range(len(Books)):
+                        if Books[i][0]==books_name:
+                            pass
+                        else:
+                            books_file.write(Books[i][0]+":"+Books[i][1]+":"+Books[i][2]+";") 
+ 

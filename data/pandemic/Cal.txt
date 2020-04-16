@@ -1,1 +1,1 @@
-London:Blue;Bogota:Yellow;Montreal:Blue;Kinshasa:Yellow
+Kinshasa:Yellow;Chennai:Red

@@ -1,62 +1,57 @@
 from flask import Flask, render_template, request, redirect, url_for
-from flask_mysqldb import MySQL
 import os
 import re
 
-
 app = Flask(__name__) #__name__ is for best practice
 
-# app.config["MYSQL_HOST"] = os.environ['MYSQL_HOST']
-# app.config["MYSQL_USER"] = os.environ['MYSQL_USER']
-# app.config["MYSQL_PASSWORD"] = os.environ['MYSQL_PASSWORD']
-# app.config["MYSQL_DB"] = os.environ['MYSQL_DB']
-
-
-
-mysql = MySQL(app)
 
 def films_home():
-    cur = mysql.connection.cursor()
-    cur.execute("SELECT * FROM Users")
-    mysql.connection.commit()
-    users_names = cur.fetchall() #built in function to return a tuple, list or dictionary
-    cur.execute("SELECT * FROM Streaming_Platforms")
-    mysql.connection.commit()
-    streaming_platforms_names = cur.fetchall() #built in function to return a tuple, list or dictionary
-    cur.execute("SELECT Films.Films_Name, Users.Users_Name, Streaming_Platforms.Streaming_Platforms_Name FROM ((Films INNER JOIN Users ON Films.Users_ID=Users.Users_ID) INNER JOIN Streaming_Platforms ON Films.Streaming_Platforms_ID=Streaming_Platforms.Streaming_Platforms_ID) WHERE Films.Films_Finished=0")
-    mysql.connection.commit()
-    films_names_upcoming = cur.fetchall() #built in function to return a tuple, list or dictionary
-    cur.execute("SELECT Films.Films_Name, Users.Users_Name, Streaming_Platforms.Streaming_Platforms_Name FROM ((Films INNER JOIN Users ON Films.Users_ID=Users.Users_ID) INNER JOIN Streaming_Platforms ON Films.Streaming_Platforms_ID=Streaming_Platforms.Streaming_Platforms_ID) WHERE Films.Films_Finished=1")
-    mysql.connection.commit()
-    films_names_chosen = cur.fetchall() #built in function to return a tuple, list or dictionary
-    cur.execute("SELECT Films.Films_Name, Users.Users_Name, Streaming_Platforms.Streaming_Platforms_Name FROM ((Films INNER JOIN Users ON Films.Users_ID=Users.Users_ID) INNER JOIN Streaming_Platforms ON Films.Streaming_Platforms_ID=Streaming_Platforms.Streaming_Platforms_ID) WHERE Films.Films_Finished=2")
-    mysql.connection.commit()
-    films_names_finished = cur.fetchall() #built in function to return a tuple, list or dictionary
-    cur.close()
-    
-    users_selection = []
-    streaming_platforms_selection=[]
-    films_upcoming_selection = []
-    films_finished_selection = []
-    films_chosen_selection = [] 
+    users_temp=[]
+    Users=[]
+    users_file = open("./data/Users.txt", "r")
+    for x in users_file:
+        users_temp.extend(x.split(";"))
+    for i in users_temp:
+        Users.append(i.split(":"))
+    users_file.close()
 
-    for row in users_names:
-        users_selection.append(row) #adding each row from the database into a newly created list, info 
+    del Users[-1]
 
-    for row in streaming_platforms_names:
-        streaming_platforms_selection.append(row) #adding each row from the database into a newly created list, info 
+    films_temp=[]
+    Films=[]
+    films_file = open("./data/watercooler/Films.txt", "r")
+    for x in films_file:
+        films_temp.extend(x.split(";"))
+    for i in films_temp:
+        Films.append(i.split(":"))
+    films_file.close()
 
-    for row in films_names_upcoming:
-        films_upcoming_selection.append(row) #adding each row from the database into a newly created list, info 
-    
-    for row in films_names_chosen:
-        films_chosen_selection.append(row) #adding each row from the database into a newly created list, info 
-    
-    for row in films_names_finished:
-        films_finished_selection.append(row) #adding each row from the database into a newly created list, info 
-    
+    del Films[-1]
 
-    return (films_upcoming_selection, users_selection, streaming_platforms_selection, films_finished_selection, films_chosen_selection)
+    streaming_platforms_temp=[]
+    Streaming_Platforms=[]
+    streaming_platforms_file = open("./data/watercooler/Streaming_Platforms.txt", "r")
+    for x in streaming_platforms_file:
+        Streaming_Platforms.extend(x.split(";"))
+    streaming_platforms_file.close()
+
+    del Streaming_Platforms[-1]
+
+    films_upcoming_selection=[]
+    films_finished_selection=[]
+    films_chosen_selection=[]
+    for i in Films:
+        if int(i[3])==0:
+            films_upcoming_selection.append(i)
+        elif int(i[3])==1:
+            films_chosen_selection.append(i)
+        else:
+            films_finished_selection.append(i)
+
+    return (films_upcoming_selection, Users, Streaming_Platforms, films_finished_selection, films_chosen_selection)
+
+
+
 
 
 
@@ -69,24 +64,43 @@ def films_edit():
         users_name=details['users_name']
         users_password=details['users_password']
 
-        cur = mysql.connection.cursor()
-        cur.execute("SELECT Users_Password FROM Users WHERE Users_Name=(%s)", [users_name])
-        mysql.connection.commit()
-        users_password_true = cur.fetchall()
+        users_temp=[]
+        Users=[]
+        users_file = open("./data/Users.txt", "r")
+        for x in users_file:
+            users_temp.extend(x.split(";"))
+        for i in users_temp:
+            Users.append(i.split(":"))
+        users_file.close()
 
-        users_password_selection=[]
+        del Users[-1]
 
-        for row in users_password_true:
-            users_password_selection.append(row) #adding each row from the database into a newly created list, info 
+        for i in range(len(Users)):
+            if Users[i][0]==users_name and Users[i][1]==users_password:
 
+                if details['action'] == 'Add':
+                    films_name = re.sub("^\s*", "", films_name)
+                    films_name = re.sub(":", "-", films_name)
+                    films_name = re.sub(";", "-", films_name)
+                    Films=open("./data/watercooler/Films.txt", "a")
+                    Films.write(films_name+":"+streaming_platforms_name+":"+users_name+":0;")
+                
+                elif details['action'] == 'Remove':
+                    films_temp=[]
+                    Films=[]
+                    films_file = open("./data/watercooler/Films.txt", "r")
+                    for x in films_file:
+                        films_temp.extend(x.split(";"))
+                    for i in films_temp:
+                        Films.append(i.split(":"))
+                    films_file.close()
 
+                    del Films[-1]
 
-        if films_name != "" and users_password == users_password_selection[0][0]:
-            cur = mysql.connection.cursor()
-            films_name = re.sub("^\s*", "", films_name)
-            if details['action'] == 'Create' and streaming_platforms_name != "- Choose a Streaming Platform -":           
-                cur.execute("INSERT IGNORE INTO Films (Films_Name, Streaming_Platforms_ID, Users_ID) VALUES ((%s), (SELECT Streaming_Platforms_ID from Streaming_Platforms WHERE Streaming_Platforms_Name= (%s)), (SELECT Users_ID from Users WHERE Users_Name= (%s)))", [films_name, streaming_platforms_name, users_name])
-            if details['action'] == 'Delete':
-                cur.execute("DELETE FROM Films WHERE Films_Name=(%s)", [films_name])
-            mysql.connection.commit()
-            cur.close()
+                    films_file = open("./data/watercooler/Films.txt", "w")
+                    for i in range(len(Films)):
+                        if Films[i][0]==films_name:
+                            pass
+                        else:
+                            films_file.write(Films[i][0]+":"+Films[i][1]+":"+Films[i][2]+":"+Films[i][3]+";") 
+ 

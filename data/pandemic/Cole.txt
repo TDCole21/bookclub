@@ -1,1 +1,1 @@
-Paris:Blue;Washington:Blue;Cairo:Black;Khartoum:Yellow;Algiers:Black;Karachi:Black
+Washington:Blue;Cairo:Black;Algiers:Black;Karachi:Black;Istanbul:Black;Kolkata:Black

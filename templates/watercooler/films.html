@@ -1,4 +1,4 @@
-{%extends 'layout.html'%}
+{%extends 'layouts/layout_watercooler.html'%}
 
 {%block body%}
 <div class="container"></div>
@@ -7,25 +7,24 @@
 
 <br><br>
 
-<form method="POST" action="{{ url_for('__films_edit__') }}">
+<form method="POST" action="{{ url_for('__watercooler_films_edit__') }}">
     <center>
-    <H1>Suggest a Film:</H1>
-    Film's name: <input type = "text" name= "films_name" /><br><br>
-    Streaming platform: <select name= "streaming_platforms_name">
+    Film's name: <input type = "text" name= "films_name" />
+    and streaming platform: <select name= "streaming_platforms_name">
         <option >- Choose a Streaming Platform -</option>
     {%for i in streaming_platforms_selection%}
-        <option >{{ i[1] }}</option>
+        <option >{{ i }}</option>
     {%endfor%}
     </select><br><br>
     User's name: <select name= "users_name">
         <option >- Choose a User -</option>
     {%for i in users_selection%}
-        <option >{{ i[1] }}</option>
+        <option >{{ i[0] }}</option>
     {%endfor%}
-    </select><br><br>
-    <label for="pwd">Password:</label>
+    </select>
+    <label for="pwd">and password:</label>
     <input type="password" id="pwd" name="users_password"><br><br>
-    <input type = "submit" name="action" value="Create">&nbsp;&nbsp;&nbsp;&nbsp;<input type = "submit" name="action" value="Delete">
+    <input type = "submit" name="action" value="Add">&nbsp;&nbsp;or&nbsp;&nbsp;<input type = "submit" name="action" value="Remove">
     </center>
 </form>
 <br><br>

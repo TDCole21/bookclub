@@ -8,7 +8,7 @@
   }
   </style>
 
-{%extends 'layout.html'%}
+{%extends 'layouts/layout_watercooler.html'%}
 
 {%block body%}
 <div class="container"></div>
@@ -30,7 +30,7 @@
       <td>30th April</td>
     </tr>
   </table>
-  <form method="POST" action="{{ url_for('__home_books_edit__') }}">
+  <form method="POST" action="{{ url_for('__watercooler_home_books_edit__') }}">
     <!-- <input type = "submit" name="action" value="Shuffle">
     <input type = "submit" name="action" value="Finished"> -->
   </form>
@@ -51,7 +51,7 @@
       <td>30th April</td>
     </tr>
   </table>
-  <!-- <form method="POST" action="{{ url_for('__home_games_edit__') }}">
+  <!-- <form method="POST" action="{{ url_for('__watercooler_home_games_edit__') }}">
     <input type = "submit" name="action" value="Shuffle">
     <input type = "submit" name="action" value="Finished">
   </form> -->
@@ -72,7 +72,7 @@
       <td>9th April</td>
     </tr>
   </table>
-  <!-- <form method="POST" action="{{ url_for('__home_films_edit__') }}">
+  <!-- <form method="POST" action="{{ url_for('__watercooler_home_films_edit__') }}">
     <input type = "submit" name="action" value="Shuffle">
     <input type = "submit" name="action" value="Finished">
   </form> -->
@@ -93,7 +93,7 @@
       <td>9th April</td>
     </tr>
   </table>
-  <!-- <form method="POST" action="{{ url_for('__home_tvshows_edit__') }}">
+  <!-- <form method="POST" action="{{ url_for('__watercooler_home_tvshows_edit__') }}">
     <input type = "submit" name="action" value="Shuffle">
     <input type = "submit" name="action" value="Finished">
   </form> -->

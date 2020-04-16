@@ -1,23 +1,12 @@
 from flask import Flask, render_template, request, redirect, url_for
-from flask_mysqldb import MySQL
 import os
 import re
 import random
-from datetime import datetime, timedelta
-
-
+# from datetime import datetime, timedelta
 
 
 app = Flask(__name__) #__name__ is for best practice
 
-# app.config["MYSQL_HOST"] = os.environ['MYSQL_HOST']
-# app.config["MYSQL_USER"] = os.environ['MYSQL_USER']
-# app.config["MYSQL_PASSWORD"] = os.environ['MYSQL_PASSWORD']
-# app.config["MYSQL_DB"] = os.environ['MYSQL_DB']
-
-
-
-mysql = MySQL(app)
 
 
 ######################################################################################################################################################################
@@ -26,50 +15,79 @@ mysql = MySQL(app)
 
 
 def home_home():
-    cur = mysql.connection.cursor()
-    cur.execute("SELECT Books.Books_Name, Users.Users_Name FROM Books INNER JOIN Users ON Books.Users_ID=Users.Users_ID WHERE Books.Books_Finished=1")
-    mysql.connection.commit()
-    books_names_chosen = cur.fetchall() #built in function to return a tuple, list or dictionary
+    books_temp=[]
+    Books=[]
+    books_file = open("./data/watercooler/Books.txt", "r")
+    for x in books_file:
+        books_temp.extend(x.split(";"))
+    for i in books_temp:
+        Books.append(i.split(":"))
+    books_file.close()
 
-    cur.execute("SELECT Games.Games_Name, Users.Users_Name, Consoles.Consoles_Name FROM ((Games INNER JOIN Users ON Games.Users_ID=Users.Users_ID) INNER JOIN Consoles ON Games.Consoles_ID=Consoles.Consoles_ID) WHERE Games.Games_Finished=1")
-    mysql.connection.commit()
-    games_names_chosen = cur.fetchall() #built in function to return a tuple, list or dictionary
+    del Books[-1]
 
-    cur.execute("SELECT Films.Films_Name, Users.Users_Name, Streaming_Platforms.Streaming_Platforms_Name FROM ((Films INNER JOIN Users ON Films.Users_ID=Users.Users_ID) INNER JOIN Streaming_Platforms ON Films.Streaming_Platforms_ID=Streaming_Platforms.Streaming_Platforms_ID) WHERE Films.Films_Finished=1")
-    mysql.connection.commit()
-    films_names_chosen = cur.fetchall() #built in function to return a tuple, list or dictionary
+    games_temp=[]
+    Games=[]
+    games_file = open("./data/watercooler/Games.txt", "r")
+    for x in games_file:
+        games_temp.extend(x.split(";"))
+    for i in games_temp:
+        Games.append(i.split(":"))
+    games_file.close()
 
-    cur.execute("SELECT TVShows.TVShows_Name, Users.Users_Name, Streaming_Platforms.Streaming_Platforms_Name FROM ((TVShows INNER JOIN Users ON TVShows.Users_ID=Users.Users_ID) INNER JOIN Streaming_Platforms ON TVShows.Streaming_Platforms_ID=Streaming_Platforms.Streaming_Platforms_ID) WHERE TVShows.TVShows_Finished=1")
-    mysql.connection.commit()
-    tvshows_names_chosen = cur.fetchall() #built in function to return a tuple, list or dictionary
+    del Games[-1]
 
-    cur.close()
+    films_temp=[]
+    Films=[]
+    films_file = open("./data/watercooler/Films.txt", "r")
+    for x in films_file:
+        films_temp.extend(x.split(";"))
+    for i in films_temp:
+        Films.append(i.split(":"))
+    films_file.close()
+
+    del Films[-1]
+
+    tvshows_temp=[]
+    TVShows=[]
+    tvshows_file = open("./data/watercooler/TVShows.txt", "r")
+    for x in tvshows_file:
+        tvshows_temp.extend(x.split(";"))
+    for i in tvshows_temp:
+        TVShows.append(i.split(":"))
+    tvshows_file.close()
+
+    del TVShows[-1]
 
     books_choice = []
     games_choice = []
     films_choice = []
     tvshows_choice = []
 
-    for row in books_names_chosen:
-        books_choice.append(row)
+    for i in Books:
+        if int(i[2])==1:
+            books_choice.append(i)
     
     if len(books_choice) == 0:
         books_choice.append(["None Selected", "None Selected", "None Selected"])
 
-    for row in games_names_chosen:
-        games_choice.append(row)
+    for i in Games:
+        if int(i[3])==1:
+            games_choice.append(i)
     
     if len(games_choice) == 0:
         games_choice.append(["None Selected", "None Selected", "None Selected"])
 
-    for row in films_names_chosen:
-        films_choice.append(row)
+    for i in Films:
+        if int(i[3])==1:
+            films_choice.append(i)
     
     if len(films_choice) == 0:
         films_choice.append(["None Selected", "None Selected", "None Selected"])
 
-    for row in tvshows_names_chosen:
-        tvshows_choice.append(row)
+    for i in TVShows:
+        if int(i[3])==1:
+            tvshows_choice.append(i)
     
     if len(tvshows_choice) == 0:
         tvshows_choice.append(["None Selected", "None Selected", "None Selected"])
