@@ -27,13 +27,9 @@
     <tr>
       <td>{{books_choice[0][0]}}</td>
       <td>{{books_choice[0][1]}}</td>
-      <td>30th April</td>
+      <td>{{last_thursday}}</td>
     </tr>
   </table>
-  <form method="POST" action="{{ url_for('__watercooler_home_books_edit__') }}">
-    <!-- <input type = "submit" name="action" value="Shuffle">
-    <input type = "submit" name="action" value="Finished"> -->
-  </form>
 <br><br>
 
 <h3>Games</h3>
@@ -48,13 +44,9 @@
       <td>{{games_choice[0][0]}}</td>
       <td>{{games_choice[0][2]}}</td>
       <td>{{games_choice[0][1]}}</td>
-      <td>30th April</td>
+      <td>{{last_thursday}}</td>
     </tr>
   </table>
-  <!-- <form method="POST" action="{{ url_for('__watercooler_home_games_edit__') }}">
-    <input type = "submit" name="action" value="Shuffle">
-    <input type = "submit" name="action" value="Finished">
-  </form> -->
   <br><br>
 
 <h3>Films</h3>
@@ -69,13 +61,9 @@
       <td>{{films_choice[0][0]}}</td>
       <td>{{films_choice[0][2]}}</td>
       <td>{{films_choice[0][1]}}</td>
-      <td>9th April</td>
+      <td>{{next_thursday}}</td>
     </tr>
   </table>
-  <!-- <form method="POST" action="{{ url_for('__watercooler_home_films_edit__') }}">
-    <input type = "submit" name="action" value="Shuffle">
-    <input type = "submit" name="action" value="Finished">
-  </form> -->
   <br><br>
 
 <h3>TV Shows (one episode)</h3>
@@ -90,12 +78,8 @@
       <td>{{tvshows_choice[0][0]}}</td>
       <td>{{tvshows_choice[0][2]}}</td>
       <td>{{tvshows_choice[0][1]}}</td>
-      <td>9th April</td>
+      <td>{{next_thursday}}</td>
     </tr>
   </table>
-  <!-- <form method="POST" action="{{ url_for('__watercooler_home_tvshows_edit__') }}">
-    <input type = "submit" name="action" value="Shuffle">
-    <input type = "submit" name="action" value="Finished">
-  </form> -->
 </div>
 {%endblock%}

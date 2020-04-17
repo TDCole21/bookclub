@@ -1,9 +1,26 @@
 from flask import Flask, render_template, request, redirect, url_for
 import os
 import re
+import datetime
+from calendar import monthrange
 
 app = Flask(__name__) #__name__ is for best practice
 
+def next_weekday(d, weekday):
+    days_ahead = weekday - d.weekday()
+    if days_ahead <= 0: # Target day already happened this week
+        days_ahead += 7
+    return d + datetime.timedelta(days_ahead)
+
+def last_weekday(d, weekday):
+    cmon = d.month
+
+    last_thursday = d
+    while d.month == cmon:
+        d += datetime.timedelta(days=1)
+        if d.weekday()==weekday: #this is Thursday 
+            last_thursday = d
+    return last_thursday
 
 def home_home():
     books_temp=[]
@@ -83,6 +100,8 @@ def home_home():
     if len(tvshows_choice) == 0:
         tvshows_choice.append(["None Selected", "None Selected", "None Selected"])
 
+    d = datetime.date.today()
+    next_thursday = next_weekday(d, 3).strftime('%A %d %B, %Y')
+    last_thursday = last_weekday(d, 3).strftime('%A %d %B, %Y')
     
-    
-    return (books_choice, games_choice, films_choice, tvshows_choice)
+    return (books_choice, games_choice, films_choice, tvshows_choice, next_thursday, last_thursday)

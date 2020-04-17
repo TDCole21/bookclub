@@ -4,14 +4,16 @@ import os
 import re
 import sys
 
-sys.path.insert(1, './functions/')
-from books import books_edit, books_home
-from films import films_edit, films_home
-from games import games_edit, games_home
-from tvshows import tvshows_edit, tvshows_home
+sys.path.insert(1, './functions')
 from users import users_edit, users_home
-from home import home_home
-from pandemic import pandemic_game_setup, pandemic_home, pandemic_draw_card, pandemic_use_card
+sys.path.insert(1, './watercooler')
+from watercooler_books import books_edit, books_home
+from watercooler_films import films_edit, films_home
+from watercooler_games import games_edit, games_home
+from watercooler_tvshows import tvshows_edit, tvshows_home
+from watercooler_home import home_home
+sys.path.insert(1, '../pandemic')
+from pandemic_home import pandemic_game_setup, pandemic_home, pandemic_draw_card, pandemic_use_card
 sys.path.insert(1, '../..')
 
 app = Flask(__name__) #__name__ is for best practice
@@ -31,7 +33,9 @@ def __watercooler_home__():
     games_choice=home_home()[1]   
     films_choice=home_home()[2]   
     tvshows_choice=home_home()[3]   
-    return render_template("watercooler/watercooler_home.html", name="Home", books_choice=books_choice, games_choice=games_choice, films_choice=films_choice, tvshows_choice=tvshows_choice)
+    next_thursday=home_home()[4]
+    last_thursday=home_home()[5]
+    return render_template("watercooler/watercooler_home.html", name="Home", books_choice=books_choice, games_choice=games_choice, films_choice=films_choice, tvshows_choice=tvshows_choice, next_thursday=next_thursday, last_thursday=last_thursday)
 
 @app.route('/watercooler/home/books/edit', methods=['GET', 'POST']) # Create function
 def __watercooler_home_books_edit__():
