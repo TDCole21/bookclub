@@ -1,1 +1,1 @@
-Epidemic:Increase, Infect, Intensify;Epidemic:Increase, Infect, Intensify;Epidemic:Increase, Infect, Intensify;Epidemic:Increase, Infect, Intensify;Epidemic:Increase, Infect, Intensify;Epidemic:Increase, Infect, Intensify
+Epidemic::Increase, Infect, Intensify;Epidemic::Increase, Infect, Intensify;Epidemic::Increase, Infect, Intensify;Epidemic::Increase, Infect, Intensify;Epidemic::Increase, Infect, Intensify;Epidemic::Increase, Infect, Intensify

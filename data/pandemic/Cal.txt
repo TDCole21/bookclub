@@ -1,1 +1,1 @@
-Kinshasa:Yellow;Chennai:Red
+Kinshasa:Yellow:;Chennai:Red:;

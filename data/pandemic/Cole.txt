@@ -1,1 +1,1 @@
-Washington:Blue;Cairo:Black;Algiers:Black;Karachi:Black;Istanbul:Black;Kolkata:Black
+Washington:Blue:;Cairo:Black:;Algiers:Black:;Karachi:Black:;Istanbul:Black:;Kolkata:Black:;

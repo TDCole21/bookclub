@@ -1,6 +1,6 @@
 <style>
     table, th, td {
-      border: 1px solid black;
+      border: 1px solid grey;
       border-collapse: collapse;
     }
     th, td {
@@ -11,26 +11,35 @@
 {%extends 'layouts/layout_pandemic.html'%}
   
 {%block body%}
-
 <br><br>
 
-<form method="POST" action="{{ url_for('__pandemic_draw_card__') }}">
-  <center>
-    <h3>Nick's Role: Quarantine Specialist  <small><small><input type = "submit" name="action" value="Nick Draw Card"></small></small></h3>
-    The Quarantine Specialist prevents both outbreaks and the placement of disease cubes in the city she is in and all cities connected to that city. She does not affect cubes placed during setup.
-  </center>
-</form>
+
 <table style="width:75%">
+<tr><form method="POST" action="{{ url_for('__pandemic_draw_card__') }}">
+  <center>
+    <h3>Nick's Hand&nbsp;&nbsp;<small><small><input type = "submit" name="action" value="Nick Draw Card"></small></small></h3>
+  </center>
+</form> </tr>
+<tr>
+  <th><center>Quarantine Specialist</center></th>
+  <td colspan="2">
+    The Quarantine Specialist prevents both outbreaks and the placement of disease cubes in the city they are in and all cities connected to that city. They do not affect cubes placed during setup.
+  </td>
+</tr>
     <tr>
       <th><center>Card Name</center></th>
-      <th><center>Colour/Meaning</center></th>
+      <th><center>Colour/Description</center></th>
       <th><center>Action</center></th>
     </tr>
     {% set Nick_Card_Counter = 0 %}
     {% for i in Nick %}
     <tr>
       <td><center>{{i[0]}}</center></td>
-      <td><center>{{i[1]}}</center></td>
+      {% if i[1]!="" %}
+        <td bgcolor="{{i[1]}}"></td>
+      {% else %}
+        <td><center>{{i[2]}}</center></td>
+      {% endif %}
       <td>
         <form method="POST" action="{{ url_for('__pandemic_use_card__') }}">
           <center>
@@ -45,29 +54,35 @@
 
 <br><br>
 
-
-<form method="POST" action="{{ url_for('__pandemic_draw_card__') }}">
-  <center>
-    <h3>James' Role: Dispatcher  <small><small><input type = "submit" name="action" value="James Draw Card"></small></small></h3>
-    The Dispatcher may, as an action, either:
-    <li><a>move any pawn, if its owner agrees, to any city containing another pawn, or</a></li>
-    <li><a>move another player’s pawn, if its owner agrees, as if it were his own.</a></li>
-    When moving a player’s pawn as if it were your own, discard cards for Direct and Charter Flights from your hand.<br>
-    A card discarded for a Charter Flight must match the city the pawn is moving from.<br>
-    The Dispatcher can only move other players’ pawns; he may not direct them to do other actions, such as Treat Disease.
-  </center>
-</form>
 <table style="width:75%">
+  <tr><form method="POST" action="{{ url_for('__pandemic_draw_card__') }}">
+    <center>
+      <h3>James' Hand&nbsp;&nbsp;<small><small><input type = "submit" name="action" value="James Draw Card"></small></small></h3>
+    </center>
+  </form> </tr>
+  <tr>
+    <th><center>Dispatcher</center></th>
+    <td colspan="2">
+      The Dispatcher may, as an action, either:
+      <li><a>move any pawn, if its owner agrees, to any city containing another pawn, or</a></li>
+      <li><a>move another player’s pawn, if its owner agrees, as if it were his own.</a></li>
+      When moving a player’s pawn as if it were your own, discard cards for Direct and Charter Flights from your hand. A card discarded for a Charter Flight must match the city the pawn is moving from. The Dispatcher can only move other players’ pawns; they may not direct them to do other actions, such as Treat Disease.
+    </td>
+</form></tr>
     <tr>
       <th><center>Card Name</center></th>
-      <th><center>Colour/Meaning</center></th>
+      <th><center>Colour/Description</center></th>
       <th><center>Action</center></th>
     </tr>
     {% set James_Card_Counter = 0 %}
     {% for i in James %}
     <tr>
       <td><center>{{i[0]}}</center></td>
-      <td><center>{{i[1]}}</center></td>
+      {% if i[1]!="" %}
+        <td bgcolor="{{i[1]}}"></td>
+      {% else %}
+        <td><center>{{i[2]}}</center></td>
+      {% endif %}
       <td>
         <form method="POST" action="{{ url_for('__pandemic_use_card__') }}">
           <center>
@@ -83,24 +98,32 @@
 <br><br>
 
 
-<form method="POST" action="{{ url_for('__pandemic_draw_card__') }}">
-  <center>
-    <h3>Cal's Role: Researcher  <small><small><input type = "submit" name="action" value="Cal Draw Card"></small></small></h3>
-    When doing the Share Knowledge action, the Researcher may give any City card from her hand to another player in the same city as her, without this card having to match her city.<br>
-    The transfer must be from her hand to the other player’s hand, but it can occur on either player’s turn.
-  </center>
-</form>
 <table style="width:75%">
+  <tr><form method="POST" action="{{ url_for('__pandemic_draw_card__') }}">
+    <center>
+      <h3>Cal's Hand&nbsp;&nbsp;<small><small><input type = "submit" name="action" value="Cal Draw Card"></small></small></h3>
+    </center>
+  </form> </tr>
+  <tr>
+    <th><center>Researcher</center></th>
+    <td colspan="2">
+      When doing the Share Knowledge action, the Researcher may give any City card from her hand to another player in the same city as her, without this card having to match her city. The transfer must be from her hand to the other player’s hand, but it can occur on either player’s turn.
+    </td>
+</form></tr>
     <tr>
       <th><center>Card Name</center></th>
-      <th><center>Colour/Meaning</center></th>
+      <th><center>Colour/Description</center></th>
       <th><center>Action</center></th>
     </tr>
     {% set Cal_Card_Counter = 0 %}
     {% for i in Cal %}
     <tr>
       <td><center>{{i[0]}}</center></td>
-      <td><center>{{i[1]}}</center></td>
+      {% if i[1]!="" %}
+        <td bgcolor="{{i[1]}}"></td>
+      {% else %}
+        <td><center>{{i[2]}}</center></td>
+      {% endif %}
       <td>
         <form method="POST" action="{{ url_for('__pandemic_use_card__') }}">
           <center>
@@ -116,26 +139,35 @@
 <br><br>
 
 
-<form method="POST" action="{{ url_for('__pandemic_draw_card__') }}">
-  <center>
-    <h3>Cole's Role: Operations Expert  <small><small><input type = "submit" name="action" value="Cole Draw Card"></small></small></h3>
-    The Operations Expert may, as an action, either:
-    <li><a>build a research station in his current city without discarding (or using) a City card, or</a></li>
-    <li><a>once per turn, move from a research station to any city by discarding any City card.</a></li>
-    The Dispatcher may not use the Operations Expert’s special move ability when moving the Operation Expert’s pawn.
-  </center>
-</form>
 <table style="width:75%">
+  <tr><form method="POST" action="{{ url_for('__pandemic_draw_card__') }}">
+    <center>
+      <h3>Cole's Hand&nbsp;&nbsp;<small><small><input type = "submit" name="action" value="Cole Draw Card"></small></small></h3>
+    </center>
+  </form> </tr>
+  <tr>
+    <th><center>Operations Expert</center></th>
+    <td colspan="2">
+      The Operations Expert may, as an action, either:
+      <li><a>Build a research station in his current city without discarding (or using) a City card.</a></li>
+      <li><a>Once per turn, move from a research station to any city by discarding any City card.</a></li>
+      The Dispatcher may not use the Operations Expert’s special move ability when moving the Operation Expert’s pawn.
+    </td>
+</form></tr>
     <tr>
       <th><center>Card Name</center></th>
-      <th><center>Colour/Meaning</center></th>
+      <th><center>Colour/Description</center></th>
       <th><center>Action</center></th>
     </tr>
     {% set Cole_Card_Counter = 0 %}
     {% for i in Cole %}
     <tr>
       <td><center>{{i[0]}}</center></td>
-      <td><center>{{i[1]}}</center></td>
+      {% if i[1]!="" %}
+        <td bgcolor="{{i[1]}}"></td>
+      {% else %}
+        <td><center>{{i[2]}}</center></td>
+      {% endif %}
       <td>
         <form method="POST" action="{{ url_for('__pandemic_use_card__') }}">
           <center>

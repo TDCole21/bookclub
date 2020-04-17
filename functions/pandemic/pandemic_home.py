@@ -1,6 +1,5 @@
 import random
 from flask import Flask, render_template, request, redirect, url_for
-from flask_mysqldb import MySQL
 import os
 import re
 
@@ -37,6 +36,8 @@ def pandemic_home():
       Nick.append(i.split(":"))
   nick_file.close()
 
+  del Nick[-1]
+
   cole_temp=[]
   Cole=[]
   cole_file = open("./data/pandemic/Cole.txt", "r")
@@ -45,6 +46,8 @@ def pandemic_home():
     for i in cole_temp:
       Cole.append(i.split(":"))
   cole_file.close()
+
+  del Cole[-1]
 
   cal_temp=[]
   Cal=[]
@@ -55,6 +58,8 @@ def pandemic_home():
       Cal.append(i.split(":"))
   cal_file.close()
 
+  del Cal[-1]
+
   james_temp=[]
   James=[]
   james_file = open("./data/pandemic/James.txt", "r")
@@ -64,16 +69,10 @@ def pandemic_home():
       James.append(i.split(":"))
   james_file.close()
 
-  deck_temp=[]
-  Deck=[]
-  deck_file = open("./data/pandemic/Deck.txt", "r")
-  for x in deck_file:
-    deck_temp.extend(x.split(";"))
-    for i in deck_temp:
-      Deck.append(i.split(":"))
-  deck_file.close()
+  del James[-1]
 
-  return [James, Cole, Nick, Cal, Deck]
+
+  return [James, Cole, Nick, Cal]
 
 ######################################################################################################################################################################
 ######################################################################################################################################################################
@@ -81,12 +80,12 @@ def pandemic_home():
 
 
 def pandemic_game_setup():
-  deck_temp=[]
+  playercards_deck_temp=[]
   James=open("./data/pandemic/James.txt", "w")
   Cole=open("./data/pandemic/Cole.txt", "w")
   Nick=open("./data/pandemic/Nick.txt", "w")
   Cal=open("./data/pandemic/Cal.txt", "w")
-  Deck=open("./data/pandemic/Deck.txt", "w")
+  PlayerCards_Deck=open("./data/pandemic/PlayerCards_Deck.txt", "w")
   James.write("")
   Cole.write("")
   Nick.write("")
@@ -95,64 +94,59 @@ def pandemic_game_setup():
   Cole.close()
   Nick.close()
   Cal.close()
-  Deck.close()
+  PlayerCards_Deck.close()
 
   James=open("./data/pandemic/James.txt", "a")
   Cole=open("./data/pandemic/Cole.txt", "a")
   Nick=open("./data/pandemic/Nick.txt", "a")
   Cal=open("./data/pandemic/Cal.txt", "a")
-  Deck=open("./data/pandemic/Deck.txt", "a")
+  PlayerCards_Deck=open("./data/pandemic/PlayerCards_Deck.txt", "a")
   cities = [["Algiers","Black"],["Atlanta","Blue"],["Baghdad","Black"],["Bangkok","Red"],["Beijing","Red"],["Bogota","Yellow"],["Buenos Aries","Yellow"],["Cairo","Black"],["Chennai","Red"],["Chicago","Blue"],["Delhi","Black"],["Essen","Blue"],["Ho Chi Minh City","Red"],["Hong Kong","Red"],["Istanbul","Black"],["Jakarta","Red"],["Johannesburg","Yellow"],["Karachi","Black"],["Khartoum","Yellow"],["Kinshasa","Yellow"],["Kolkata","Black"],["Lagos","Yellow"],["Lima","Yellow"],["London","Blue"],["Los Angeles","Blue"],["Madrid","Blue"],["Manila","Red"],["Mexico City","Yellow"],["Miami","Yellow"],["Milan","Blue"],["Montreal","Blue"],["Moscow","Black"],["Mumbai","Black"],["New York","Blue"],["Osaka","Red"],["Paris","Blue"],["Riyadh","Black"],["San Francisco","Blue"],["Santiago","Yellow"],["Sao Paulo","Yellow"],["Seoul","Red"],["Shanghai","Red"],["St. Petersburg","Blue"],["Sydney","Red"],["Taipei","Red"],["Tehran","Black"],["Tokyo","Red"],["Washington","Blue"]]
-  events = [["Resilient Population","Remove any 1 card in the infection discard pile from the game"],["Forecast","Draw, look at, and rearrange the top 6 cards of the infection deck. Put them back on top"],["Government grant","Add 1 research station to any city (no city card needed)"],["One quiet night","Skip the next infect cities step (do not flip over any infection cards)"],["Airlift","Move an 1 pawn to any city. Get permission before moving another player's pawn"]]
-  Start_Deck=[]
+  events = [["Resilient Population","Remove any 1 card in the infection discard pile from the game"],["Forecast","Draw, look at, and rearrange the top 6 cards of the infection playercards_deck. Put them back on top"],["Government grant","Add 1 research station to any city (no city card needed)"],["One quiet night","Skip the next infect cities step (do not flip over any infection cards)"],["Airlift","Move an 1 pawn to any city. Get permission before moving another player's pawn"]]
+  Start_PlayerCards_Deck=[]
   q1=[]
   q2=[]
   q3=[]
   q4=[]
-  Start_Deck.extend(cities)
-  Start_Deck.extend(events) # puts the cities and event cards into the deck
+  Start_PlayerCards_Deck.extend(cities)
+  Start_PlayerCards_Deck.extend(events) # puts the cities and event cards into the playercards_deck
 
-  random.shuffle(Start_Deck)
+  random.shuffle(Start_PlayerCards_Deck)
 
-  for i in range (0,12,4):
-    James.write(Start_Deck[i][0]+":"+Start_Deck[i][1]+";")
-    Cole.write(Start_Deck[i+1][0]+":"+Start_Deck[i+1][1]+";")
-    Cal.write(Start_Deck[i+2][0]+":"+Start_Deck[i+2][1]+";")
-    Nick.write(Start_Deck[i+3][0]+":"+Start_Deck[i+3][1]+";")
+  for i in range (0,16,4):
+    James.write(Start_PlayerCards_Deck[i][0]+":"+Start_PlayerCards_Deck[i][1]+";")
+    Cole.write(Start_PlayerCards_Deck[i+1][0]+":"+Start_PlayerCards_Deck[i+1][1]+";")
+    Cal.write(Start_PlayerCards_Deck[i+2][0]+":"+Start_PlayerCards_Deck[i+2][1]+";")
+    Nick.write(Start_PlayerCards_Deck[i+3][0]+":"+Start_PlayerCards_Deck[i+3][1]+";")
+
   
-  for i in range (12,16,4):
-    James.write(Start_Deck[i][0]+":"+Start_Deck[i][1])
-    Cole.write(Start_Deck[i+1][0]+":"+Start_Deck[i+1][1])
-    Cal.write(Start_Deck[i+2][0]+":"+Start_Deck[i+2][1])
-    Nick.write(Start_Deck[i+3][0]+":"+Start_Deck[i+3][1])
-  
-  del Start_Deck[0:15]
+  del Start_PlayerCards_Deck[0:15]
 
-  q1=Start_Deck[0:10]
+  q1=Start_PlayerCards_Deck[0:10]
   q1.append(["Epidemic","Increase, Infect, Intensify"])
   random.shuffle(q1)
-  q2=Start_Deck[10:20]
+  q2=Start_PlayerCards_Deck[10:20]
   q2.append(["Epidemic","Increase, Infect, Intensify"])
   random.shuffle(q2)
-  q3=Start_Deck[20:29]
+  q3=Start_PlayerCards_Deck[20:29]
   q3.append(["Epidemic","Increase, Infect, Intensify"])
   random.shuffle(q3)
-  q4=Start_Deck[29:38]
+  q4=Start_PlayerCards_Deck[29:38]
   q4.append(["Epidemic","Increase, Infect, Intensify"])
   random.shuffle(q4)
-  deck_temp.extend(q1)
-  deck_temp.extend(q2)
-  deck_temp.extend(q3)
-  deck_temp.extend(q4)
+  playercards_deck_temp.extend(q1)
+  playercards_deck_temp.extend(q2)
+  playercards_deck_temp.extend(q3)
+  playercards_deck_temp.extend(q4)
 
-  for i in deck_temp:
-    Deck.write(i[0]+":"+i[1]+";")
+  for i in playercards_deck_temp:
+    PlayerCards_Deck.write(i[0]+":"+i[1]+";")
 
   James.close()
   Cole.close()
   Nick.close()
   Cal.close()
-  Deck.close()
+  PlayerCards_Deck.close()
 
 ######################################################################################################################################################################
 ######################################################################################################################################################################
@@ -167,29 +161,29 @@ def pandemic_draw_card():
     Nick=open("./data/pandemic/Nick.txt", "a")
     Cal=open("./data/pandemic/Cal.txt", "a")
 
-    deck_temp=[]
-    Deck=[]
-    deck_file = open("./data/pandemic/Deck.txt", "r")
-    for x in deck_file:
-      deck_temp.extend(x.split(";"))
-      for i in deck_temp:
-        Deck.append(i.split(":"))
-    deck_file.close()
+    playercards_deck_temp=[]
+    PlayerCards_Deck=[]
+    playercards_deck_file = open("./data/pandemic/PlayerCards_Deck.txt", "r")
+    for x in playercards_deck_file:
+      playercards_deck_temp.extend(x.split(";"))
+      for i in playercards_deck_temp:
+        PlayerCards_Deck.append(i.split(":"))
+    playercards_deck_file.close()
 
 
     if details['action'] == 'James Draw Card':
-      James.write(";"+Deck[0][0]+":"+Deck[0][1])
+      James.write(PlayerCards_Deck[0][0]+":"+PlayerCards_Deck[0][1]+";")
     elif details['action'] == 'Nick Draw Card':
-      Nick.write(";"+Deck[0][0]+":"+Deck[0][1])
+      Nick.write(PlayerCards_Deck[0][0]+":"+PlayerCards_Deck[0][1]+";")
     elif details['action'] == 'Cole Draw Card':
-      Cole.write(";"+Deck[0][0]+":"+Deck[0][1])
+      Cole.write(PlayerCards_Deck[0][0]+":"+PlayerCards_Deck[0][1]+";")
     else:
-      Cal.write(";"+Deck[0][0]+":"+Deck[0][1])
+      Cal.write(PlayerCards_Deck[0][0]+":"+PlayerCards_Deck[0][1]+";")
     
-    del Deck[0]
-    deck_file = open("./data/pandemic/Deck.txt", "w")
-    for i in range(len(Deck)-1):
-      deck_file.write(Deck[i][0]+":"+Deck[i][1]+";")
+    del PlayerCards_Deck[0]
+    playercards_deck_file = open("./data/pandemic/PlayerCards_Deck.txt", "w")
+    for i in range(len(PlayerCards_Deck)-1):
+      playercards_deck_file.write(PlayerCards_Deck[i][0]+":"+PlayerCards_Deck[i][1]+";")
     
 
 

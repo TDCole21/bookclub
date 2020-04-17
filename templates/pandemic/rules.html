@@ -1,0 +1,108 @@
+<style>
+    table, th, td {
+      border: 1px solid grey;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 15px;
+    }
+    .boxed {
+    background-color:whitesmoke;
+    padding: 1px;
+}
+</style>
+  
+{%extends 'layouts/layout_pandemic.html'%}
+  
+{%block body%}
+<br>
+<table style="width:75%">
+<tr><th colspan="2"><center><h3>Play</h3></center></th></tr>
+<tr><td>
+Each player turn is divided into 3 parts:
+<li>Do 4 actions.</li>
+<li>Draw 2 Player cards.</li>
+<li>Infect cities.</li>
+After a player is done infecting cities,<br>the player underneath goes next.
+</td><td>
+Players should freely give each other advice.<br>
+Let everyone offer opinions and ideas.<br>
+However, the player whose turn it is decides what to do.<br>
+Your hand can have City and Event cards in it.<br>
+City cards are used in some actions and Event cards can be played at any time.
+</td></tr>
+</table>
+<br><br>
+
+<table style="width:75%">
+  <tr><th colspan="2"><center><h3>Actions</h3></center></th></tr>
+  <tr>
+    <th><center>Card Name</center></th>
+    <th><center>Description</center></th>
+  </tr>
+  {% for i in Actions %}
+  <tr>
+    <td>
+      {{i[0]}}
+    </td>
+    <td>
+      {{i[1]}}
+    </td>
+  </tr>
+  {% endfor %}
+  </table>
+  <br><br>
+
+  <table style="width:75%">
+    <tr><th colspan="2"><center><h3>Roles</h3></center></th></tr>
+    <tr>
+      <th><center>Role Name</center></th>
+      <th><center>Description</center></th>
+    </tr>
+    {% for i in Roles %}
+    <tr>
+      <td>
+        {{i[0]}}
+      </td>
+      <td>
+        {{i[1]}}
+      </td>
+    </tr>
+    {% endfor %}
+    </table>
+    <br><br>
+
+    <table style="width:75%">
+      <tr><th colspan="2"><center><h3>Epidemics</h3></center></th></tr>
+      <tr>
+        <th><center>Step</center></th>
+        <th><center>Description</center></th>
+      </tr>
+      <tr>
+        <td>
+          1 - Increase
+        </td>
+        <td>
+          Move the infection rate marker forwards 1 space.
+        </td>
+      </tr>
+      <tr>
+        <td>
+          2 - Infect
+        </td>
+        <td>
+          Draw the bottom card from the infection deck and put 3 cubes on that city. Discard that card.
+        </td>
+      </tr>
+      <tr>
+        <td>
+          3 - Intensify
+        </td>
+        <td>
+          Shuffle the cards in the infection discard pile and put them on top of the infection deck.
+        </td>
+      </tr>
+      </table>
+      <br><br>
+
+  {%endblock%}

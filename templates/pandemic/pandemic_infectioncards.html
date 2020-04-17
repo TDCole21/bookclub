@@ -1,0 +1,48 @@
+<style>
+    table, th, td {
+      border: 1px solid grey;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 15px;
+    }
+    .boxed {
+    background-color:lightgrey;
+    padding: 1px;
+}
+</style>
+  
+{%extends 'layouts/layout_pandemic.html'%}
+  
+{%block body%}
+
+<br><br>
+
+<table style="width:75%">
+  <tr><th colspan="3"><center>Actions</center></th></tr>
+    <tr>
+      <th><center>Infect</center></th>
+      <th><center>Epidemic</center></th>
+    </tr>
+</table>
+
+<br><br>
+
+<table style="width:75%">
+  <tr><th colspan="3"><center>Discard Pile</center></th></tr>
+    <tr>
+      <th><center>City Name</center></th>
+      <th><center>Colour</center></th>
+      <th><center>Action</center></th>
+    </tr>
+    {% for i in InfectDiscardPile %}
+    <tr>
+      <td><center>{{i[0]}}</center></td>
+      <td bgcolor="{{i[1]}}"></td>
+      <td><center>TBA</center></td>
+    </tr>
+    {% endfor %}
+</table>
+
+
+{%endblock%}
