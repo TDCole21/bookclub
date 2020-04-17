@@ -10,7 +10,7 @@ from films import films_edit, films_home
 from games import games_edit, games_home
 from tvshows import tvshows_edit, tvshows_home
 from users import users_edit, users_home
-from home import home_home, home_books_edit, home_films_edit, home_games_edit, home_tvshows_edit
+from home import home_home
 from pandemic import pandemic_game_setup, pandemic_home, pandemic_draw_card, pandemic_use_card
 sys.path.insert(1, '../..')
 

@@ -5,13 +5,12 @@
 <h1 align="center">The Watercooler</h1>
 <h2>{{name}} Page</h2>
 
-<br><br>
+<br>
 
 <form method="POST" action="{{ url_for('__watercooler_films_edit__') }}">
     <center>
     Film's name: <input type = "text" name= "films_name" />
-    and streaming platform: <select name= "streaming_platforms_name">
-        <option >- Choose a Streaming Platform -</option>
+    and streaming platform: <select name= "streaming_platforms_name" multiple>
     {%for i in streaming_platforms_selection%}
         <option >{{ i }}</option>
     {%endfor%}
@@ -24,13 +23,13 @@
     </select>
     <label for="pwd">and password:</label>
     <input type="password" id="pwd" name="users_password"><br><br>
-    <input type = "submit" name="action" value="Add">&nbsp;&nbsp;or&nbsp;&nbsp;<input type = "submit" name="action" value="Remove">
+    <input type = "submit" name="action" value="Add">&nbsp;&nbsp;or&nbsp;&nbsp;<input type = "submit" name="action" value="Remove">&nbsp;&nbsp;|&nbsp;&nbsp;<input type = "submit" name="action" value="Shuffle">&nbsp;&nbsp;or&nbsp;&nbsp;<input type = "submit" name="action" value="Finished">
     </center>
 </form>
 <br><br>
 <H2>Film suggestions:</H2>
 {% for i in films_upcoming_selection %}
-<li><a><b>{{i[0]}}</b> on {{i[2]}}, suggested by {{i[1]}}</a></li>  <!-- i.ID if used a dictionary instead of a list -->
+<li><a><b>{{i[0]}}</b> on {{i[1]}}, suggested by {{i[2]}}</a></li>  <!-- i.ID if used a dictionary instead of a list -->
 {% endfor %}
 
 <br><br>

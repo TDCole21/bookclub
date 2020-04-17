@@ -1,1 +1,1 @@
-Safe:Nick:Netflix:0;The Mandalorian:Nick:Disney +:1;The Alienist:Nick:Netflix:2;
+The Mandalorian:Nick:Disney +:1;Safe:Nick:Netflix:0;The Alienist:Nick:Netflix:2;

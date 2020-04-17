@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for
 import os
 import re
+import random
 
 app = Flask(__name__) #__name__ is for best practice
 
@@ -60,9 +61,18 @@ def tvshows_edit():
     if request.method == "POST":
         details=request.form
         tvshows_name=details['tvshows_name']
-        streaming_platforms_name=details['streaming_platforms_name']
+        streaming_platforms_name=details.getlist('streaming_platforms_name')
         users_name=details['users_name']
         users_password=details['users_password']
+
+        if len(streaming_platforms_name)>0:
+            Streaming_Platforms=""
+            for i in range(len(streaming_platforms_name)-1):
+                Streaming_Platforms=Streaming_Platforms+str(streaming_platforms_name[i])+", "
+            if Streaming_Platforms != "":
+                Streaming_Platforms=Streaming_Platforms[0:len(Streaming_Platforms)-2]+" and "+str(streaming_platforms_name[-1])
+            else:
+                Streaming_Platforms=Streaming_Platforms+str(streaming_platforms_name[-1])
 
         users_temp=[]
         Users=[]
@@ -83,7 +93,7 @@ def tvshows_edit():
                     tvshows_name = re.sub(":", "-", tvshows_name)
                     tvshows_name = re.sub(";", "-", tvshows_name)
                     TVShows=open("./data/watercooler/TVShows.txt", "a")
-                    TVShows.write(tvshows_name+":"+streaming_platforms_name+":"+users_name+":0;")
+                    TVShows.write(tvshows_name+":"+Streaming_Platforms+":"+users_name+":0;")
                 
                 elif details['action'] == 'Remove':
                     tvshows_temp=[]
@@ -103,4 +113,60 @@ def tvshows_edit():
                             pass
                         else:
                             tvshows_file.write(TVShows[i][0]+":"+TVShows[i][1]+":"+TVShows[i][2]+":"+TVShows[i][3]+";") 
- 
+
+
+
+                elif users_name=="Cole" and details['action'] == 'Shuffle':
+                    tvshows_temp=[]
+                    TVShows=[]
+                    tvshows_file = open("./data/watercooler/TVShows.txt", "r")
+                    for x in tvshows_file:
+                        tvshows_temp.extend(x.split(";"))
+                    for i in tvshows_temp:
+                        TVShows.append(i.split(":"))
+                    tvshows_file.close()
+
+                    del TVShows[-1]
+
+                    tvshows_choice = []
+                    for i in range(len(TVShows)):
+                        if TVShows[i][3]=="1":
+                            TVShows[i][3]="0"
+                        if TVShows[i][3]=="0":
+                            tvshows_choice.append(TVShows[i])
+
+                    random.shuffle(tvshows_choice)
+
+                    tvshows_choice[0][3]="1"
+
+                    for i in range(len(TVShows)):
+                        if TVShows[i][3]=="2":
+                            tvshows_choice.append(TVShows[i])
+
+                    tvshows_file = open("./data/watercooler/TVShows.txt", "w")
+                    for i in range(len(tvshows_choice)):
+                        tvshows_file.write(tvshows_choice[i][0]+":"+tvshows_choice[i][1]+":"+tvshows_choice[i][2]+":"+tvshows_choice[i][3]+";") 
+
+
+                
+                elif users_name=="Cole" and details['action'] == 'Finished':
+                    tvshows_temp=[]
+                    TVShows=[]
+                    tvshows_file = open("./data/watercooler/TVShows.txt", "r")
+                    for x in tvshows_file:
+                        tvshows_temp.extend(x.split(";"))
+                    for i in tvshows_temp:
+                        TVShows.append(i.split(":"))
+                    tvshows_file.close()
+
+                    del TVShows[-1]
+
+                    tvshows_choice = []
+                    for i in range(len(TVShows)):
+                        if TVShows[i][3]=="1":
+                            TVShows[i][3]="2"
+
+
+                    tvshows_file = open("./data/watercooler/TVShows.txt", "w")
+                    for i in range(len(TVShows)):
+                        tvshows_file.write(TVShows[i][0]+":"+TVShows[i][1]+":"+TVShows[i][2]+":"+TVShows[i][3]+";") 
