@@ -1,1 +1,1 @@
-St. Petersburg:Blue:;Shanghai:Red:;Taipei:Red:;Ho Chi Minh City:Red:;Airlift::Move any 1 pawn to any city. Get permission before moving another player's pawn;Madrid:Blue:;Forecast::Draw, look at, and rearrange the top 6 cards of the infection deck. Put them back on top;
+Extra Quater::Continue a campaign on Left 4 Dead 2 when Treating a disease.;Borrowed Time::Take 2 extra actions this turn.;

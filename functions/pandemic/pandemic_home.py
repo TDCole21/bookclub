@@ -4,384 +4,399 @@ import os
 import re
 
 ######################################################################################################################################################################
+#####################################################################    HOME    ##############################################################################
 ######################################################################################################################################################################
-######################################################################################################################################################################
-
 
 def pandemic_home():
-  cities_temp=[]
-  Cities=[]
-  cities_file = open("./data/pandemic/Cities.txt", "r")
-  for x in cities_file:
-    cities_temp.extend(x.split(";"))
-    for i in cities_temp:
-      Cities.append(i.split(":"))
-  cities_file.close()
+  Players_temp=[]
+  Players=[]
+  Players_file = open("./data/pandemic/Players.txt", "r")
+  for x in Players_file:
+    Players_temp.extend(x.split(";"))
+    for i in Players_temp:
+      Players.append(i.split(":"))
+  Players_file.close()
 
-  events_temp=[]
-  Events=[]
-  events_file = open("./data/pandemic/Events.txt", "r")
-  for x in events_file:
-    events_temp.extend(x.split(";"))
-    for i in events_temp:
-      Events.append(i.split(":"))
-  events_file.close()
+  if len(Players)!=0:
+      del Players[-1]
 
-  nick_temp=[]
-  Nick=[]
-  nick_file = open("./data/pandemic/Nick.txt", "r")
-  for x in nick_file:
-    nick_temp.extend(x.split(";"))
-    for i in nick_temp:
-      Nick.append(i.split(":"))
-  nick_file.close()
+  player_hands=[]
 
-  del Nick[-1]
+  for i in Players:
+    temp=[]
+    name=i
+    file = open("./data/pandemic/"+str(i[0])+".txt", "r")
+    for x in file:
+      temp.extend(x.split(";"))
+      for i in temp:
+        name.append(i.split(":"))
+    file.close()
 
-  cole_temp=[]
-  Cole=[]
-  cole_file = open("./data/pandemic/Cole.txt", "r")
-  for x in cole_file:
-    cole_temp.extend(x.split(";"))
-    for i in cole_temp:
-      Cole.append(i.split(":"))
-  cole_file.close()
+    if len(name)!=0:
+      del name[-1]
+    player_hands.append(name)
 
-  del Cole[-1]
+  Epidemics=[]
+  Epidemics_temp=[]
+  Epidemics_file = open("./data/pandemic/Epidemics.txt", "r")
+  for x in Epidemics_file:
+    Epidemics_temp.extend(x.split(";"))
+    for i in Epidemics_temp:
+      Epidemics.append(i.split(":"))
+  Epidemics_file.close()
 
-  cal_temp=[]
-  Cal=[]
-  cal_file = open("./data/pandemic/Cal.txt", "r")
-  for x in cal_file:
-    cal_temp.extend(x.split(";"))
-    for i in cal_temp:
-      Cal.append(i.split(":"))
-  cal_file.close()
+  if len(Epidemics)!=0:
+    del Epidemics[-1]
 
-  del Cal[-1]
+  player_hands.append(Epidemics)
+  player_hands.append(Players)
 
-  james_temp=[]
-  James=[]
-  james_file = open("./data/pandemic/James.txt", "r")
-  for x in james_file:
-    james_temp.extend(x.split(";"))
-    for i in james_temp:
-      James.append(i.split(":"))
-  james_file.close()
-
-  del James[-1]
-
-
-  return [James, Cole, Nick, Cal]
+  return player_hands
 
 ######################################################################################################################################################################
+########################################################################    OUTBREAK    ################################################################################
 ######################################################################################################################################################################
+
+def pandemic_outbreak():
+  if request.method == "POST":
+    details=request.form
+    Epidemics=[]
+    Epidemics_temp=[]
+    Epidemics_file = open("./data/pandemic/Epidemics.txt", "r")
+    for x in Epidemics_file:
+      Epidemics_temp.extend(x.split(";"))
+      for i in Epidemics_temp:
+        Epidemics.append(i.split(":"))
+    Epidemics_file.close()
+
+    if len(Epidemics)!=0:
+      del Epidemics[-1] 
+
+    if details['action']=="↑":
+      Epidemics[0][1]=str(int(Epidemics[0][1])+1)
+    elif details['action']=="↓":
+      Epidemics[0][1]=str(int(Epidemics[0][1])-1)
+
+    Epidemics_file = open("./data/pandemic/Epidemics.txt", "w")
+    for i in range(len(Epidemics)):
+      Epidemics_file.write(Epidemics[i][0]+":"+Epidemics[i][1]+":"+Epidemics[i][2]+";")
+    Epidemics_file.close()
+
+  
+######################################################################################################################################################################
+##################################################################    NEW GAME    #########################################################################
 ######################################################################################################################################################################
 
 
 def pandemic_game_setup():
-  playercards_deck_temp=[]
-  James=open("./data/pandemic/James.txt", "w")
-  Cole=open("./data/pandemic/Cole.txt", "w")
-  Nick=open("./data/pandemic/Nick.txt", "w")
-  Cal=open("./data/pandemic/Cal.txt", "w")
-  PlayerCards_Deck=open("./data/pandemic/PlayerCards_Deck.txt", "w")
-  James.write("")
-  Cole.write("")
-  Nick.write("")
-  Cal.write("")
-  James.close()
-  Cole.close()
-  Nick.close()
-  Cal.close()
-  PlayerCards_Deck.close()
+  if request.method == "POST":
+    details=request.form
 
-  James=open("./data/pandemic/James.txt", "a")
-  Cole=open("./data/pandemic/Cole.txt", "a")
-  Nick=open("./data/pandemic/Nick.txt", "a")
-  Cal=open("./data/pandemic/Cal.txt", "a")
-  PlayerCards_Deck=open("./data/pandemic/PlayerCards_Deck.txt", "a")
-  cities = [["Algiers","Black"],["Atlanta","Blue"],["Baghdad","Black"],["Bangkok","Red"],["Beijing","Red"],["Bogota","Yellow"],["Buenos Aries","Yellow"],["Cairo","Black"],["Chennai","Red"],["Chicago","Blue"],["Delhi","Black"],["Essen","Blue"],["Ho Chi Minh City","Red"],["Hong Kong","Red"],["Istanbul","Black"],["Jakarta","Red"],["Johannesburg","Yellow"],["Karachi","Black"],["Khartoum","Yellow"],["Kinshasa","Yellow"],["Kolkata","Black"],["Lagos","Yellow"],["Lima","Yellow"],["London","Blue"],["Los Angeles","Blue"],["Madrid","Blue"],["Manila","Red"],["Mexico City","Yellow"],["Miami","Yellow"],["Milan","Blue"],["Montreal","Blue"],["Moscow","Black"],["Mumbai","Black"],["New York","Blue"],["Osaka","Red"],["Paris","Blue"],["Riyadh","Black"],["San Francisco","Blue"],["Santiago","Yellow"],["Sao Paulo","Yellow"],["Seoul","Red"],["Shanghai","Red"],["St. Petersburg","Blue"],["Sydney","Red"],["Taipei","Red"],["Tehran","Black"],["Tokyo","Red"],["Washington","Blue"]]
-  events = [["Resilient Population","Remove any 1 card in the infection discard pile from the game"],["Forecast","Draw, look at, and rearrange the top 6 cards of the infection playercards_deck. Put them back on top"],["Government grant","Add 1 research station to any city (no city card needed)"],["One quiet night","Skip the next infect cities step (do not flip over any infection cards)"],["Airlift","Move an 1 pawn to any city. Get permission before moving another player's pawn"]]
-  Start_PlayerCards_Deck=[]
-  q1=[]
-  q2=[]
-  q3=[]
-  q4=[]
-  Start_PlayerCards_Deck.extend(cities)
-  Start_PlayerCards_Deck.extend(events) # puts the cities and event cards into the playercards_deck
+    # Convert difficulty into number of Epidemic cards
+    Difficulty=details['difficulty']
+    if Difficulty == "No Threat":
+      Difficulty=0
+    elif Difficulty == "Introduction":
+      Difficulty=1
+    elif Difficulty == "Easy":
+      Difficulty=2
+    elif Difficulty == "Moderate":
+      Difficulty=3
+    elif Difficulty == "Normal":
+      Difficulty=4
+    elif Difficulty == "Advanced":
+      Difficulty=5
+    elif Difficulty == "Expert":
+      Difficulty=6
 
-  random.shuffle(Start_PlayerCards_Deck)
+    # Resetting gameboard
+    Epidemics_file = open("./data/pandemic/Epidemics.txt", "w")
+    Epidemics_file.write("0:0:"+str(Difficulty)+";")
+    Epidemics_file.close()
 
-  for i in range (0,16,4):
-    James.write(Start_PlayerCards_Deck[i][0]+":"+Start_PlayerCards_Deck[i][1]+";")
-    Cole.write(Start_PlayerCards_Deck[i+1][0]+":"+Start_PlayerCards_Deck[i+1][1]+";")
-    Cal.write(Start_PlayerCards_Deck[i+2][0]+":"+Start_PlayerCards_Deck[i+2][1]+";")
-    Nick.write(Start_PlayerCards_Deck[i+3][0]+":"+Start_PlayerCards_Deck[i+3][1]+";")
 
-  
-  del Start_PlayerCards_Deck[0:15]
+     # Read in Cities from cities file
+    Cities=[]
+    Cities_temp=[]
+    Cities_file = open("./data/pandemic/Cities.txt", "r")
+    for x in Cities_file:
+      Cities_temp.extend(x.split(";"))
+      for i in Cities_temp:
+        Cities.append(i.split(":"))
+    Cities_file.close()
 
-  q1=Start_PlayerCards_Deck[0:10]
-  q1.append(["Epidemic","Increase, Infect, Intensify"])
-  random.shuffle(q1)
-  q2=Start_PlayerCards_Deck[10:20]
-  q2.append(["Epidemic","Increase, Infect, Intensify"])
-  random.shuffle(q2)
-  q3=Start_PlayerCards_Deck[20:29]
-  q3.append(["Epidemic","Increase, Infect, Intensify"])
-  random.shuffle(q3)
-  q4=Start_PlayerCards_Deck[29:38]
-  q4.append(["Epidemic","Increase, Infect, Intensify"])
-  random.shuffle(q4)
-  playercards_deck_temp.extend(q1)
-  playercards_deck_temp.extend(q2)
-  playercards_deck_temp.extend(q3)
-  playercards_deck_temp.extend(q4)
+    if len(Cities)!=0:
+      del Cities[-1] 
 
-  for i in playercards_deck_temp:
-    PlayerCards_Deck.write(i[0]+":"+i[1]+";")
 
-  James.close()
-  Cole.close()
-  Nick.close()
-  Cal.close()
-  PlayerCards_Deck.close()
+    # Read in Events from events file
+    Events=[]
+    Events_temp=[]
+    Events_file = open("./data/pandemic/Events.txt", "r")
+    for x in Events_file:
+      Events_temp.extend(x.split(";"))
+      for i in Events_temp:
+        Events.append(i.split(":"))
+    Events_file.close()
+
+    if len(Events)!=0:
+      del Events[-1]   
+
+    # Read in Roles from roles file
+    Roles=[]
+    Roles_temp=[]
+    Roles_file = open("./data/pandemic/Roles.txt", "r")
+    for x in Roles_file:
+      Roles_temp.extend(x.split(";"))
+      for i in Roles_temp:
+        Roles.append(i.split(":"))
+    Roles_file.close()
+
+    if len(Roles)!=0:
+      del Roles[-1]  
+      random.shuffle(Roles)
+
+
+    # Read all possible Users from events file
+    Users=[]
+    Users_temp=[]
+    Users_file = open("./data/Users.txt", "r")
+    for x in Users_file:
+      Users_temp.extend(x.split(";"))
+      for i in Users_temp:
+        Users.append(i.split(":"))
+    Users_file.close()
+
+    if len(Users)!=0:
+      del Users[-1]   
+
+    for n in range(len(Users)):
+      if os.path.exists("./data/pandemic/"+str(Users[n][0])+".txt"):
+        os.remove("./data/pandemic/"+str(Users[n][0])+".txt")
+
+
+
+    # Reset Deck/Hands
+    Players=details.getlist('players')
+    PlayerCards_Deck=open("./data/pandemic/PlayerCards_Deck.txt", "w")
+
+    PlayerCards_Discard=open("./data/pandemic/PlayerCards_Discard.txt", "w")
+    PlayerCards_Discard.close()
+
+    InfectionCards_Deck=open("./data/pandemic/InfectionCards_Deck.txt", "w")
+    for i in range(len(Cities)):
+      InfectionCards_Deck.write(Cities[i][0]+":"+Cities[i][1]+":"+Cities[i][2]+";")
+    InfectionCards_Deck.close()
+
+    InfectionCards_Discard=open("./data/pandemic/InfectionCards_Discard.txt", "w")
+    InfectionCards_Discard.close()
+
+    InfectionCards_Removed=open("./data/pandemic/InfectionCards_Removed.txt", "w")
+    InfectionCards_Removed.close()
+
+
+    # Write Players.txt
+    Players_file=open("./data/pandemic/Players.txt", "w")
+    for i in range(len(Players)):
+      Players_file.write(Players[i]+":"+Roles[i][0]+":"+Roles[i][1]+";")
+    Players_file.close()
+
+
+
+    Start_PlayerCards_Deck=[]
+    temp=[]
+
+
+
+    Start_PlayerCards_Deck.extend(Cities)
+    Start_PlayerCards_Deck.extend(Events) # puts the cities and event cards into the playercards_deck
+
+    random.shuffle(Start_PlayerCards_Deck)
+
+    number_of_players=len(Players)
+    deck_size=len(Start_PlayerCards_Deck)
+
+    if number_of_players>=4:
+      for n in range(len(Players)):
+        Players[n]=open("./data/pandemic/"+Players[n]+".txt", "w")
+        for i in range(n,number_of_players*2,number_of_players):
+          Players[n].write(Start_PlayerCards_Deck[i][0]+":"+Start_PlayerCards_Deck[i][1]+":"+Start_PlayerCards_Deck[i][2]+";")
+        Players[n].close()
+      del Start_PlayerCards_Deck[0:(number_of_players*4)-1]
+
+    elif number_of_players==3:
+      for n in range(len(Players)):
+        Players[n]=open("./data/pandemic/"+Players[n]+".txt", "w")
+        for i in range(n,number_of_players*3,number_of_players):
+          Players[n].write(Start_PlayerCards_Deck[i][0]+":"+Start_PlayerCards_Deck[i][1]+":"+Start_PlayerCards_Deck[i][2]+";")
+        Players[n].close()
+      del Start_PlayerCards_Deck[0:(number_of_players*4)-1]
+
+    elif number_of_players==2:
+      for n in range(len(Players)):
+        Players[n]=open("./data/pandemic/"+Players[n]+".txt", "w")
+        for i in range(n,number_of_players*4,number_of_players):
+          Players[n].write(Start_PlayerCards_Deck[i][0]+":"+Start_PlayerCards_Deck[i][1]+":"+Start_PlayerCards_Deck[i][2]+";")
+        Players[n].close()
+      del Start_PlayerCards_Deck[0:(number_of_players*4)-1]
+
+    elif number_of_players==1:
+      for n in range(len(Players)):
+        Players[n]=open("./data/pandemic/"+Players[n]+".txt", "w")
+        for i in range(n,number_of_players*5,number_of_players):
+          Players[n].write(Start_PlayerCards_Deck[i][0]+":"+Start_PlayerCards_Deck[i][1]+":"+Start_PlayerCards_Deck[i][2]+";")
+        Players[n].close()
+      del Start_PlayerCards_Deck[0:(number_of_players*4)-1]
+
+    PlayerCards_Deck_temp=[]
+    if Difficulty ==0:
+      quater=Start_PlayerCards_Deck
+      random.shuffle(quater)
+      for n in range(len(quater)):
+        PlayerCards_Deck.write(quater[n][0]+":"+quater[n][1]+":"+quater[n][2]+";")
+
+    else:
+      for i in range(1,Difficulty+1):
+        quater=Start_PlayerCards_Deck[int(i*(deck_size/Difficulty)-deck_size/Difficulty):int(i*deck_size/Difficulty)]
+        quater.append(["Epidemic","","Increase, Infect, Intensify"])
+        random.shuffle(quater)
+        for n in range(len(quater)):
+          PlayerCards_Deck.write(quater[n][0]+":"+quater[n][1]+":"+quater[n][2]+";")
+
+
+    PlayerCards_Deck.close()
 
 ######################################################################################################################################################################
-######################################################################################################################################################################
+######################################################################    CHANGE ROLE    #############################################################################
 ######################################################################################################################################################################
 
+def pandemic_change_role():
+  return ""
+
+
+######################################################################################################################################################################
+######################################################################    ADD PLAYER    #############################################################################
+######################################################################################################################################################################
+
+def pandemic_add_player():
+  return ""
+
+######################################################################################################################################################################
+######################################################################    DRAW CARD    #############################################################################
+######################################################################################################################################################################
 
 def pandemic_draw_card():
   if request.method == "POST":
     details=request.form
-    James=open("./data/pandemic/James.txt", "a")
-    Cole=open("./data/pandemic/Cole.txt", "a")
-    Nick=open("./data/pandemic/Nick.txt", "a")
-    Cal=open("./data/pandemic/Cal.txt", "a")
 
-    playercards_deck_temp=[]
+    PlayerCards_deck_temp=[]
     PlayerCards_Deck=[]
-    playercards_deck_file = open("./data/pandemic/PlayerCards_Deck.txt", "r")
-    for x in playercards_deck_file:
-      playercards_deck_temp.extend(x.split(";"))
-      for i in playercards_deck_temp:
+    PlayerCards_deck_file = open("./data/pandemic/PlayerCards_Deck.txt", "r")
+    for x in PlayerCards_deck_file:
+      PlayerCards_deck_temp.extend(x.split(";"))
+      for i in PlayerCards_deck_temp:
         PlayerCards_Deck.append(i.split(":"))
-    playercards_deck_file.close()
+    PlayerCards_deck_file.close()
+
+    if len(PlayerCards_Deck)!=0:
+      del PlayerCards_Deck[-1] 
 
 
-    if details['action'] == 'James Draw Card':
-      James.write(PlayerCards_Deck[0][0]+":"+PlayerCards_Deck[0][1]+";")
-    elif details['action'] == 'Nick Draw Card':
-      Nick.write(PlayerCards_Deck[0][0]+":"+PlayerCards_Deck[0][1]+";")
-    elif details['action'] == 'Cole Draw Card':
-      Cole.write(PlayerCards_Deck[0][0]+":"+PlayerCards_Deck[0][1]+";")
-    else:
-      Cal.write(PlayerCards_Deck[0][0]+":"+PlayerCards_Deck[0][1]+";")
-    
-    del PlayerCards_Deck[0]
-    playercards_deck_file = open("./data/pandemic/PlayerCards_Deck.txt", "w")
-    for i in range(len(PlayerCards_Deck)-1):
-      playercards_deck_file.write(PlayerCards_Deck[i][0]+":"+PlayerCards_Deck[i][1]+";")
-    
+    Hand_temp=[]
+    Hand=[]
+    Hand_file = open("./data/pandemic/"+details['action']+".txt", "r")
+    for x in Hand_file:
+      Hand_temp.extend(x.split(";"))
+      for i in Hand_temp:
+        Hand.append(i.split(":"))
+    Hand_file.close()
 
+    if len(Hand)!=0:
+      del Hand[-1] 
 
-    James.close()
-    Cole.close()
-    Nick.close()
-    Cal.close()
+    if len(Hand)<=8:
+      file=open("./data/pandemic/"+details['action']+".txt", "a")
+      file.write(PlayerCards_Deck[0][0]+":"+PlayerCards_Deck[0][1]+":"+PlayerCards_Deck[0][2]+";")
+      file.close()
+
+      del PlayerCards_Deck[0]
+      PlayerCards_Deck_file = open("./data/pandemic/PlayerCards_Deck.txt", "w")
+      for i in range(len(PlayerCards_Deck)):
+        PlayerCards_Deck_file.write(PlayerCards_Deck[i][0]+":"+PlayerCards_Deck[i][1]+":"+PlayerCards_Deck[i][2]+";")
+      PlayerCards_Deck_file.close
+
 
 ######################################################################################################################################################################
-######################################################################################################################################################################
+###################################################################    USE CARD    #######################################################################
 ######################################################################################################################################################################
 
 
 def pandemic_use_card():
   if request.method == "POST":
     details=request.form
-    nick_temp=[]
-    Nick=[]
-    nick_file = open("./data/pandemic/Nick.txt", "r")
-    for x in nick_file:
-      nick_temp.extend(x.split(";"))
-      for i in nick_temp:
-        Nick.append(i.split(":"))
-    nick_file.close()
+    names=details['action']
+    info=names.split(":")
 
-    cole_temp=[]
-    Cole=[]
-    cole_file = open("./data/pandemic/Cole.txt", "r")
-    for x in cole_file:
-      cole_temp.extend(x.split(";"))
-      for i in cole_temp:
-        Cole.append(i.split(":"))
-    cole_file.close()
+    Hand_temp=[]
+    Hand=[]
+    Hand_file = open("./data/pandemic/"+str(info[0])+".txt", "r")
+    for x in Hand_file:
+      Hand_temp.extend(x.split(";"))
+      for i in Hand_temp:
+        Hand.append(i.split(":"))
+    Hand_file.close()
 
-    cal_temp=[]
-    Cal=[]
-    cal_file = open("./data/pandemic/Cal.txt", "r")
-    for x in cal_file:
-      cal_temp.extend(x.split(";"))
-      for i in cal_temp:
-        Cal.append(i.split(":"))
-    cal_file.close()
+    if len(Hand)!=0:
+      del(Hand[-1])
+    
+    card=str(info[1])
+    for i in range(len(Hand)):
+        if Hand[i][0]==card:
+            PlayerCards_Discard_file = open("./data/pandemic/PlayerCards_Discard.txt", "a")
+            PlayerCards_Discard_file.write(Hand[i][0]+":"+Hand[i][1]+":"+Hand[i][2]+";")
+            PlayerCards_Discard_file.close()
+            del Hand[i]
+            break
+    
+    Hand_file = open("./data/pandemic/"+str(info[0])+".txt", "w")
+    for i in range(len(Hand)):
+        Hand_file.write(Hand[i][0]+":"+Hand[i][1]+":"+Hand[i][2]+";")
+    Hand_file.close()
 
-    james_temp=[]
-    James=[]
-    james_file = open("./data/pandemic/James.txt", "r")
-    for x in james_file:
-      james_temp.extend(x.split(";"))
-      for i in james_temp:
-        James.append(i.split(":"))
-    james_file.close()
-
-
-    if re.search("^James", details['action']):
-      string=str(details['action'])
-      num=int(string[-1])
-      del James[num]
-
-      length=len(James)-1
-
-      james_file = open("./data/pandemic/James.txt", "w")
-      for i in range(len(James)-1):
-        james_file.write(James[i][0]+":"+James[i][1]+";")
-      james_file.write(James[length][0]+":"+James[length][1])
-      james_file.close()
-
-    elif re.search("^Cole", details['action']):
-      string=str(details['action'])
-      num=int(string[-1])
-      del Cole[num]
-
-      length=len(Cole)-1
-
-      cole_file = open("./data/pandemic/Cole.txt", "w")
-      for i in range(len(Cole)-1):
-        cole_file.write(Cole[i][0]+":"+Cole[i][1]+";")
-      cole_file.write(Cole[length][0]+":"+Cole[length][1])
-      cole_file.close()
-     
-
-    elif re.search("^Nick", details['action']):
-      string=str(details['action'])
-      num=int(string[-1])
-      del Nick[num]
-
-      length=len(Nick)-1
-
-      nick_file = open("./data/pandemic/Nick.txt", "w")
-      for i in range(len(Nick)-1):
-        nick_file.write(Nick[i][0]+":"+Nick[i][1]+";")
-      nick_file.write(Nick[length][0]+":"+Nick[length][1])
-      nick_file.close()
-
-    elif re.search("^Cal", details['action']):
-      string=str(details['action'])
-      num=int(string[-1])
-      del Cal[num]
-
-      length=len(Cal)-1
-
-      cal_file = open("./data/pandemic/Cal.txt", "w")
-      for i in range(len(Cal)-1):
-        cal_file.write(Cal[i][0]+":"+Cal[i][1]+";")
-      cal_file.write(Cal[length][0]+":"+Cal[length][1])
-      cal_file.close()
 
 ######################################################################################################################################################################
-######################################################################################################################################################################
+#########################################################################    SHARE KNOWLEDGE    ##########################################################################
 ######################################################################################################################################################################
 
-def pandemic_give_card():
+def pandemic_shareknowledge():
   if request.method == "POST":
     details=request.form
+    players_name=details['players_name']
+    names=details['action']
+    info=names.split(":")
 
-    if re.search("^James", details['action']):
-      #to find which card has been selected
-      string=str(details['action'])
-      num=int(string[-1])
-      james_temp=[]
-      James=[]
-      james_file = open("./data/pandemic/James.txt", "r")
-      for x in james_file:
-        james_temp.extend(x.split(";"))
-        for i in james_temp:
-          James.append(i.split(":"))
-      james_file.close()
-      #save selected card for transfer
-      card_transfer=James[num]
-      #delete selected card from hand
-      del James[num]
+    Hand_temp=[]
+    Hand=[]
+    Hand_file = open("./data/pandemic/"+str(info[0])+".txt", "r")
+    for x in Hand_file:
+      Hand_temp.extend(x.split(";"))
+      for i in Hand_temp:
+        Hand.append(i.split(":"))
+    Hand_file.close()
 
-      # update hand
-      james_file = open("./data/pandemic/James.txt", "w")
-      for i in range(length):
-        james_file.write(James[i][0]+":"+James[i][1]+";")
-      james_file.write(James[length][0]+":"+James[length][1])
-      james_file.close()
+    if len(Hand)!=0:
+        del(Hand[-1])
 
-    elif re.search("^Cole", details['action']):
-      string=str(details['action'])
-      num=int(string[-1])
-      cole_temp=[]
-      Cole=[]
-      cole_file = open("./data/pandemic/Cole.txt", "r")
-      for x in cole_file:
-        cole_temp.extend(x.split(";"))
-        for i in cole_temp:
-          Cole.append(i.split(":"))
-      cole_file.close()
-      del Cole[num]
+    card=str(info[1])
+    for i in range(len(Hand)):
+        if Hand[i][0]==card:
+            file = open("./data/pandemic/"+players_name+".txt", "a")
+            file.write(Hand[i][0]+":"+Hand[i][1]+":"+Hand[i][2]+";")
+            file.close()
+            del Hand[i]
+            break
 
-      length=len(Cole)-1
-
-      cole_file = open("./data/pandemic/Cole.txt", "w")
-      for i in range(len(Cole)-1):
-        cole_file.write(Cole[i][0]+":"+Cole[i][1]+";")
-      cole_file.write(Cole[length][0]+":"+Cole[length][1])
-      cole_file.close()
-     
-
-    elif re.search("^Nick", details['action']):
-      string=str(details['action'])
-      num=int(string[-1])
-      nick_temp=[]
-      Nick=[]
-      nick_file = open("./data/pandemic/Nick.txt", "r")
-      for x in nick_file:
-        nick_temp.extend(x.split(";"))
-        for i in nick_temp:
-          Nick.append(i.split(":"))
-      nick_file.close()
-      del Nick[num]
-
-      length=len(Nick)-1
-
-      nick_file = open("./data/pandemic/Nick.txt", "w")
-      for i in range(len(Nick)-1):
-        nick_file.write(Nick[i][0]+":"+Nick[i][1]+";")
-      nick_file.write(Nick[length][0]+":"+Nick[length][1])
-      nick_file.close()
-
-    elif re.search("^Cal", details['action']):
-      string=str(details['action'])
-      num=int(string[-1])
-      cal_temp=[]
-      Cal=[]
-      cal_file = open("./data/pandemic/Cal.txt", "r")
-      for x in cal_file:
-        cal_temp.extend(x.split(";"))
-        for i in cal_temp:
-          Cal.append(i.split(":"))
-      cal_file.close()
-      del Cal[num]
-
-      length=len(Cal)-1
-
-      cal_file = open("./data/pandemic/Cal.txt", "w")
-      for i in range(len(Cal)-1):
-        cal_file.write(Cal[i][0]+":"+Cal[i][1]+";")
-      cal_file.write(Cal[length][0]+":"+Cal[length][1])
-      cal_file.close()
+      
+    playercards_discard_file = open("./data/pandemic/"+str(info[0])+".txt", "w")
+    for i in range(len(Hand)):
+        playercards_discard_file.write(Hand[i][0]+":"+Hand[i][1]+":"+Hand[i][2]+";")

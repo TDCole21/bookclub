@@ -13,7 +13,7 @@
     <input type="text" id="username" name="users_name"><br>
     <label for="pwd">Password:</label>
     <input type="text" id="pwd" name="users_password"><br><br>
-    <input type = "submit" name="action" value="Add">&nbsp;&nbsp;or&nbsp;&nbsp;<input type = "submit" name="action" value="Remove">
+    {% if 6 > users_selection|length %} <input type = "submit" name="action" value="Add">&nbsp;&nbsp;or&nbsp;&nbsp;{% endif %}<input type = "submit" name="action" value="Remove">
     </center>
 </form>
 

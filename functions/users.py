@@ -27,7 +27,18 @@ def users_edit():
         users_name=details['users_name']
         users_password=details['users_password']
 
-        if details['action'] == 'Add':
+        users_temp=[]
+        Users=[]
+        users_file = open("./data/Users.txt", "r")
+        for x in users_file:
+            users_temp.extend(x.split(";"))
+        for i in users_temp:
+            Users.append(i.split(":"))
+        users_file.close()
+
+        del Users[-1]
+
+        if len(Users)<7 and details['action'] == 'Add':
             users_password = re.sub("^\s*", "", users_password)
             users_password = re.sub(":", "-", users_password)
             users_password = re.sub(";", "-", users_password)

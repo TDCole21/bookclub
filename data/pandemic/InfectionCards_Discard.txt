@@ -1,1 +1,0 @@
-Karachi:Black:;Algiers:Black:;Delhi:Black:;Essen:Blue:;Jakarta:Red:;Lagos:Yellow:;Montreal:Blue:;New York:Blue:;São Paulo:Yellow:;San Francisco:Blue:;Seoul:Red:;Buenos Aires:Yellow:;

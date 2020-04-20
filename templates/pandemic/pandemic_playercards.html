@@ -1,0 +1,56 @@
+<style>
+    table, th, td {
+      border: 1px solid grey;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 15px;
+    }
+    .boxed {
+    background-color:lightgrey;
+    padding: 1px;
+}
+</style>
+  
+{%extends 'layouts/layout_pandemic.html'%}
+  
+{%block body%}
+<br><br>
+<h3>Player Cards</h3>
+
+<br>
+
+
+<table style="width:75%">
+  <tr><th colspan="3"><center>Discard Pile</center></th></tr>
+    <tr>
+      <th><center>City Name</center></th>
+      <th><center>Colour/Description</center></th>
+      <th><center>Action</center></th>
+    </tr>
+    {% for i in PlayerCardsDiscardPile %}
+    <tr>
+        <td><center>{{i[0]}}</center></td>
+        {% if i[1]!="" %}
+          <td bgcolor="{{i[1]}}"></td>
+        {% else %}
+          <td><center>{{i[2]}}</center></td>
+        {% endif %}
+      <td>
+        <form method="POST" action="{{ url_for('__pandemic_playercards_recover__') }}">
+          <center>
+          Select Player: <select name= "players_name">
+          {%for n in Players%}
+              <option >{{ n[0] }}</option>
+          {%endfor%}
+          </select>
+          <button type = "submit" name="action" value="{{i[0]}}">Recover</button>
+          </center>
+      </form>
+      </td>
+    </tr>
+    {% endfor %}
+</table>
+
+
+{%endblock%}

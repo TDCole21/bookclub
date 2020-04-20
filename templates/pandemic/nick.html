@@ -1,0 +1,65 @@
+<style>
+    table, th, td {
+      border: 1px solid grey;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 15px;
+    }
+</style>
+  
+{%extends 'layouts/layout_pandemic.html'%}
+  
+{%block body%}
+<br><br>
+<table style="width:75%">
+  <tr>
+    <th colspan="3"><center>
+      <form method="POST" action="{{ url_for('__pandemic_nick_draw_card__') }}">{{Nick[0]}}'s Hand<br><hr>
+      <button type = "submit" name="action" value="{{Nick[0]}}">Draw Card</button>
+      </form> </center>
+    </th>
+  <tr><td colspan="3"><center><b>{{Nick[1]}}:</b> {{Nick[2]}}</center></td></tr>
+  <tr>
+    <th><center>Card Name</center></th>
+    <th><center>Colour/Description</center></th>
+    <th><center>Action</center></th>
+  </tr>
+      {% for i in Nick[3:] %}
+      <tr>
+        <td><center>{{i[0]}}</center></td>
+        {% if i[1]!="" %}
+          <td bgcolor="{{i[1]}}"></td>
+        {% else %}
+          <td><center>{{i[2]}}</center></td>
+        {% endif %}
+        <td>
+          <form method="POST" action="{{ url_for('__pandemic_nick_use_card__') }}">
+            <center>
+              <button type = "submit" name="action" value="Nick:{{i[0]}}">Play Card</button>
+            </center>
+          </form>
+          <hr>
+          <form method="POST" action="{{ url_for('__pandemic_nick_shareknowledge__') }}">
+            <center>
+              Select Player: <select name= "players_name">
+                {%for n in Players%}
+                    <option >{{ n[0] }}</option>
+                {%endfor%}
+              </select>
+              <button type = "submit" name="action" value="Nick:{{i[0]}}">Share Knowledge</button>
+            </center>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+  </table>
+
+
+
+
+
+
+
+
+{%endblock%}

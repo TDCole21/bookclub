@@ -1,0 +1,44 @@
+<style>
+    table, th, td {
+      border: 1px solid grey;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 15px;
+    }
+</style>
+  
+{%extends 'layouts/layout_pandemic.html'%}
+  
+{%block body%}
+<br><br>
+
+<table style="width:75%">
+    <tr><th colspan="2"><center><h3>New Game</h3></center></th></tr>
+    <tr>
+      <td>
+        <form method="POST" action="{{ url_for('__pandemic_newgame_start__') }}">
+            <center>
+            <b>Who's Playing?</b>&nbsp;&nbsp;&nbsp;&nbsp;<select name="players" size="6" multiple>
+            {%for i in Users%}
+                <option >{{ i[0] }}</option>
+            {%endfor%}
+            </select><br><hr>
+            <b>What Difficulty?</b>&nbsp;&nbsp;&nbsp;&nbsp;<select name= "difficulty">
+                <option >No Threat</option>
+                <option >Introduction</option>
+                <option >Easy</option>
+                <option >Moderate</option>
+                <option >Normal</option>
+                <option >Advanced</option>
+                <option >Expert</option>
+            </select><br><hr>
+            <input type = "submit" name="action" value="Let's Play">
+            </center>
+        </form>
+      </td>
+    </tr>
+    </table>
+    <br><br>
+
+{%endblock%}

@@ -12,9 +12,10 @@ from watercooler_games import games_edit, games_home
 from watercooler_tvshows import tvshows_edit, tvshows_home
 from watercooler_home import home_home
 sys.path.insert(1, './functions/pandemic')
-from pandemic_home import pandemic_game_setup, pandemic_home, pandemic_draw_card, pandemic_use_card
+from pandemic_home import pandemic_game_setup, pandemic_home, pandemic_outbreak, pandemic_draw_card, pandemic_use_card, pandemic_shareknowledge
 from pandemic_rules import pandemic_rules
-from pandemic_infectioncards import pandemic_infectioncards_discard
+from pandemic_infectioncards import pandemic_infectioncards_discard, pandemic_infectioncards_remove, pandemic_infectioncards_infect, pandemic_infectioncards_epidemic, pandemic_infectioncards_recover
+from pandemic_playercards import pandemic_playercards_discard, pandemic_playercards_recover
 sys.path.insert(1, '../..')
 
 app = Flask(__name__) #__name__ is for best practice
@@ -39,7 +40,7 @@ def __watercooler_home__():
 
 
 ######################################################################################################################################################################
-###########################################################################    WATERCOOLER BOOKS     ###########################################################################
+###########################################################################    WATERCOOLER BOOKS     #################################################################
 ######################################################################################################################################################################
 
 @app.route('/watercooler/books', methods=['GET', 'POST']) 
@@ -58,7 +59,7 @@ def __watercooler_books_edit__():
 
 
 #######################################################################################################################################################################
-############################################################################    WATERCOOLER FILMS     ############################################################################
+############################################################################    WATERCOOLER FILMS     #################################################################
 #######################################################################################################################################################################
 
 
@@ -81,7 +82,7 @@ def __watercooler_films_edit__():
 
 
 ######################################################################################################################################################################
-###########################################################################    WATERCOOLER GAMES     ###########################################################################
+###########################################################################    WATERCOOLER GAMES     #################################################################
 ######################################################################################################################################################################
 
 @app.route('/watercooler/games', methods=['GET', 'POST']) 
@@ -103,7 +104,7 @@ def __watercooler_games_edit__():
 
 
 ######################################################################################################################################################################
-###########################################################################    WATERCOOLER TVSHOWS     ###########################################################################
+###########################################################################    WATERCOOLER TVSHOWS     ###############################################################
 ######################################################################################################################################################################
 
 @app.route('/watercooler/tvshows', methods=['GET', 'POST']) 
@@ -124,9 +125,9 @@ def __watercooler_tvshows_edit__():
     return redirect(url_for('__watercooler_tvshows_home__'))
 
 
-######################################################################################################################################################################
+#####################################################################################################################################################################
 ###########################################################################     USERS     ###########################################################################
-######################################################################################################################################################################
+#####################################################################################################################################################################
 
 @app.route('/users', methods=['GET', 'POST']) 
 def __users_home__():
@@ -142,38 +143,206 @@ def __users_edit__():
 
 
 ######################################################################################################################################################################
-###########################################################################     PANDEMIC HOME     ###########################################################################
+###########################################################################     PANDEMIC HOME     ####################################################################
 ######################################################################################################################################################################
 
 @app.route('/pandemic/home', methods=['GET', 'POST']) 
 def __pandemic_home__():
     PandemicHome=pandemic_home()
-    James=PandemicHome[0]
-    Cole=PandemicHome[1]
-    Nick=PandemicHome[2]
-    Cal=PandemicHome[3]
+    Cal=PandemicHome[0]
+    Nick=PandemicHome[1]
+    James=PandemicHome[2]
+    Cole=PandemicHome[3]
+    Epidemics=PandemicHome[4]
+    Players=PandemicHome[5]
 
-    return render_template("pandemic/pandemic_home.html", name="Pandemic: Home", Nick=Nick, Cole=Cole, Cal=Cal, James=James)
+    return render_template("pandemic/pandemic_home.html", name="Pandemic: Home", Nick=Nick, Cole=Cole, Cal=Cal, James=James, Epidemics=Epidemics, Players=Players)
 
-
-@app.route('/pandemic/home/newgame', methods=['GET', 'POST']) 
-def __pandemic_newgame__():
-    pandemic_game_setup()
-    return redirect(url_for('__pandemic_home__'))
-
-@app.route('/pandemic/home/drawcard', methods=['GET', 'POST']) 
-def __pandemic_draw_card__():
-    pandemic_draw_card()
-    return redirect(url_for('__pandemic_home__'))
-
-@app.route('/pandemic/home/usecard', methods=['GET', 'POST']) 
-def __pandemic_use_card__():
-    pandemic_use_card()
+@app.route('/pandemic/home/outbreak', methods=['GET', 'POST']) 
+def __pandemic_outbreak__():
+    pandemic_outbreak()
     return redirect(url_for('__pandemic_home__'))
 
 
 ######################################################################################################################################################################
-###########################################################################     PANDEMIC RULES     ###########################################################################
+###########################################################################     PANDEMIC NEW GAME     ####################################################################
+######################################################################################################################################################################
+
+@app.route('/pandemic/home/newgame', methods=['GET', 'POST']) 
+def __pandemic_newgame__():
+    users_home()
+    Users=users_home()
+    return render_template("pandemic/newgame.html", name="Pandemic: New Game", Users=Users, Players=Users)
+
+@app.route('/pandemic/home/newgame/start', methods=['GET', 'POST']) 
+def __pandemic_newgame_start__():
+    pandemic_game_setup()
+    return redirect(url_for('__pandemic_home__'))
+
+
+######################################################################################################################################################################
+###########################################################################     PANDEMIC NICK     ####################################################################
+######################################################################################################################################################################
+
+@app.route('/pandemic/nick/home', methods=['GET', 'POST']) 
+def __pandemic_Nick_home__():
+    PandemicNick=pandemic_home()
+    Nick=PandemicNick[1]
+    Players=PandemicNick[5][:1]+PandemicNick[5][2:]
+
+    return render_template("pandemic/nick.html", name="Pandemic: Nick", Nick=Nick, Players=Players)
+
+
+@app.route('/pandemic/nick/drawcard', methods=['GET', 'POST']) 
+def __pandemic_nick_draw_card__():
+    pandemic_draw_card()
+    return redirect(url_for('__pandemic_Nick_home__'))
+
+@app.route('/pandemic/nick/usecard', methods=['GET', 'POST']) 
+def __pandemic_nick_use_card__():
+    pandemic_use_card()
+    return redirect(url_for('__pandemic_Nick_home__'))
+
+@app.route('/pandemic/nick/shareknowledge', methods=['GET', 'POST']) 
+def __pandemic_nick_shareknowledge__():
+    pandemic_shareknowledge()
+    return redirect(url_for('__pandemic_Nick_home__'))
+
+
+######################################################################################################################################################################
+###########################################################################     PANDEMIC JAMES     ####################################################################
+######################################################################################################################################################################
+
+@app.route('/pandemic/james/home', methods=['GET', 'POST']) 
+def __pandemic_James_home__():
+    PandemicJames=pandemic_home()
+    James=PandemicJames[2]
+    Players=PandemicJames[5][:2]+PandemicJames[5][3:]
+
+    return render_template("pandemic/james.html", name="Pandemic: James", James=James, Players=Players)
+
+
+@app.route('/pandemic/james/drawcard', methods=['GET', 'POST']) 
+def __pandemic_james_draw_card__():
+    pandemic_draw_card()
+    return redirect(url_for('__pandemic_James_home__'))
+
+@app.route('/pandemic/james/usecard', methods=['GET', 'POST']) 
+def __pandemic_james_use_card__():
+    pandemic_use_card()
+    return redirect(url_for('__pandemic_James_home__'))
+
+@app.route('/pandemic/james/shareknowledge', methods=['GET', 'POST']) 
+def __pandemic_james_shareknowledge__():
+    pandemic_shareknowledge()
+    return redirect(url_for('__pandemic_James_home__'))
+
+
+######################################################################################################################################################################
+###########################################################################     PANDEMIC CAL     ####################################################################
+######################################################################################################################################################################
+
+@app.route('/pandemic/cal/home', methods=['GET', 'POST']) 
+def __pandemic_Cal_home__():
+    PandemicCal=pandemic_home()
+    Cal=PandemicCal[3]
+    Players=PandemicCal[5][:3]+PandemicCal[5][4:]
+
+    return render_template("pandemic/cal.html", name="Pandemic: Cal", Cal=Cal, Players=Players)
+
+
+@app.route('/pandemic/cal/drawcard', methods=['GET', 'POST']) 
+def __pandemic_cal_draw_card__():
+    pandemic_draw_card()
+    return redirect(url_for('__pandemic_Cal_home__'))
+
+@app.route('/pandemic/cal/usecard', methods=['GET', 'POST']) 
+def __pandemic_cal_use_card__():
+    pandemic_use_card()
+    return redirect(url_for('__pandemic_Cal_home__'))
+
+@app.route('/pandemic/cal/shareknowledge', methods=['GET', 'POST']) 
+def __pandemic_cal_shareknowledge__():
+    pandemic_shareknowledge()
+    return redirect(url_for('__pandemic_Cal_home__'))
+
+
+######################################################################################################################################################################
+###########################################################################     PANDEMIC COLE     ####################################################################
+######################################################################################################################################################################
+
+@app.route('/pandemic/cole/home', methods=['GET', 'POST']) 
+def __pandemic_Cole_home__():
+    PandemicCole=pandemic_home()
+    Cole=PandemicCole[0]
+    Players=PandemicCole[5][1:]
+
+    return render_template("pandemic/cole.html", name="Pandemic: Cole", Cole=Cole, Players=Players)
+
+
+@app.route('/pandemic/cole/drawcard', methods=['GET', 'POST']) 
+def __pandemic_cole_draw_card__():
+    pandemic_draw_card()
+    return redirect(url_for('__pandemic_Cole_home__'))
+
+@app.route('/pandemic/cole/usecard', methods=['GET', 'POST']) 
+def __pandemic_cole_use_card__():
+    pandemic_use_card()
+    return redirect(url_for('__pandemic_Cole_home__'))
+
+@app.route('/pandemic/cole/shareknowledge', methods=['GET', 'POST']) 
+def __pandemic_cole_shareknowledge__():
+    pandemic_shareknowledge()
+    return redirect(url_for('__pandemic_Cole_home__'))
+
+
+######################################################################################################################################################################
+###########################################################################     PANDEMIC CUNT     ####################################################################
+######################################################################################################################################################################
+
+@app.route('/pandemic/cunt/home', methods=['GET', 'POST']) 
+def __pandemic_Cunt_home__():
+    PandemicCunt=pandemic_home()
+    Cunt="Not Playing"
+
+    return render_template("pandemic/cunt.html", name="Pandemic: Cunt", Cunt=Cunt)
+
+
+@app.route('/pandemic/cunt/drawcard', methods=['GET', 'POST']) 
+def __pandemic_cunt_draw_card__():
+    pandemic_draw_card()
+    return redirect(url_for('__pandemic_Cunt_home__'))
+
+@app.route('/pandemic/cunt/usecard', methods=['GET', 'POST']) 
+def __pandemic_cunt_use_card__():
+    pandemic_use_card()
+    return redirect(url_for('__pandemic_Cunt_home__'))
+
+
+######################################################################################################################################################################
+###########################################################################     PANDEMIC HARRY     ####################################################################
+######################################################################################################################################################################
+
+@app.route('/pandemic/harry/home', methods=['GET', 'POST']) 
+def __pandemic_Harry_home__():
+    PandemicHarry=pandemic_home()
+    Harry="Not Playing"
+
+    return render_template("pandemic/harry.html", name="Pandemic: Harry", Harry=Harry)
+
+
+@app.route('/pandemic/harry/drawcard', methods=['GET', 'POST']) 
+def __pandemic_harry_draw_card__():
+    pandemic_draw_card()
+    return redirect(url_for('__pandemic_Harry_home__'))
+
+@app.route('/pandemic/harry/usecard', methods=['GET', 'POST']) 
+def __pandemic_harry_use_card__():
+    pandemic_use_card()
+    return redirect(url_for('__pandemic_Harry_home__'))
+
+######################################################################################################################################################################
+###########################################################################     PANDEMIC RULES     ###################################################################
 ######################################################################################################################################################################
 
 @app.route('/pandemic/rules', methods=['GET', 'POST']) 
@@ -181,18 +350,61 @@ def __pandemic_rules__():
     PandemicRules=pandemic_rules()
     Actions=PandemicRules[0]
     Roles=PandemicRules[1]
-    return render_template("pandemic/rules.html", name="Pandemic Rules", Actions=Actions, Roles=Roles)
+    PandemicHome=pandemic_home()
+    Players=PandemicHome[5]
+    return render_template("pandemic/rules.html", name="Pandemic Rules", Actions=Actions, Roles=Roles, Players=Players)
 
 
 ######################################################################################################################################################################
-###########################################################################     PANDEMIC INFECTION CARDS     ###########################################################################
+###########################################################################     PANDEMIC PLAYER CARDS     ############################################################
+######################################################################################################################################################################
+
+@app.route('/pandemic/playercards', methods=['GET', 'POST']) 
+def __pandemic_playercards__():
+    PandemicPlayerCards=pandemic_playercards_discard()
+    PlayerCardsDiscardPile=PandemicPlayerCards[0]
+    Players=PandemicPlayerCards[1]
+    return render_template("pandemic/pandemic_playercards.html", name="Pandemic Player Cards", PlayerCardsDiscardPile=PlayerCardsDiscardPile, Players=Players)
+
+@app.route('/pandemic/playercards/recover', methods=['GET', 'POST']) 
+def __pandemic_playercards_recover__():
+    pandemic_playercards_recover()
+    return redirect(url_for('__pandemic_playercards__'))
+
+
+######################################################################################################################################################################
+###########################################################################     PANDEMIC INFECTION CARDS     #########################################################
 ######################################################################################################################################################################
 
 @app.route('/pandemic/infectioncards', methods=['GET', 'POST']) 
 def __pandemic_infectioncards__():
     PandemicInfectionCards=pandemic_infectioncards_discard()
-    InfectDiscardPile=PandemicInfectionCards
-    return render_template("pandemic/pandemic_infectioncards.html", name="Pandemic Infection Cards", InfectDiscardPile=InfectDiscardPile)
+    InfectDiscardPile=PandemicInfectionCards[0]
+    InfectRemovedPile=PandemicInfectionCards[1]
+    Epidemics=PandemicInfectionCards[2]
+    PandemicHome=pandemic_home()
+    Players=PandemicHome[5]
+    return render_template("pandemic/pandemic_infectioncards.html", name="Pandemic Infection Cards", Players=Players, InfectDiscardPile=InfectDiscardPile, InfectRemovedPile=InfectRemovedPile, Epidemics=Epidemics)
+
+@app.route('/pandemic/infectioncards/remove', methods=['GET', 'POST']) 
+def __pandemic_infectioncards_remove__():
+    pandemic_infectioncards_remove()
+    return redirect(url_for('__pandemic_infectioncards__'))
+
+@app.route('/pandemic/infectioncards/infect', methods=['GET', 'POST']) 
+def __pandemic_infectioncards_infect__():
+    pandemic_infectioncards_infect()
+    return redirect(url_for('__pandemic_infectioncards__'))
+
+@app.route('/pandemic/infectioncards/epidemic', methods=['GET', 'POST']) 
+def __pandemic_infectioncards_epidemic__():
+    pandemic_infectioncards_epidemic()
+    return redirect(url_for('__pandemic_infectioncards__'))
+
+@app.route('/pandemic/infectioncards/recover', methods=['GET', 'POST']) 
+def __pandemic_infectioncards_recover__():
+    pandemic_infectioncards_recover()
+    return redirect(url_for('__pandemic_infectioncards__'))
 
 #######################################################################################################################################################################
 ############################################################################     MISC.     ############################################################################

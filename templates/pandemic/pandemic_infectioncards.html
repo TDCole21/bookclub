@@ -17,12 +17,33 @@
 {%block body%}
 
 <br><br>
+<h3>Infection Cards</h3>
+
+<br>
 
 <table style="width:75%">
-  <tr><th colspan="3"><center>Actions</center></th></tr>
+  <tr><th colspan="2"><center>Actions</center></th></tr>
     <tr>
-      <th><center>Infect</center></th>
-      <th><center>Epidemic</center></th>
+      <th>
+        <center>Game Turn</center><hr>
+        <form method="POST" action="{{ url_for('__pandemic_infectioncards_infect__') }}">
+        <center>
+        <input type = "submit" name="action" value="Infect">
+        </center>
+        </form>
+      </th>
+      {% if Epidemics[0][2]>Epidemics[0][0] %}
+      <th>
+      <form method="POST" action="{{ url_for('__pandemic_infectioncards_epidemic__') }}">
+        <center>
+          Epidemic<br><hr>
+          <input type = "submit" name="action" value="1 - Increase">&nbsp;
+          <input type = "submit" name="action" value="2 - Infect">&nbsp;
+          <input type = "submit" name="action" value="3 - Intensify">
+        </center>
+      </form>
+    </th>
+    {% endif %}
     </tr>
 </table>
 
@@ -39,7 +60,35 @@
     <tr>
       <td><center>{{i[0]}}</center></td>
       <td bgcolor="{{i[1]}}"></td>
-      <td><center>TBA</center></td>
+      <td>
+        <form method="POST" action="{{ url_for('__pandemic_infectioncards_remove__') }}">
+          <center>
+          <button type = "submit" name="action" value="{{i[0]}}">Remove</button>
+          </center>
+        </form>
+        <hr>
+        <form method="POST" action="{{ url_for('__pandemic_infectioncards_recover__') }}">
+          <center>
+          <button type = "submit" name="action" value="{{i[0]}}">Recover</button>
+          </center>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+</table>
+
+<br><br>
+
+<table style="width:75%">
+  <tr><th colspan="2"><center>Removed Pile</center></th></tr>
+    <tr>
+      <th><center>City Name</center></th>
+      <th><center>Colour</center></th>
+    </tr>
+    {% for i in InfectRemovedPile %}
+    <tr>
+      <td><center>{{i[0]}}</center></td>
+      <td bgcolor="{{i[1]}}"></td>
     </tr>
     {% endfor %}
 </table>
