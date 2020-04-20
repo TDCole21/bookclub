@@ -351,7 +351,7 @@ def __pandemic_rules__():
     Actions=PandemicRules[0]
     Roles=PandemicRules[1]
     PandemicHome=pandemic_home()
-    Players=PandemicHome[5]
+    Players=PandemicHome[1]
     return render_template("pandemic/rules.html", name="Pandemic Rules", Actions=Actions, Roles=Roles, Players=Players)
 
 
@@ -383,7 +383,7 @@ def __pandemic_infectioncards__():
     InfectRemovedPile=PandemicInfectionCards[1]
     Epidemics=PandemicInfectionCards[2]
     PandemicHome=pandemic_home()
-    Players=PandemicHome[5]
+    Players=PandemicHome[1]
     return render_template("pandemic/pandemic_infectioncards.html", name="Pandemic Infection Cards", Players=Players, InfectDiscardPile=InfectDiscardPile, InfectRemovedPile=InfectRemovedPile, Epidemics=Epidemics)
 
 @app.route('/pandemic/infectioncards/remove', methods=['GET', 'POST']) 
