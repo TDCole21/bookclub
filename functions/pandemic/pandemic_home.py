@@ -10,6 +10,7 @@ import re
 def pandemic_home():
   Players_temp=[]
   Players=[]
+  player_hands=[]
   Players_file = open("./data/pandemic/Players.txt", "r")
   for x in Players_file:
     Players_temp.extend(x.split(";"))
@@ -20,21 +21,6 @@ def pandemic_home():
   if len(Players)!=0:
       del Players[-1]
 
-  player_hands=[]
-
-  for i in Players:
-    temp=[]
-    name=i
-    file = open("./data/pandemic/"+str(i[0])+".txt", "r")
-    for x in file:
-      temp.extend(x.split(";"))
-      for i in temp:
-        name.append(i.split(":"))
-    file.close()
-
-    if len(name)!=0:
-      del name[-1]
-    player_hands.append(name)
 
   Epidemics=[]
   Epidemics_temp=[]
@@ -50,6 +36,22 @@ def pandemic_home():
 
   player_hands.append(Epidemics)
   player_hands.append(Players)
+
+  
+  for i in Players:
+    temp=[]
+    name=i
+    file = open("./data/pandemic/"+str(i[0])+".txt", "r")
+    for x in file:
+      temp.extend(x.split(";"))
+      for i in temp:
+        name.append(i.split(":"))
+    file.close()
+
+    if len(name)!=0:
+      del name[-1]
+    player_hands.append(name)
+
 
   return player_hands
 

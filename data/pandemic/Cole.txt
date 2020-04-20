@@ -1,1 +1,1 @@
-Madrid:Blue:;Hong Kong:Red:;
+Moscow:Black:;Johannesburg:Yellow:;

@@ -149,12 +149,12 @@ def __users_edit__():
 @app.route('/pandemic/home', methods=['GET', 'POST']) 
 def __pandemic_home__():
     PandemicHome=pandemic_home()
-    Cal=PandemicHome[0]
-    Nick=PandemicHome[1]
-    James=PandemicHome[2]
-    Cole=PandemicHome[3]
-    Epidemics=PandemicHome[4]
-    Players=PandemicHome[5]
+    Cal=PandemicHome[2]
+    Nick=PandemicHome[3]
+    James=PandemicHome[4]
+    Cole=PandemicHome[5]
+    Epidemics=PandemicHome[0]
+    Players=PandemicHome[1]
 
     return render_template("pandemic/pandemic_home.html", name="Pandemic: Home", Nick=Nick, Cole=Cole, Cal=Cal, James=James, Epidemics=Epidemics, Players=Players)
 
@@ -187,8 +187,8 @@ def __pandemic_newgame_start__():
 @app.route('/pandemic/nick/home', methods=['GET', 'POST']) 
 def __pandemic_Nick_home__():
     PandemicNick=pandemic_home()
-    Nick=PandemicNick[1]
-    Players=PandemicNick[5][:1]+PandemicNick[5][2:]
+    Nick=PandemicNick[3]
+    Players=PandemicNick[1][:1]+PandemicNick[1][2:]
 
     return render_template("pandemic/nick.html", name="Pandemic: Nick", Nick=Nick, Players=Players)
 
@@ -216,8 +216,8 @@ def __pandemic_nick_shareknowledge__():
 @app.route('/pandemic/james/home', methods=['GET', 'POST']) 
 def __pandemic_James_home__():
     PandemicJames=pandemic_home()
-    James=PandemicJames[2]
-    Players=PandemicJames[5][:2]+PandemicJames[5][3:]
+    James=PandemicJames[4]
+    Players=PandemicJames[1][:2]+PandemicJames[1][3:]
 
     return render_template("pandemic/james.html", name="Pandemic: James", James=James, Players=Players)
 
@@ -245,8 +245,8 @@ def __pandemic_james_shareknowledge__():
 @app.route('/pandemic/cal/home', methods=['GET', 'POST']) 
 def __pandemic_Cal_home__():
     PandemicCal=pandemic_home()
-    Cal=PandemicCal[3]
-    Players=PandemicCal[5][:3]+PandemicCal[5][4:]
+    Cal=PandemicCal[5]
+    Players=PandemicCal[1][:3]+PandemicCal[1][4:]
 
     return render_template("pandemic/cal.html", name="Pandemic: Cal", Cal=Cal, Players=Players)
 
@@ -274,8 +274,8 @@ def __pandemic_cal_shareknowledge__():
 @app.route('/pandemic/cole/home', methods=['GET', 'POST']) 
 def __pandemic_Cole_home__():
     PandemicCole=pandemic_home()
-    Cole=PandemicCole[0]
-    Players=PandemicCole[5][1:]
+    Cole=PandemicCole[2]
+    Players=PandemicCole[1][1:]
 
     return render_template("pandemic/cole.html", name="Pandemic: Cole", Cole=Cole, Players=Players)
 

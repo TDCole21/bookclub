@@ -1,1 +1,1 @@
-Mumbai:Black:;Mexico City:Yellow:;
+Chicago:Blue:;Hong Kong:Red:;
