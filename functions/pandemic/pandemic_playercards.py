@@ -19,19 +19,7 @@ def pandemic_playercards_discard():
     if len(PlayerCards_Discard)!=0:
         del PlayerCards_Discard[-1]
 
-    Players_temp=[]
-    Players=[]
-    Players_file = open("./data/pandemic/Players.txt", "r")
-    for x in Players_file:
-        Players_temp.extend(x.split(";"))
-    for i in Players_temp:
-        Players.append(i.split(":"))
-    Players_file.close()
-
-    if len(Players)!=0:
-        del Players[-1]
-
-    return (PlayerCards_Discard, Players)
+    return (PlayerCards_Discard)
 
 def pandemic_playercards_recover():
     if request.method == "POST":

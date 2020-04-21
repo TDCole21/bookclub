@@ -12,7 +12,7 @@ from watercooler_games import games_edit, games_home
 from watercooler_tvshows import tvshows_edit, tvshows_home
 from watercooler_home import home_home
 sys.path.insert(1, './functions/pandemic')
-from pandemic_home import pandemic_game_setup, pandemic_home, pandemic_outbreak, pandemic_draw_card, pandemic_use_card, pandemic_shareknowledge
+from pandemic_home import pandemic_game_setup, pandemic_home, pandemic_outbreak, pandemic_draw_card, pandemic_use_card, pandemic_shareknowledge, pandemic_changerole
 from pandemic_rules import pandemic_rules
 from pandemic_infectioncards import pandemic_infectioncards_discard, pandemic_infectioncards_remove, pandemic_infectioncards_infect, pandemic_infectioncards_epidemic, pandemic_infectioncards_recover
 from pandemic_playercards import pandemic_playercards_discard, pandemic_playercards_recover
@@ -149,12 +149,12 @@ def __users_edit__():
 @app.route('/pandemic/home', methods=['GET', 'POST']) 
 def __pandemic_home__():
     PandemicHome=pandemic_home()
-    Cal=PandemicHome[2]
-    Nick=PandemicHome[3]
-    James=PandemicHome[4]
-    Cole=PandemicHome[5]
-    Epidemics=PandemicHome[0]
-    Players=PandemicHome[1]
+    Cal=PandemicHome[3]
+    Nick=PandemicHome[4]
+    James=PandemicHome[5]
+    Cole=PandemicHome[6]
+    Epidemics=PandemicHome[1]
+    Players=PandemicHome[2]
 
     return render_template("pandemic/pandemic_home.html", name="Pandemic: Home", Nick=Nick, Cole=Cole, Cal=Cal, James=James, Epidemics=Epidemics, Players=Players)
 
@@ -187,10 +187,10 @@ def __pandemic_newgame_start__():
 @app.route('/pandemic/nick/home', methods=['GET', 'POST']) 
 def __pandemic_Nick_home__():
     PandemicNick=pandemic_home()
-    Nick=PandemicNick[3]
-    Players=PandemicNick[1][:1]+PandemicNick[1][2:]
-
-    return render_template("pandemic/nick.html", name="Pandemic: Nick", Nick=Nick, Players=Players)
+    Nick=PandemicNick[4]
+    Players=PandemicNick[2]
+    Roles=PandemicNick[0]
+    return render_template("pandemic/nick.html", name="Pandemic: Nick", Nick=Nick, Players=Players, Roles=Roles)
 
 
 @app.route('/pandemic/nick/drawcard', methods=['GET', 'POST']) 
@@ -208,6 +208,11 @@ def __pandemic_nick_shareknowledge__():
     pandemic_shareknowledge()
     return redirect(url_for('__pandemic_Nick_home__'))
 
+@app.route('/pandemic/nick/changerole', methods=['GET', 'POST']) 
+def __pandemic_nick_changerole__():
+    pandemic_changerole()
+    return redirect(url_for('__pandemic_Nick_home__'))
+
 
 ######################################################################################################################################################################
 ###########################################################################     PANDEMIC JAMES     ####################################################################
@@ -216,10 +221,10 @@ def __pandemic_nick_shareknowledge__():
 @app.route('/pandemic/james/home', methods=['GET', 'POST']) 
 def __pandemic_James_home__():
     PandemicJames=pandemic_home()
-    James=PandemicJames[4]
-    Players=PandemicJames[1][:2]+PandemicJames[1][3:]
-
-    return render_template("pandemic/james.html", name="Pandemic: James", James=James, Players=Players)
+    James=PandemicJames[5]
+    Players=PandemicJames[2]
+    Roles=PandemicJames[0]
+    return render_template("pandemic/james.html", name="Pandemic: James", James=James, Players=Players, Roles=Roles)
 
 
 @app.route('/pandemic/james/drawcard', methods=['GET', 'POST']) 
@@ -237,6 +242,11 @@ def __pandemic_james_shareknowledge__():
     pandemic_shareknowledge()
     return redirect(url_for('__pandemic_James_home__'))
 
+@app.route('/pandemic/james/changerole', methods=['GET', 'POST']) 
+def __pandemic_james_changerole__():
+    pandemic_changerole()
+    return redirect(url_for('__pandemic_James_home__'))
+
 
 ######################################################################################################################################################################
 ###########################################################################     PANDEMIC CAL     ####################################################################
@@ -245,10 +255,10 @@ def __pandemic_james_shareknowledge__():
 @app.route('/pandemic/cal/home', methods=['GET', 'POST']) 
 def __pandemic_Cal_home__():
     PandemicCal=pandemic_home()
-    Cal=PandemicCal[5]
-    Players=PandemicCal[1][:3]+PandemicCal[1][4:]
-
-    return render_template("pandemic/cal.html", name="Pandemic: Cal", Cal=Cal, Players=Players)
+    Cal=PandemicCal[6]
+    Players=PandemicCal[2]
+    Roles=PandemicCal[0]
+    return render_template("pandemic/cal.html", name="Pandemic: Cal", Cal=Cal, Players=Players, Roles=Roles)
 
 
 @app.route('/pandemic/cal/drawcard', methods=['GET', 'POST']) 
@@ -266,6 +276,11 @@ def __pandemic_cal_shareknowledge__():
     pandemic_shareknowledge()
     return redirect(url_for('__pandemic_Cal_home__'))
 
+@app.route('/pandemic/cal/changerole', methods=['GET', 'POST']) 
+def __pandemic_cal_changerole__():
+    pandemic_changerole()
+    return redirect(url_for('__pandemic_Cal_home__'))
+
 
 ######################################################################################################################################################################
 ###########################################################################     PANDEMIC COLE     ####################################################################
@@ -274,10 +289,10 @@ def __pandemic_cal_shareknowledge__():
 @app.route('/pandemic/cole/home', methods=['GET', 'POST']) 
 def __pandemic_Cole_home__():
     PandemicCole=pandemic_home()
-    Cole=PandemicCole[2]
-    Players=PandemicCole[1][1:]
-
-    return render_template("pandemic/cole.html", name="Pandemic: Cole", Cole=Cole, Players=Players)
+    Cole=PandemicCole[3]
+    Players=PandemicCole[2]
+    Roles=PandemicCole[0]
+    return render_template("pandemic/cole.html", name="Pandemic: Cole", Cole=Cole, Players=Players, Roles=Roles)
 
 
 @app.route('/pandemic/cole/drawcard', methods=['GET', 'POST']) 
@@ -293,6 +308,11 @@ def __pandemic_cole_use_card__():
 @app.route('/pandemic/cole/shareknowledge', methods=['GET', 'POST']) 
 def __pandemic_cole_shareknowledge__():
     pandemic_shareknowledge()
+    return redirect(url_for('__pandemic_Cole_home__'))
+
+@app.route('/pandemic/cole/changerole', methods=['GET', 'POST']) 
+def __pandemic_cole_changerole__():
+    pandemic_changerole()
     return redirect(url_for('__pandemic_Cole_home__'))
 
 
@@ -351,7 +371,7 @@ def __pandemic_rules__():
     Actions=PandemicRules[0]
     Roles=PandemicRules[1]
     PandemicHome=pandemic_home()
-    Players=PandemicHome[1]
+    Players=PandemicHome[2]
     return render_template("pandemic/rules.html", name="Pandemic Rules", Actions=Actions, Roles=Roles, Players=Players)
 
 
@@ -362,8 +382,9 @@ def __pandemic_rules__():
 @app.route('/pandemic/playercards', methods=['GET', 'POST']) 
 def __pandemic_playercards__():
     PandemicPlayerCards=pandemic_playercards_discard()
-    PlayerCardsDiscardPile=PandemicPlayerCards[0]
-    Players=PandemicPlayerCards[1]
+    PlayerCardsDiscardPile=PandemicPlayerCards
+    PandemicHome=pandemic_home()
+    Players=PandemicHome[2]
     return render_template("pandemic/pandemic_playercards.html", name="Pandemic Player Cards", PlayerCardsDiscardPile=PlayerCardsDiscardPile, Players=Players)
 
 @app.route('/pandemic/playercards/recover', methods=['GET', 'POST']) 
@@ -383,7 +404,7 @@ def __pandemic_infectioncards__():
     InfectRemovedPile=PandemicInfectionCards[1]
     Epidemics=PandemicInfectionCards[2]
     PandemicHome=pandemic_home()
-    Players=PandemicHome[1]
+    Players=PandemicHome[2]
     return render_template("pandemic/pandemic_infectioncards.html", name="Pandemic Infection Cards", Players=Players, InfectDiscardPile=InfectDiscardPile, InfectRemovedPile=InfectRemovedPile, Epidemics=Epidemics)
 
 @app.route('/pandemic/infectioncards/remove', methods=['GET', 'POST']) 

@@ -8,6 +8,7 @@ import re
 ######################################################################################################################################################################
 
 def pandemic_home():
+  # Read in Players from Players file
   Players_temp=[]
   Players=[]
   player_hands=[]
@@ -21,7 +22,7 @@ def pandemic_home():
   if len(Players)!=0:
       del Players[-1]
 
-
+  # Read in Epidemics from Epidemics file
   Epidemics=[]
   Epidemics_temp=[]
   Epidemics_file = open("./data/pandemic/Epidemics.txt", "r")
@@ -34,6 +35,33 @@ def pandemic_home():
   if len(Epidemics)!=0:
     del Epidemics[-1]
 
+  # Read in Roles from roles file
+  Roles=[]
+  Roles_temp=[]
+  Roles_file = open("./data/pandemic/Roles.txt", "r")
+  for x in Roles_file:
+    Roles_temp.extend(x.split(";"))
+    for i in Roles_temp:
+      Roles.append(i.split(":"))
+  Roles_file.close()
+
+  if len(Roles)!=0:
+    del Roles[-1]
+
+  Roles_Taken=[]
+  for i in range(len(Roles)):
+    for n in range(len(Players)):
+      if Roles[i][0]==Players[n][1]:
+        Roles_Taken.append(Roles[i][0])
+
+  Roles_Available=[]
+  for i in range(len(Roles)):
+    if Roles[i][0] not in Roles_Taken:
+      Roles_Available.append(Roles[i])
+
+
+
+  player_hands.append(Roles_Available) 
   player_hands.append(Epidemics)
   player_hands.append(Players)
 
@@ -272,8 +300,52 @@ def pandemic_game_setup():
 ######################################################################    CHANGE ROLE    #############################################################################
 ######################################################################################################################################################################
 
-def pandemic_change_role():
-  return ""
+def pandemic_changerole():
+  if request.method == "POST":
+    details=request.form
+    players_name=details['action']
+    role_choice=details['roles_name']
+
+    # Read in Roles from roles file
+    Roles=[]
+    Roles_temp=[]
+    Roles_file = open("./data/pandemic/Roles.txt", "r")
+    for x in Roles_file:
+      Roles_temp.extend(x.split(";"))
+      for i in Roles_temp:
+        Roles.append(i.split(":"))
+    Roles_file.close()
+
+    if len(Roles)!=0:
+      del Roles[-1]  
+
+    # Read in Players from Players file
+    Players=[]
+    Players_temp=[]
+    Players_file = open("./data/pandemic/Players.txt", "r")
+    for x in Players_file:
+      Players_temp.extend(x.split(";"))
+      for i in Players_temp:
+        Players.append(i.split(":"))
+    Players_file.close()
+
+    if len(Players)!=0:
+      del Players[-1]  
+
+    Roles_selected=[players_name]
+    for i in range(len(Roles)):
+      if Roles[i][0]==role_choice:
+        Roles_selected.extend(Roles[i])
+    
+    for i in range(len(Players)):
+      if Players[i][0]==players_name:
+        Players[i]=Roles_selected
+
+
+    Players_file = open("./data/pandemic/Players.txt", "w")
+    for i in range(len(Players)):
+      Players_file.write(Players[i][0]+":"+Players[i][1]+":"+Players[i][2]+";")
+    Players_file.close
 
 
 ######################################################################################################################################################################

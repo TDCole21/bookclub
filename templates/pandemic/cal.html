@@ -13,14 +13,29 @@
 {%block body%}
 <br><br>
 <table style="width:75%">
-<tr>
-  <th colspan="3"><center>
-    <form method="POST" action="{{ url_for('__pandemic_cal_draw_card__') }}">{{Cal[0]}}'s Hand<br><hr>
-    <button type = "submit" name="action" value="{{Cal[0]}}">Draw Card</button>
-    </form> </center>
-  </th>
-<tr><td colspan="3"><center><b>{{Cal[1]}}:</b> {{Cal[2]}}</center></td></tr>
-<tr>
+  <tr>
+    <th colspan="3"><center>{{Cal[0]}}'s Page</center></th>
+  </tr>
+  <tr><td colspan="3"><center><b>{{Cal[1]}}:</b> {{Cal[2]}}</center></td></tr>
+  <tr>
+    <th colspan="1"><center>
+      <form method="POST" action="{{ url_for('__pandemic_cal_draw_card__') }}">{{Cal[0]}}'s Hand<br><hr>
+      <button type = "submit" name="action" value="{{Cal[0]}}">Draw Card</button>
+      </form> </center>
+    </th>
+    <th colspan="2"><center>
+      <form method="POST" action="{{ url_for('__pandemic_cal_changerole__') }}">
+        <center>
+          Select a Role:<br><hr> <select name= "roles_name">
+            {%for n in Roles%}
+              <option >{{ n[0] }}</option>
+            {%endfor%}
+          </select>
+          <button type = "submit" name="action" value="{{Cal[0]}}">Change Role</button>
+        </center>
+      </form>
+    </th>
+  <tr>
   <th><center>Card Name</center></th>
   <th><center>Colour/Description</center></th>
   <th><center>Action</center></th>
