@@ -1,1 +1,1 @@
-Forecast::Draw, look at, and rearrange the top 6 cards of the infection deck. Put them back on top;Tokyo:Red:;
+Continue? YES::Continue a campaign on Left 4 Dead 2 when Treating a disease.;Santiago:Yellow:;

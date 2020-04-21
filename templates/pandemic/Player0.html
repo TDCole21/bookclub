@@ -19,12 +19,12 @@
 <tr><td colspan="3"><center><b>{{In_Play[0][1]}}:</b> {{In_Play[0][2]}}</center></td></tr>
 <tr>
   <th colspan="1"><center>
-    <form method="POST" action="{{ url_for('__pandemic_%s_draw_card__'%In_Play[0][0]) }}">{{In_Play[0][0]}}'s Hand<br><hr>
+    <form method="POST" action="{{ url_for('__pandemic_Player0_draw_card__') }}">{{In_Play[0][0]}}'s Hand<br><hr>
     <button type = "submit" name="action" value="{{In_Play[0][0]}}">Draw Card</button>
     </form> </center>
   </th>
   <th colspan="2"><center>
-    <form method="POST" action="{{ url_for('__pandemic_%s_changerole__'%In_Play[0][0]) }}">
+    <form method="POST" action="{{ url_for('__pandemic_Player0_changerole__') }}">
       <center>
         Select a Role:<br><hr> <select name= "roles_name">
           {%for n in Roles%}
@@ -49,13 +49,13 @@
         <td><center>{{i[2]}}</center></td>
       {% endif %}
       <td>
-        <form method="POST" action="{{ url_for('__pandemic_%s_use_card__'%In_Play[0][0]) }}">
+        <form method="POST" action="{{ url_for('__pandemic_Player0_use_card__') }}">
           <center>
             <button type = "submit" name="action" value="{{In_Play[0][0]}}:{{i[0]}}">Play Card</button>
           </center>
         </form>
         <hr>
-        <form method="POST" action="{{ url_for('__pandemic_%s_shareknowledge__'%In_Play[0][0]) }}">
+        <form method="POST" action="{{ url_for('__pandemic_Player0_shareknowledge__') }}">
           <center>
             Select Player: <select name= "players_name">
               {%for n in Players%}

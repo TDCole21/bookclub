@@ -18,9 +18,9 @@
       <li class="nav-item">
         <a class="nav-link" href="{{ url_for('__pandemic_infectioncards__') }}">Infection Cards</a>
       </li>
-      {% for i in Players %}
+      {% for i in range(Players|length) %}
       <li class="nav-item">
-        <a class="nav-link" href="{{ url_for('__pandemic_%s_home__'%i[0]) }}">{{i[0]}}</a>
+        <a class="nav-link" href="{{ url_for('__pandemic_Player%s_home__'%i) }}">{{Players[i][0]}}</a>
       </li>
       {% endfor %}
     </ul>
