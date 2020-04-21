@@ -14,24 +14,24 @@
 <br><br>
 <table style="width:75%">
   <tr>
-    <th colspan="3"><center>{{Nick[0]}}'s Page</center></th>
+    <th colspan="3"><center>{{In_Play[1][0]}}'s Page</center></th>
   </tr>
-  <tr><td colspan="3"><center><b>{{Nick[1]}}:</b> {{Nick[2]}}</center></td></tr>
+  <tr><td colspan="3"><center><b>{{In_Play[1][1]}}:</b> {{In_Play[1][2]}}</center></td></tr>
   <tr>
     <th colspan="1"><center>
-      <form method="POST" action="{{ url_for('__pandemic_nick_draw_card__') }}">{{Nick[0]}}'s Hand<br><hr>
-      <button type = "submit" name="action" value="{{Nick[0]}}">Draw Card</button>
+      <form method="POST" action="{{ url_for('__pandemic_%s_draw_card__'%In_Play[1][0]) }}">{{In_Play[1][0]}}'s Hand<br><hr>
+      <button type = "submit" name="action" value="{{In_Play[1][0]}}">Draw Card</button>
       </form> </center>
     </th>
     <th colspan="2"><center>
-      <form method="POST" action="{{ url_for('__pandemic_nick_changerole__') }}">
+      <form method="POST" action="{{ url_for('__pandemic_%s_changerole__'%In_Play[1][0]) }}">
         <center>
           Select a Role:<br><hr> <select name= "roles_name">
             {%for n in Roles%}
               <option >{{ n[0] }}</option>
             {%endfor%}
           </select>
-          <button type = "submit" name="action" value="{{Nick[0]}}">Change Role</button>
+          <button type = "submit" name="action" value="{{In_Play[1][0]}}">Change Role</button>
         </center>
       </form>
     </th>
@@ -40,7 +40,7 @@
     <th><center>Colour/Description</center></th>
     <th><center>Action</center></th>
   </tr>
-      {% for i in Nick[3:] %}
+      {% for i in In_Play[1][3:] %}
       <tr>
         <td><center>{{i[0]}}</center></td>
         {% if i[1]!="" %}
@@ -49,20 +49,20 @@
           <td><center>{{i[2]}}</center></td>
         {% endif %}
         <td>
-          <form method="POST" action="{{ url_for('__pandemic_nick_use_card__') }}">
+          <form method="POST" action="{{ url_for('__pandemic_%s_use_card__'%In_Play[1][0]) }}">
             <center>
-              <button type = "submit" name="action" value="Nick:{{i[0]}}">Play Card</button>
+              <button type = "submit" name="action" value="{{In_Play[1][0]}}:{{i[0]}}">Play Card</button>
             </center>
           </form>
           <hr>
-          <form method="POST" action="{{ url_for('__pandemic_nick_shareknowledge__') }}">
+          <form method="POST" action="{{ url_for('__pandemic_%s_shareknowledge__'%In_Play[1][0]) }}">
             <center>
               Select Player: <select name= "players_name">
                 {%for n in Players%}
                     <option >{{ n[0] }}</option>
                 {%endfor%}
               </select>
-              <button type = "submit" name="action" value="Nick:{{i[0]}}">Share Knowledge</button>
+              <button type = "submit" name="action" value="{{In_Play[1][0]}}:{{i[0]}}">Share Knowledge</button>
             </center>
           </form>
         </td>

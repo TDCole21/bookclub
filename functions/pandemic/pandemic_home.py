@@ -187,7 +187,7 @@ def pandemic_game_setup():
       random.shuffle(Roles)
 
 
-    # Read all possible Users from events file
+    # Read all possible Users from users file
     Users=[]
     Users_temp=[]
     Users_file = open("./data/Users.txt", "r")
@@ -203,6 +203,8 @@ def pandemic_game_setup():
     for n in range(len(Users)):
       if os.path.exists("./data/pandemic/"+str(Users[n][0])+".txt"):
         os.remove("./data/pandemic/"+str(Users[n][0])+".txt")
+      # if os.path.exists("./templates/pandemic/"+str(Users[n][0])+".html"):
+      #   os.remove("./templates/pandemic/"+str(Users[n][0])+".html")
 
 
 

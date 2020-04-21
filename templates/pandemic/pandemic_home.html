@@ -113,15 +113,17 @@
 
   </tr>
 </table>
+
+{% for i in range(In_Play|length) %}
 <br><br>
 <table style="width:75%">
-  <tr><th colspan="2"><center>{{Nick[0]}}'s Hand</center></th></tr>
-  <tr><td colspan="2"><center><b>{{Nick[1]}}:</b> {{Nick[2]}}</center></td></tr>
+  <tr><th colspan="2"><center>{{In_Play[i][0]}}'s Hand</center></th></tr>
+  <tr><td colspan="2"><center><b>{{In_Play[i][1]}}</b> {{In_Play[i][2]}}</center></td></tr>
   <tr>
     <th><center>Card Name</center></th>
     <th><center>Colour/Description</center></th>
   </tr>
-      {% for i in Nick[3:] %}
+      {% for i in In_Play[i][3:] %}
       <tr>
         <td><center>{{i[0]}}</center></td>
         {% if i[1]!="" %}
@@ -132,73 +134,9 @@
       </tr>
       {% endfor %}
   </table>
+{% endfor %}
 
 <br><br>
-<table style="width:75%">
-<tr><th colspan="2"><center>{{James[0]}}' Hand</center></th></tr>
-<tr><td colspan="2"><center><b>{{James[1]}}:</b> {{James[2]}}</center></td></tr>
-<tr>
-  <th><center>Card Name</center></th>
-  <th><center>Colour/Description</center></th>
-</tr>
-    {% for i in James[3:] %}
-    <tr>
-      <td><center>{{i[0]}}</center></td>
-      {% if i[1]!="" %}
-        <td bgcolor="{{i[1]}}"></td>
-      {% else %}
-        <td><center>{{i[2]}}</center></td>
-      {% endif %}
-    </tr>
-    {% endfor %}
-</table>
-
-<br><br>
-
-<br><br>
-<table style="width:75%">
-<tr><th colspan="2"><center>{{Cal[0]}}'s Hand</center></th></tr>
-<tr><td colspan="2"><center><b>{{Cal[1]}}:</b> {{Cal[2]}}</center></td></tr>
-<tr>
-  <th><center>Card Name</center></th>
-  <th><center>Colour/Description</center></th>
-</tr>
-    {% for i in Cal[3:] %}
-    <tr>
-      <td><center>{{i[0]}}</center></td>
-      {% if i[1]!="" %}
-        <td bgcolor="{{i[1]}}"></td>
-      {% else %}
-        <td><center>{{i[2]}}</center></td>
-      {% endif %}
-    </tr>
-    {% endfor %}
-</table>
-
-<br><br>
-<table style="width:75%">
-<tr><th colspan="2"><center>{{Cole[0]}}'s Hand</center></th></tr>
-<tr><td colspan="2"><center><b>{{Cole[1]}}:</b> {{Cole[2]}}</center></td></tr>
-<tr>
-  <th><center>Card Name</center></th>
-  <th><center>Colour/Description</center></th>
-</tr>
-    {% for i in Cole[3:] %}
-    <tr>
-      <td><center>{{i[0]}}</center></td>
-      {% if i[1]!="" %}
-        <td bgcolor="{{i[1]}}"></td>
-      {% else %}
-        <td><center>{{i[2]}}</center></td>
-      {% endif %}
-    </tr>
-    {% endfor %}
-</table>
-
-<br><br>
-
-
-
 <h3>Restart?</h3>
 <form method="POST" action="{{ url_for('__pandemic_newgame__') }}">
   <center>

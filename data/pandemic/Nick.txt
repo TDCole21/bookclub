@@ -1,1 +1,1 @@
-Resilient Population::Remove any 1 card in the infection discard pile from the game;Milan:Blue:;
+Forecast::Draw, look at, and rearrange the top 6 cards of the infection deck. Put them back on top;Tokyo:Red:;

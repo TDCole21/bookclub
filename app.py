@@ -149,14 +149,13 @@ def __users_edit__():
 @app.route('/pandemic/home', methods=['GET', 'POST']) 
 def __pandemic_home__():
     PandemicHome=pandemic_home()
-    Cal=PandemicHome[3]
-    Nick=PandemicHome[4]
-    James=PandemicHome[5]
-    Cole=PandemicHome[6]
     Epidemics=PandemicHome[1]
     Players=PandemicHome[2]
+    In_Play=[]
+    for i in range(len(Players)):
+        In_Play.append(PandemicHome[i+3])
 
-    return render_template("pandemic/pandemic_home.html", name="Pandemic: Home", Nick=Nick, Cole=Cole, Cal=Cal, James=James, Epidemics=Epidemics, Players=Players)
+    return render_template("pandemic/pandemic_home.html", name="Pandemic: Home", In_Play=In_Play, Epidemics=Epidemics, Players=Players)
 
 @app.route('/pandemic/home/outbreak', methods=['GET', 'POST']) 
 def __pandemic_outbreak__():
@@ -180,36 +179,40 @@ def __pandemic_newgame_start__():
     return redirect(url_for('__pandemic_home__'))
 
 
+
 ######################################################################################################################################################################
 ###########################################################################     PANDEMIC NICK     ####################################################################
 ######################################################################################################################################################################
 
-@app.route('/pandemic/nick/home', methods=['GET', 'POST']) 
+@app.route('/pandemic/Nick/home', methods=['GET', 'POST']) 
 def __pandemic_Nick_home__():
-    PandemicNick=pandemic_home()
-    Nick=PandemicNick[4]
-    Players=PandemicNick[2]
-    Roles=PandemicNick[0]
-    return render_template("pandemic/nick.html", name="Pandemic: Nick", Nick=Nick, Players=Players, Roles=Roles)
+    PandemicHome=pandemic_home()
+    Roles=PandemicHome[0]
+    Players=PandemicHome[2]
+    In_Play=[]
+    for i in range(len(Players)):
+        In_Play.append(PandemicHome[i+3])
+    
+    return render_template("pandemic/"+In_Play[1][0]+".html", name="Pandemic: "+In_Play[1][0], In_Play=In_Play, Players=Players, Roles=Roles)
 
 
-@app.route('/pandemic/nick/drawcard', methods=['GET', 'POST']) 
-def __pandemic_nick_draw_card__():
+@app.route('/pandemic/Nick/drawcard', methods=['GET', 'POST']) 
+def __pandemic_Nick_draw_card__():
     pandemic_draw_card()
     return redirect(url_for('__pandemic_Nick_home__'))
 
-@app.route('/pandemic/nick/usecard', methods=['GET', 'POST']) 
-def __pandemic_nick_use_card__():
+@app.route('/pandemic/Nick/usecard', methods=['GET', 'POST']) 
+def __pandemic_Nick_use_card__():
     pandemic_use_card()
     return redirect(url_for('__pandemic_Nick_home__'))
 
-@app.route('/pandemic/nick/shareknowledge', methods=['GET', 'POST']) 
-def __pandemic_nick_shareknowledge__():
+@app.route('/pandemic/Nick/shareknowledge', methods=['GET', 'POST']) 
+def __pandemic_Nick_shareknowledge__():
     pandemic_shareknowledge()
     return redirect(url_for('__pandemic_Nick_home__'))
 
-@app.route('/pandemic/nick/changerole', methods=['GET', 'POST']) 
-def __pandemic_nick_changerole__():
+@app.route('/pandemic/Nick/changerole', methods=['GET', 'POST']) 
+def __pandemic_Nick_changerole__():
     pandemic_changerole()
     return redirect(url_for('__pandemic_Nick_home__'))
 
@@ -218,32 +221,34 @@ def __pandemic_nick_changerole__():
 ###########################################################################     PANDEMIC JAMES     ####################################################################
 ######################################################################################################################################################################
 
-@app.route('/pandemic/james/home', methods=['GET', 'POST']) 
+@app.route('/pandemic/James/home', methods=['GET', 'POST']) 
 def __pandemic_James_home__():
-    PandemicJames=pandemic_home()
-    James=PandemicJames[5]
-    Players=PandemicJames[2]
-    Roles=PandemicJames[0]
-    return render_template("pandemic/james.html", name="Pandemic: James", James=James, Players=Players, Roles=Roles)
+    PandemicHome=pandemic_home()
+    Roles=PandemicHome[0]
+    Players=PandemicHome[2]
+    In_Play=[]
+    for i in range(len(Players)):
+        In_Play.append(PandemicHome[i+3])
+    return render_template("pandemic/"+In_Play[2][0]+".html", name="Pandemic: "+In_Play[2][0], In_Play=In_Play, Players=Players, Roles=Roles)
 
 
-@app.route('/pandemic/james/drawcard', methods=['GET', 'POST']) 
-def __pandemic_james_draw_card__():
+@app.route('/pandemic/James/drawcard', methods=['GET', 'POST']) 
+def __pandemic_James_draw_card__():
     pandemic_draw_card()
     return redirect(url_for('__pandemic_James_home__'))
 
-@app.route('/pandemic/james/usecard', methods=['GET', 'POST']) 
-def __pandemic_james_use_card__():
+@app.route('/pandemic/James/usecard', methods=['GET', 'POST']) 
+def __pandemic_James_use_card__():
     pandemic_use_card()
     return redirect(url_for('__pandemic_James_home__'))
 
-@app.route('/pandemic/james/shareknowledge', methods=['GET', 'POST']) 
-def __pandemic_james_shareknowledge__():
+@app.route('/pandemic/James/shareknowledge', methods=['GET', 'POST']) 
+def __pandemic_James_shareknowledge__():
     pandemic_shareknowledge()
     return redirect(url_for('__pandemic_James_home__'))
 
-@app.route('/pandemic/james/changerole', methods=['GET', 'POST']) 
-def __pandemic_james_changerole__():
+@app.route('/pandemic/James/changerole', methods=['GET', 'POST']) 
+def __pandemic_James_changerole__():
     pandemic_changerole()
     return redirect(url_for('__pandemic_James_home__'))
 
@@ -252,32 +257,34 @@ def __pandemic_james_changerole__():
 ###########################################################################     PANDEMIC CAL     ####################################################################
 ######################################################################################################################################################################
 
-@app.route('/pandemic/cal/home', methods=['GET', 'POST']) 
+@app.route('/pandemic/Cal/home', methods=['GET', 'POST']) 
 def __pandemic_Cal_home__():
-    PandemicCal=pandemic_home()
-    Cal=PandemicCal[6]
-    Players=PandemicCal[2]
-    Roles=PandemicCal[0]
-    return render_template("pandemic/cal.html", name="Pandemic: Cal", Cal=Cal, Players=Players, Roles=Roles)
+    PandemicHome=pandemic_home()
+    Roles=PandemicHome[0]
+    Players=PandemicHome[2]
+    In_Play=[]
+    for i in range(len(Players)):
+        In_Play.append(PandemicHome[i+3])
+    return render_template("pandemic/"+In_Play[3][0]+".html", name="Pandemic: "+In_Play[3][0], In_Play=In_Play, Players=Players, Roles=Roles)
 
 
-@app.route('/pandemic/cal/drawcard', methods=['GET', 'POST']) 
-def __pandemic_cal_draw_card__():
+@app.route('/pandemic/Cal/drawcard', methods=['GET', 'POST']) 
+def __pandemic_Cal_draw_card__():
     pandemic_draw_card()
     return redirect(url_for('__pandemic_Cal_home__'))
 
-@app.route('/pandemic/cal/usecard', methods=['GET', 'POST']) 
-def __pandemic_cal_use_card__():
+@app.route('/pandemic/Cal/usecard', methods=['GET', 'POST']) 
+def __pandemic_Cal_use_card__():
     pandemic_use_card()
     return redirect(url_for('__pandemic_Cal_home__'))
 
 @app.route('/pandemic/cal/shareknowledge', methods=['GET', 'POST']) 
-def __pandemic_cal_shareknowledge__():
+def __pandemic_Cal_shareknowledge__():
     pandemic_shareknowledge()
     return redirect(url_for('__pandemic_Cal_home__'))
 
 @app.route('/pandemic/cal/changerole', methods=['GET', 'POST']) 
-def __pandemic_cal_changerole__():
+def __pandemic_Cal_changerole__():
     pandemic_changerole()
     return redirect(url_for('__pandemic_Cal_home__'))
 
@@ -286,32 +293,34 @@ def __pandemic_cal_changerole__():
 ###########################################################################     PANDEMIC COLE     ####################################################################
 ######################################################################################################################################################################
 
-@app.route('/pandemic/cole/home', methods=['GET', 'POST']) 
+@app.route('/pandemic/Cole/home', methods=['GET', 'POST']) 
 def __pandemic_Cole_home__():
-    PandemicCole=pandemic_home()
-    Cole=PandemicCole[3]
-    Players=PandemicCole[2]
-    Roles=PandemicCole[0]
-    return render_template("pandemic/cole.html", name="Pandemic: Cole", Cole=Cole, Players=Players, Roles=Roles)
+    PandemicHome=pandemic_home()
+    Roles=PandemicHome[0]
+    Players=PandemicHome[2]
+    In_Play=[]
+    for i in range(len(Players)):
+        In_Play.append(PandemicHome[i+3])
+    return render_template("pandemic/"+In_Play[0][0]+".html", name="Pandemic: "+In_Play[0][0], In_Play=In_Play, Players=Players, Roles=Roles)
 
 
-@app.route('/pandemic/cole/drawcard', methods=['GET', 'POST']) 
-def __pandemic_cole_draw_card__():
+@app.route('/pandemic/Cole/drawcard', methods=['GET', 'POST']) 
+def __pandemic_Cole_draw_card__():
     pandemic_draw_card()
     return redirect(url_for('__pandemic_Cole_home__'))
 
-@app.route('/pandemic/cole/usecard', methods=['GET', 'POST']) 
-def __pandemic_cole_use_card__():
+@app.route('/pandemic/Cole/usecard', methods=['GET', 'POST']) 
+def __pandemic_Cole_use_card__():
     pandemic_use_card()
     return redirect(url_for('__pandemic_Cole_home__'))
 
-@app.route('/pandemic/cole/shareknowledge', methods=['GET', 'POST']) 
-def __pandemic_cole_shareknowledge__():
+@app.route('/pandemic/Cole/shareknowledge', methods=['GET', 'POST']) 
+def __pandemic_Cole_shareknowledge__():
     pandemic_shareknowledge()
     return redirect(url_for('__pandemic_Cole_home__'))
 
-@app.route('/pandemic/cole/changerole', methods=['GET', 'POST']) 
-def __pandemic_cole_changerole__():
+@app.route('/pandemic/Cole/changerole', methods=['GET', 'POST']) 
+def __pandemic_Cole_changerole__():
     pandemic_changerole()
     return redirect(url_for('__pandemic_Cole_home__'))
 
@@ -320,22 +329,35 @@ def __pandemic_cole_changerole__():
 ###########################################################################     PANDEMIC CUNT     ####################################################################
 ######################################################################################################################################################################
 
-@app.route('/pandemic/cunt/home', methods=['GET', 'POST']) 
+@app.route('/pandemic/Cunt/home', methods=['GET', 'POST']) 
 def __pandemic_Cunt_home__():
-    PandemicCunt=pandemic_home()
-    Cunt="Not Playing"
+    PandemicHome=pandemic_home()
+    Roles=PandemicHome[0]
+    Players=PandemicHome[2]
+    In_Play=[]
+    for i in range(len(Players)):
+        In_Play.append(PandemicHome[i+3])
+    return render_template("pandemic/"+In_Play[4][0]+".html", name="Pandemic: "+In_Play[4][0], In_Play=In_Play, Players=Players, Roles=Roles)
 
-    return render_template("pandemic/cunt.html", name="Pandemic: Cunt", Cunt=Cunt)
 
-
-@app.route('/pandemic/cunt/drawcard', methods=['GET', 'POST']) 
-def __pandemic_cunt_draw_card__():
+@app.route('/pandemic/Cunt/drawcard', methods=['GET', 'POST']) 
+def __pandemic_Cunt_draw_card__():
     pandemic_draw_card()
     return redirect(url_for('__pandemic_Cunt_home__'))
 
-@app.route('/pandemic/cunt/usecard', methods=['GET', 'POST']) 
-def __pandemic_cunt_use_card__():
+@app.route('/pandemic/Cunt/usecard', methods=['GET', 'POST']) 
+def __pandemic_Cunt_use_card__():
     pandemic_use_card()
+    return redirect(url_for('__pandemic_Cunt_home__'))
+
+@app.route('/pandemic/Cunt/shareknowledge', methods=['GET', 'POST']) 
+def __pandemic_Cunt_shareknowledge__():
+    pandemic_shareknowledge()
+    return redirect(url_for('__pandemic_Cunt_home__'))
+
+@app.route('/pandemic/Cunt/changerole', methods=['GET', 'POST']) 
+def __pandemic_Cunt_changerole__():
+    pandemic_changerole()
     return redirect(url_for('__pandemic_Cunt_home__'))
 
 
@@ -343,22 +365,35 @@ def __pandemic_cunt_use_card__():
 ###########################################################################     PANDEMIC HARRY     ####################################################################
 ######################################################################################################################################################################
 
-@app.route('/pandemic/harry/home', methods=['GET', 'POST']) 
+@app.route('/pandemic/Harry/home', methods=['GET', 'POST']) 
 def __pandemic_Harry_home__():
-    PandemicHarry=pandemic_home()
-    Harry="Not Playing"
+    PandemicHome=pandemic_home()
+    Roles=PandemicHome[0]
+    Players=PandemicHome[2]
+    In_Play=[]
+    for i in range(len(Players)):
+        In_Play.append(PandemicHome[i+3])
+    return render_template("pandemic/"+In_Play[5][0]+".html", name="Pandemic: "+In_Play[5][0], In_Play=In_Play, Players=Players, Roles=Roles)
 
-    return render_template("pandemic/harry.html", name="Pandemic: Harry", Harry=Harry)
 
-
-@app.route('/pandemic/harry/drawcard', methods=['GET', 'POST']) 
-def __pandemic_harry_draw_card__():
+@app.route('/pandemic/Harry/drawcard', methods=['GET', 'POST']) 
+def __pandemic_Harry_draw_card__():
     pandemic_draw_card()
     return redirect(url_for('__pandemic_Harry_home__'))
 
-@app.route('/pandemic/harry/usecard', methods=['GET', 'POST']) 
-def __pandemic_harry_use_card__():
+@app.route('/pandemic/Harry/usecard', methods=['GET', 'POST']) 
+def __pandemic_Harry_use_card__():
     pandemic_use_card()
+    return redirect(url_for('__pandemic_Harry_home__'))
+
+@app.route('/pandemic/Harry/shareknowledge', methods=['GET', 'POST']) 
+def __pandemic_Harry_shareknowledge__():
+    pandemic_shareknowledge()
+    return redirect(url_for('__pandemic_Harry_home__'))
+
+@app.route('/pandemic/Harry/changerole', methods=['GET', 'POST']) 
+def __pandemic_Harry_changerole__():
+    pandemic_changerole()
     return redirect(url_for('__pandemic_Harry_home__'))
 
 ######################################################################################################################################################################
