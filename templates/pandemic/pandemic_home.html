@@ -118,7 +118,7 @@
 <br><br>
 <table style="width:75%">
   <tr><th colspan="2"><center>{{In_Play[i][0]}}'s Hand</center></th></tr>
-  <tr><td colspan="2"><center><b>{{In_Play[i][1]}}</b> {{In_Play[i][2]}}</center></td></tr>
+  <tr><td colspan="2"><center><b>{{In_Play[i][1]}}:</b> {{In_Play[i][2]}}</center></td></tr>
   <tr>
     <th><center>Card Name</center></th>
     <th><center>Colour/Description</center></th>
@@ -137,12 +137,14 @@
 {% endfor %}
 
 <br><br>
-<h3>Restart?</h3>
-<form method="POST" action="{{ url_for('__pandemic_newgame__') }}">
+<hr>
+<form method="POST" action="{{ url_for('__pandemic_settings__') }}">
   <center>
-  <input type = "submit" name="action" value="New Game">
+  <input type = "submit" name="action" value="Settings">
   </center>
 </form>
+<hr>
+
 
 
 {%endblock%}

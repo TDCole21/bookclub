@@ -164,17 +164,17 @@ def __pandemic_outbreak__():
 
 
 ######################################################################################################################################################################
-###########################################################################     PANDEMIC NEW GAME     ####################################################################
+###########################################################################     PANDEMIC SETTINGS     ####################################################################
 ######################################################################################################################################################################
 
-@app.route('/pandemic/home/newgame', methods=['GET', 'POST']) 
-def __pandemic_newgame__():
+@app.route('/pandemic/home/settings', methods=['GET', 'POST']) 
+def __pandemic_settings__():
     users_home()
     Users=users_home()
-    return render_template("pandemic/newgame.html", name="Pandemic: New Game", Users=Users, Players=Users)
+    return render_template("pandemic/settings.html", name="Pandemic: Settings", Users=Users, Players=Users)
 
-@app.route('/pandemic/home/newgame/start', methods=['GET', 'POST']) 
-def __pandemic_newgame_start__():
+@app.route('/pandemic/home/settings/newgame', methods=['GET', 'POST']) 
+def __pandemic_settings_newgame__():
     pandemic_game_setup()
     return redirect(url_for('__pandemic_home__'))
 

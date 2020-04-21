@@ -17,7 +17,7 @@
     <tr><th colspan="2"><center><h3>New Game</h3></center></th></tr>
     <tr>
       <td>
-        <form method="POST" action="{{ url_for('__pandemic_newgame_start__') }}">
+        <form method="POST" action="{{ url_for('__pandemic_settings_newgame__') }}">
             <center>
             <b>Who's Playing?</b>&nbsp;&nbsp;&nbsp;&nbsp;<select name="players" size="6" multiple>
             {%for i in Users%}
@@ -40,5 +40,25 @@
     </tr>
     </table>
     <br><br>
+
+    <table style="width:75%">
+      <tr><th colspan="2"><center><h3>Add/Remove Players</h3></center></th></tr>
+      <tr>
+        <td>
+        <center>To be added if requested</center>
+        </td>
+      </tr>
+      </table>
+      <br><br>
+
+      <table style="width:75%">
+        <tr><th colspan="2"><center><h3>Change Difficulty</h3></center></th></tr>
+        <tr>
+          <td>
+          <center>To be added if requested</center>
+          </td>
+        </tr>
+        </table>
+        <br><br>
 
 {%endblock%}
