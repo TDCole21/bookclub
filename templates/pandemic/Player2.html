@@ -59,7 +59,9 @@
           <center>
             Select Player: <select name= "players_name">
               {%for n in Players%}
+                {% if n[0] != In_Play[2][0] %}
                   <option >{{ n[0] }}</option>
+                {% endif %}
               {%endfor%}
             </select>
             <button type = "submit" name="action" value="{{In_Play[2][0]}}:{{i[0]}}">Share Knowledge</button>
