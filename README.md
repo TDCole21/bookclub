@@ -31,3 +31,4 @@ HTML with Jinja2
 #### What went well
 #### What hasn't went well
 #### Future improvements
+## Installation Guide
