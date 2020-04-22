@@ -158,6 +158,8 @@ def pandemic_game_setup():
     if len(Cities)!=0:
       del Cities[-1] 
 
+    random.shuffle(Cities)
+
 
     # Read in Events from events file
     Events=[]
@@ -171,6 +173,8 @@ def pandemic_game_setup():
 
     if len(Events)!=0:
       del Events[-1]   
+
+    random.shuffle(Events)
 
     # Read in Roles from roles file
     Roles=[]
