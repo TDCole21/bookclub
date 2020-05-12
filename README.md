@@ -22,18 +22,29 @@ The webapplication severed as virtual game objects:
 + New Game and Difficulty
 ## Front-end
 ### Watercooler
-#### Books
-#### Games
-#### Films
-#### TV Shows
+The front-end was designed using Python-flask, and allowed for rest APIs to be used, such that forms or site requests could be used to activate various functions required for the site.
+#### Home
+The Homepage was designed such that it acted as a read-only page for the users. The page would tell the users what Book, TV Show, Films and Video Game were currently selected for completetion as well as the date to be completed by.
+![Watercooler Home](https://i.imgur.com/zIeRhT7.png)
+#### Suggestion Pages
+On the other pages of the Watercooler site, it gives the users full Create, Read, Update and Delete (CRUD) functionality. Once the User has created a username and password from the Users page (more later), they have full acess to alter the database. The User selects the name of the entry they want to add/remove/edit as well as any additional information (Console, Streaming Platform, etc.), then they enter the correct username password combination and finally select which function they wish to execute.
+For the purpose of the site, only the admin user (myself) has access to use the Shuffle or Finished functions. If another user attempts to use these functions, the page refreshes with no changes made.
+![Games Page](https://i.imgur.com/dmi6XrS.png)
 ### Users
+![Users Page](https://i.imgur.com/sUBff9O.png)
 ### Pandemic
 #### Home
+![Pandemic Home Page](https://i.imgur.com/gjTv7Ca.png)
 ##### Settings
+![Settings Page](https://i.imgur.com/ABh9l43.png)
 #### Rules
+![Rules Page](https://i.imgur.com/6byJQMy.png)
 #### Player Cards
+![Player Cards Page](https://i.imgur.com/aGFthvu.png)
 #### Inections Cards
+![Infection Cards Page](https://i.imgur.com/eavpoWc.png)
 #### Player Pages
+![Player Hands Page](https://i.imgur.com/7eTEBF5.png)
 ## Back-end
 ### Security
 For the security of the webapplication, I used a variety of Firewall Rules on GCP.
