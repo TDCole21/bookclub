@@ -21,8 +21,8 @@ The webapplication severed as virtual game objects:
 + Infection Cards Deck/Discard
 + New Game and Difficulty
 ## Front-end
-### Watercooler
 The front-end was designed using Python-flask, and allowed for rest APIs to be used, such that forms or site requests could be used to activate various functions required for the site.
+### Watercooler
 #### Home
 The Homepage was designed such that it acted as a read-only page for the users. The page would tell the users what Book, TV Show, Films and Video Game were currently selected for completion as well as the date to be completed by.
 ![Watercooler Home](https://i.imgur.com/zIeRhT7.png)
@@ -31,19 +31,29 @@ On the other pages of the Watercooler site, it gives the users full Create, Read
 For the purpose of the site, only the admin user (myself) has access to use the Shuffle or Finished functions. If another user attempts to use these functions, the page refreshes with no changes made.
 ![Games Page](https://i.imgur.com/dmi6XrS.png)
 ### Users
+The Users page is used to generate and delete username and passwords. These usernames are then shared between the Watercooler and Pandemic applications. This page lists the current usernames created and provides a form to add new or delete existing usernames. To remove a username the correct username and password combination must be entered.
 ![Users Page](https://i.imgur.com/sUBff9O.png)
 ### Pandemic
 #### Home
+Similar to the Watercooler home page, this page is designed to display the essential information to the players within minimal input options. Information available to the players are the prooportion of epidemics drawn in the game so far, the infection rate, number of outbreaks, the players roles and what cards the respective players have in their hand. The players hand tells them the card name (city or event card description) as well as what colour that card represents or its description.
+The only options available (outside of the navigation bar) are to change the number of outbreaks and access the settings menu.
+Once the Pandemic section of the application has been selected the navigation bar changes to prioritise the Pandemic pages. To regain access to the Watercooler information, the user can select "Watercooler Home" at the top left. The players at the right of the navigation bar are dynamic with regards to who is playing the current game.
 ![Pandemic Home Page](https://i.imgur.com/gjTv7Ca.png)
 ##### Settings
+The settings page, currently only accessible from the home page, allows the user to create a new game and select the difficulty and players. Selecting this option will reshuffle the deck and provide the players with new cards and initial infections.
+Currently, the game's difficulty or players cannot be altered mid game. The difficulty is with regards to the amount of epidemic cards present within the deck; for example, if the player chooses "Normal" then the deck is divided into 4 equal subsets and an epidemic card is randomly shuffled into each subset before being recombined together at the end.
 ![Settings Page](https://i.imgur.com/ABh9l43.png)
 #### Rules
+The rules section is purely a text based page. This page breaks down the rules of the game (which have been adapted for online play and additional house rules).
 ![Rules Page](https://i.imgur.com/6byJQMy.png)
 #### Player Cards
+The player cards page displays the discard pile and allows users to recover a card from the pile to a players hand.
 ![Player Cards Page](https://i.imgur.com/aGFthvu.png)
-#### Inections Cards
+#### Inection Cards
+The infection cards page displays to the user actions for the game turn, the discard pile and the remove pile. The actions table allows the user to infect new cities when required as well as the actions needed to be taken once an epidemic card has been drawn. The discard pile table allows for a user to permanently remove the card from the game or return it to the top of the infection card deck. The removed pile table displays cards that have been permanently removed from the game. 
 ![Infection Cards Page](https://i.imgur.com/eavpoWc.png)
 #### Player Pages
+The player pages displays the player's role and gives the option to change the role to another not currently selected. It also shows the player's hand providing the user with the actions to play the card (move to player card discard pile), or to share the knowledge with another player (transfer the card to another hand).
 ![Player Hands Page](https://i.imgur.com/7eTEBF5.png)
 ## Back-end
 ### Security
@@ -55,22 +65,49 @@ Port 8080 for the Jenkins CI service, is only open to my IP address.
 MySQL then changed to CSV due to server costs and small data sizes.
 For proof of MySQL skill, please see SFIA1 project.
 ### Server Hosting
-VM on GCP
+The whole application is ran on a 1 vCPU, 5GB memory VM on GCP. 
 ### CI Service
-Jenkins
+The sever is also a host for a Jenkins service. Currently the application is ran on a Jenkins output build which is activated by a webhook. This allows for a continuous integration.
 ### Language
 #### Back-end
-Python with Flask
+The back-end of the application is written in Python with Flask import to allow for rest APIs. 
 #### Front-end
-HTML with Jinja2
+The front end is written in HTML with some CSS styling and a bootstrap page design. Jinja2 is also used for more complex features of the front-end design such as the dynamic navigation bar and player card colours.
 ### Retrospective
 #### What went well
-#### What hasn't went well
-+ Single Server Use
-This was done to help preserve the free funds on GCP.
-Once the lockdown is over, I will look at expanding into several servers and to re-create the database.
++ Working public web application
+The application functions as expected and the users can access the site
++ Security
+Firewall rules mean that only port 5000 is accessible to the public, all other ports are not accessible.
+#### What hasn't gone well
++ Jenkins
+The service is now deploying the application as a service onto another server. This means that a continuous deployment is not possible as every new build of the Jenkins server resets the database (currently on CSV).
++ Database
+The database was initially stored on a MySQL server on GCP, however, due to costs and portability, the data was migrated to a text file. This migration lost a lot of data inputed by the users.
++ Security
+Without the use of a reverse proxy service (like NGINX) the ports are exposed in the web address.
 #### Future improvements
-## Installation Guide
++ Jenkins CI/CD
+Have the service deploy the application as a service onto another server to allow for full continuous integration and deployment
++ Developer Workspace
+Include a feature branch model and a developer server to allow for alterations to be tested and made without affecting the live server. This would be deployed using a webhook on Jenkins.
++ Security
+Adding a reverse proxy (NGINX) as well as saving the IP address for each user and only allowing access to those IP addresses.
+However, this will be a problem for users who have a dynamic IP address or use a VPN, like myself.
++ AWS
+The whole application is currently running on GCP using the $300 allowance for the first year. I want to move this application onto free-tier AWS services.
++ Docker
+I want to make the application more efficient by converting the application into a collection of microservices.
++ Database
+Creating a MySQL container, I could use MySQL whilst keeping the running costs low.
++ Kubernetes
+Setting up a basic master-worker server infrastructure in case there's increased traffic.
+However, to run kubernetes on AWS requires a non-free tier server, so many use Docker Swarm instead.
++ Terraform
+Have the whole application spun up by a terraform service.
++ Ansible
+The orchestration tool to install the required features on each server.
 ## References
 SFIA1 (https://github.com/TDCole21/SFIA1)
 SFIA2 (https://github.com/TDCole21/SFIA2)
+Group Project (https://github.com/TDCole21/QA-AWSGroupProject)
