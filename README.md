@@ -108,6 +108,6 @@ Have the whole application spun up by a terraform service.
 + Ansible
 The orchestration tool to install the required features on each server.
 ## References
-SFIA1 (https://github.com/TDCole21/SFIA1)
-SFIA2 (https://github.com/TDCole21/SFIA2)
+SFIA1 (https://github.com/TDCole21/SFIA1)<br/>
+SFIA2 (https://github.com/TDCole21/SFIA2)<br/>
 Group Project (https://github.com/TDCole21/QA-AWSGroupProject)
