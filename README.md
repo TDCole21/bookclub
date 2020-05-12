@@ -1,6 +1,6 @@
 # Watercooler and Pandemic Web Application
 <a href="http://35.242.157.40:5000/" target="_blank">Site Link</a>
-[Site Link](http://35.242.157.40:5000/?target=_blank)
+<a href="http://example.com/" target="_blank">Hello, world!</a>
 ## Proposal
 ### Watercooler
 The idea of this web application started as a branch of my SFIA1 project; to use a web application for a "Book Club" between my friends during the COVID-19 lockdown.
